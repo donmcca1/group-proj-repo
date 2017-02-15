@@ -18,9 +18,9 @@ public class BaseData implements Serializable{
 	@Column(name="id")// Identifies Columns within Table
 	private int id;
 	
-	@Column(name="IMSI") private long imsi;
-	@Column(name="Event_ID") private Integer eventId;
-	@Column(name="Cause_Code") private Integer causeCode;
+	@Column(name="imsi") private long imsi;
+	@Column(name="event_id") private Integer eventId;
+	@Column(name="cause_code") private Integer causeCode;
 	
 	public BaseData() {}
 	
