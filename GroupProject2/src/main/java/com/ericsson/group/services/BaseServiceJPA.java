@@ -1,5 +1,6 @@
 package com.ericsson.group.services;
 
+import java.sql.Date;
 import java.util.Collection;
 
 import javax.ejb.EJB;
@@ -23,5 +24,11 @@ public class BaseServiceJPA implements BaseService{
 		return dao.getBaseData();
 	}
 
+	public Collection<?> getEventIdCauseCode(Long imsi){
+		return dao.getEventIdCauseCode(imsi);
+	}
 	
+	public Collection<?> getCallFailures(Long imsi, Date date){
+		return dao.getCallFailures(imsi, date);
+	}
 }

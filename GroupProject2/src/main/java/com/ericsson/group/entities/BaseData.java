@@ -1,6 +1,7 @@
 package com.ericsson.group.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,13 +22,17 @@ public class BaseData implements Serializable{
 	@Column(name="imsi") private long imsi;
 	@Column(name="event_id") private Integer eventId;
 	@Column(name="cause_code") private Integer causeCode;
+	@Column(name="failure_class") private Integer failureClass;
+	@Column(name="date_time") private Date date;
 	
 	public BaseData() {}
 	
-	public BaseData(long imsi, Integer eventId, Integer causeCode){
+	public BaseData(long imsi, Integer eventId, Integer causeCode, Integer failureClass, Date date){
 		this.imsi = imsi;
 		this.eventId = eventId;
 		this.causeCode = causeCode;
+		this.failureClass = failureClass;
+		this.date = date;
 	}
 
 	public int getId() {
@@ -38,8 +43,24 @@ public class BaseData implements Serializable{
 		this.id = id;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public long getImsi() {
 		return imsi;
+	}
+
+	public Integer getFailureClass() {
+		return failureClass;
+	}
+
+	public void setFailureClass(Integer failureClass) {
+		this.failureClass = failureClass;
 	}
 
 	public void setImsi(long imsi) {
