@@ -21,8 +21,7 @@ public class JPABaseDAO implements BaseDAO {
 	
 	public Collection<BaseData> getBaseData() {
 		Query query = em.createQuery("from BaseData");
-		List<BaseData> list = query.getResultList();
-		return list;
+		return query.getResultList();
 	}
 	
 	public Collection<?> getEventIdCauseCode(Long imsi){
