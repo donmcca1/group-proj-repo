@@ -6,7 +6,7 @@ $(document).ready(function(){
 		var imsi = $("#imsi").val();
 		
 		$.ajax({
-	
+			
 			type:"GET",
 			url:"rest/base/"+imsi,
 			dataType:"json",
@@ -14,7 +14,8 @@ $(document).ready(function(){
 			success: function(data) {
 				
 				$.each(data.baseDataList, function(index, value){
-					$("#responseHolder").append("<li>"+value.imsi+"</li>");
+					$("#responseHolder").append
+						("<li> Event Id: "+value.eventId+" Cause Code: "+value.causeCode+"</li>");
 				});	
 			}
 
