@@ -22,6 +22,7 @@ public class BaseCRUDService {
 	@Inject
 	private BaseService service;
 	
+	//--- SELECT ALL ---//
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	public BaseDataList getBaseData(){
@@ -30,18 +31,21 @@ public class BaseCRUDService {
 		return list;
 	}
 	
+	//--- SELECT BY IMSI ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{imsi}")
-	public Collection<?> getEventIdCauseCode(@PathParam("imsi") Long imsi){
-		return service.getEventIdCauseCode(imsi);
+	public BaseDataList getBaseDataByImsi(@PathParam("imsi") Long imsi){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getBaseDataByImsi(imsi));
+		return list;
 	}
 	
-	@GET
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{imsi}/{date}")
 	public Collection<?> getCallFailures(@PathParam("imsi") Long imsi, @PathParam("date") Date date){
 		return service.getCallFailures(imsi,date);
-	}
+	}*/
 	
 }

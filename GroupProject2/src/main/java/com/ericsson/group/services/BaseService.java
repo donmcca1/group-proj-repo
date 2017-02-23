@@ -6,7 +6,11 @@ import java.util.Collection;
 import com.ericsson.group.entities.BaseData;
 
 public interface BaseService {
+	//--- SELECT ALL ---//
 	public Collection<BaseData> getAllBaseData();
-	public Collection<?> getEventIdCauseCode(Long imsi);
-	public Collection<?> getCallFailures(Long imsi, Date date);
+	
+	//--- SELECT BY IMSI ---//
+	public Collection<BaseData> getBaseDataByImsi(Long imsi);
+	
+	//public Collection<?> getCallFailures(Long imsi, Date date);
 }

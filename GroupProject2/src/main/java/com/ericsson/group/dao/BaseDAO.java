@@ -9,7 +9,11 @@ import com.ericsson.group.entities.BaseData;
 
 @Local
 public interface BaseDAO {
+	//--- SELECT ALL ---//
 	public Collection<BaseData> getBaseData();
-	public Collection<?> getEventIdCauseCode(Long imsi);
-	public Collection<?> getCallFailures(Long imsi, Date date);
+	
+	//--- SELECT BY IMSI ---//
+	public Collection<BaseData> getBaseDataByImsi(Long imsi);
+	
+	//public Collection<?> getCallFailures(Long imsi, Date date);
 }
