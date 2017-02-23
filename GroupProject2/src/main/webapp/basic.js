@@ -12,6 +12,7 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
+				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
