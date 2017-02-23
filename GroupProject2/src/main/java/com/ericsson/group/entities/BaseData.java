@@ -34,12 +34,6 @@ public class BaseData implements Serializable{
 		this.failureClass = failureClass;
 		this.date = date;
 	}
-	
-	public BaseData(long imsi, Integer eventId, Integer causeCode){
-		this.imsi = imsi;
-		this.eventId = eventId;
-		this.causeCode = causeCode;
-	}
 
 	public int getId() {
 		return id;

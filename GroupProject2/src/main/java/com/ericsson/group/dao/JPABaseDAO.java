@@ -19,22 +19,24 @@ public class JPABaseDAO implements BaseDAO {
 	@PersistenceContext
 	private EntityManager em;
 	
+	//--- SELECT ALL ---//
 	public Collection<BaseData> getBaseData() {
 		Query query = em.createQuery("from BaseData");
 		return query.getResultList();
 	}
 	
-	public Collection<?> getEventIdCauseCode(Long imsi){
-		Query query = em.createQuery("select c.imsi, c.eventId, c.causeCode from BaseData c where c.imsi = :imsi");
+	//--- SELECT BY IMSI ---//
+	public Collection<BaseData> getBaseDataByImsi(Long imsi){
+		Query query = em.createQuery("from BaseData c where c.imsi = :imsi");
 		query.setParameter("imsi",imsi);
-		return (List<Object>)query.getResultList();
+		return (List<BaseData>)query.getResultList();
 	}
 	
-	public Collection<?> getCallFailures(Long imsi, Date dateTime){
+/*	public Collection<?> getCallFailures(Long imsi, Date dateTime){
 		Query query = em.createQuery("from BaseData c where c.imsi = :imsi and c.dateTime = :dateTime");
 		query.setParameter("imsi",imsi);
 		query.setParameter("dateTime",dateTime);
 		return (List<Object>)query.getResultList();
-	}
+	}*/
 
 }

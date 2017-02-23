@@ -1,11 +1,3 @@
-var BaseData = function(imsi, eventId, causeCode, failureClass, date){
-	this.imsi = imsi;
-	this.eventId = eventId;
-	this.causeCode = causeCode;
-	this.failureClass = failureClass;
-	this.date = date;
-}
-
 $(document).ready(function(){
 	
 	//--- SEARCH BY IMSI ---//
@@ -14,16 +6,16 @@ $(document).ready(function(){
 		var imsi = $("#imsi").val();
 		
 		$.ajax({
-	
+			
 			type:"GET",
-			url:"rest/base/",
+			url:"rest/base/"+imsi,
 			dataType:"json",
 			
 			success: function(data) {
 				
 				$.each(data.baseDataList, function(index, value){
-					alert(index + ": " + value.imsi );
-					$("#responseHolder").append("<li>"+value.imsi+"</li>");
+					$("#responseHolder").append
+						("<li> Event Id: "+value.eventId+" Cause Code: "+value.causeCode+"</li>");
 				});	
 			}
 

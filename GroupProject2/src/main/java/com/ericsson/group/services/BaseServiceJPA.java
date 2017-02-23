@@ -20,15 +20,17 @@ public class BaseServiceJPA implements BaseService{
 	@EJB
 	private BaseDAO dao;
 	
+	//--- SELECT ALL ---//
 	public Collection<BaseData> getAllBaseData() {
 		return dao.getBaseData();
 	}
 
-	public Collection<?> getEventIdCauseCode(Long imsi){
-		return dao.getEventIdCauseCode(imsi);
+	//--- SELECT BY IMSI ---//
+	public Collection<BaseData> getBaseDataByImsi(Long imsi){
+		return dao.getBaseDataByImsi(imsi);
 	}
 	
-	public Collection<?> getCallFailures(Long imsi, Date date){
+	/*public Collection<?> getCallFailures(Long imsi, Date date){
 		return dao.getCallFailures(imsi, date);
-	}
+	}*/
 }
