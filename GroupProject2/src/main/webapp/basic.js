@@ -1,9 +1,17 @@
 $(document).ready(function(){
 	
+	$(document).ready(function(){
+	    $("#searchByImsiButton").prop('disabled',true);
+	    $("#imsi").keyup(function(){
+	        $("#searchByImsiButton").prop('disabled', this.value == "" ? true : false);     
+	    })
+	});  
+    
 	//--- SEARCH BY IMSI ---//
-	$("#searchByImsiButton").click(function(){
+	$("#searchByImsiButton").click(function(){	
 		
-		var imsi = $("#imsi").val();
+			imsi = $("#imsi").val();
+	
 		
 		$.ajax({
 			
@@ -12,6 +20,7 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
+
 				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
