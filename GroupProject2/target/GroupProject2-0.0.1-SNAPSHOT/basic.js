@@ -3,7 +3,15 @@ $(document).ready(function(){
 	//--- SEARCH BY IMSI ---//
 	$("#searchByImsiButton").click(function(){
 		
-		var imsi = $("#imsi").val();
+		var imsi =$.trim($("#imsi").val());
+		
+		if(imsi){
+			imsi = $("#imsi").val();
+		} else {
+			imsi = 0;
+		}
+		
+		console.log("Imsi is: " + imsi);
 		
 		$.ajax({
 			
@@ -12,6 +20,7 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
+				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
