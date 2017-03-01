@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- add in the css link here -->
+	
+	<!-- javascript version -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
+	<!-- javascript file -->
+	<script lang="JavaScript" src="basic.js"></script>
+
+	<meta charset="UTF-8">
+
+	<title>Basic Front</title>
+</head>
+
+<body>
+
+	<img src="slay.gif">
+	
+	<!-- Get Event ID and Cause Code by IMSI -->
+	<div>
+		
+		<h1>Get Event ID and Cause Code by IMSI</h1>
+	
+		IMSI: <input type="text" id="imsi">
+		
+		<br><br>
+		
+		<input type="button" id="searchByImsiButton" value="Search">
+
+	</div>
+	
+	<!-- Get IMSI by Date -->
+	<div>
+	
+		<h1>Get IMSI by Date</h1>
+		
+		Start Date:
+		<input type="date" id="startDate">
+		
+		<br><br>
+		
+		End Date:
+		<input type="date" id="endDate">
+		
+		<br>
+		
+		<input type="button" id="searchByDatesButton" value="Search">
+		
+	</div>
+	
+	<!-- Where Responses Go -->
+	<ul id="responseHolder">
+	</ul>
+
+</body>
+
+</html>

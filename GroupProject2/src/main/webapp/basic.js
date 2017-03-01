@@ -10,9 +10,9 @@ $(document).ready(function(){
 	//--- SEARCH BY IMSI ---//
 	$("#searchByImsiButton").click(function(){	
 		
+			//-- retrieves IMSI from form --//
 			imsi = $("#imsi").val();
 	
-		
 		$.ajax({
 			
 			type:"GET",
@@ -30,6 +30,16 @@ $(document).ready(function(){
 			}
 
 		});
+		
+	});
+	
+	//--- SEARCH BY DATES ---//
+	
+	$("#searchByDatesButton").click(function(){
+		
+		//-- retrieve dates from forms --//
+		startDate = $("#startDate").val();
+		endDate = $("#endDate").val();
 		
 	});	
 	
