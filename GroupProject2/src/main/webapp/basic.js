@@ -41,6 +41,26 @@ $(document).ready(function(){
 		startDate = $("#startDate").val();
 		endDate = $("#endDate").val();
 		
+		window.alert("Start Date:" + startDate);
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/"+startDate,
+			dataType:"json",
+			
+			success: function(data) {
+
+				$("#responseHolder").empty();
+				
+				$.each(data.baseDataList, function(index, value){
+					$("#responseHolder").append
+						("<li> IMSI: "+value.imsi+"</li>");
+				});	
+			}
+
+		});
+		
 	});	
 	
 });	

@@ -30,7 +30,8 @@ public class BaseServiceJPA implements BaseService{
 		return dao.getBaseDataByImsi(imsi);
 	}
 	
-	/*public Collection<?> getCallFailures(Long imsi, Date date){
-		return dao.getCallFailures(imsi, date);
-	}*/
+	//-- SELECT BY DATE ---//
+	public Collection<BaseData> getBaseDataByDate(Date date){
+		return dao.getBaseDataByDate(date);
+	}
 }

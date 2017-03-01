@@ -32,11 +32,13 @@ public class JPABaseDAO implements BaseDAO {
 		return (List<BaseData>)query.getResultList();
 	}
 	
-/*	public Collection<?> getCallFailures(Long imsi, Date dateTime){
-		Query query = em.createQuery("from BaseData c where c.imsi = :imsi and c.dateTime = :dateTime");
-		query.setParameter("imsi",imsi);
-		query.setParameter("dateTime",dateTime);
-		return (List<Object>)query.getResultList();
-	}*/
+	//--- SELECT BY DATE ---//
+	
+	//will need to add enddate
+	public Collection<BaseData> getBaseDataByDate(Date startDate){
+		Query query = em.createQuery("from BaseData c where c.date = :startDate");
+		query.setParameter("date",startDate);
+		return (List<BaseData>)query.getResultList();
+	}
 
 }

@@ -1,18 +1,13 @@
 package com.ericsson.group.jaxrs;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
-
 import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.ericsson.group.entities.BaseData;
 import com.ericsson.group.entities.BaseDataList;
 import com.ericsson.group.services.BaseService;
 
@@ -41,11 +36,14 @@ public class BaseCRUDService {
 		return list;
 	}
 	
-	/*@GET
+	//--- SELECT BY DATE ---//
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{imsi}/{date}")
-	public Collection<?> getCallFailures(@PathParam("imsi") Long imsi, @PathParam("date") Date date){
-		return service.getCallFailures(imsi,date);
-	}*/
+	@Path("/{date}")
+	public BaseDataList getBaseDataByDate(@PathParam("date") Date date){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getBaseDataByDate(date));
+		return list;
+	}
 	
 }

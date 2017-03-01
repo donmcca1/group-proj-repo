@@ -23,7 +23,7 @@ DROP TABLE users;
 
 CREATE TABLE `group_project_ericsson`.`base_data` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `date_time` VARCHAR(45) NOT NULL,
+  `date_time` DATE NOT NULL,
   `event_id` INT NOT NULL,
   `failure_class` INT NULL,
   `ue_type` INT NOT NULL,
@@ -53,7 +53,7 @@ INTO TABLE base_data
     ;
 
 SELECT * FROM base_data;
-DROP TABLE base_date;
+DROP TABLE base_data;
 
 -- *************************
 -- *** EVENT_CAUSE TABLE ***
