@@ -39,8 +39,8 @@ public class BaseCRUDService {
 	//--- SELECT BY DATE ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{date}")
-	public BaseDataList getBaseDataByDate(@PathParam("date") Date date){
+	@Path("/date/{date}")
+	public BaseDataList getBaseDataByDate(@PathParam("date") String date){
 		BaseDataList list = new BaseDataList();
 		list.setBaseDataList(service.getBaseDataByDate(date));
 		return list;

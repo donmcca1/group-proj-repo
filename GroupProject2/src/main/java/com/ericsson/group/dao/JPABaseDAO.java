@@ -36,6 +36,7 @@ public class JPABaseDAO implements BaseDAO {
 	
 	//will need to add enddate
 	public Collection<BaseData> getBaseDataByDate(Date startDate){
+		System.out.println(startDate);
 		Query query = em.createQuery("from BaseData c where c.date = :startDate");
 		query.setParameter("date",startDate);
 		return (List<BaseData>)query.getResultList();
