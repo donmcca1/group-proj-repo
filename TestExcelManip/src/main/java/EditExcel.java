@@ -8,29 +8,38 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+import org.apache.commons.io.monitor.FileEntry;
+
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
+import jxl.read.biff.BiffException;
 
-public class EditExcel implements Runnable{
+public class EditExcel {
 	private static String path;
-	
-	public EditExcel(String path) {
-		this.path = path;
+	Workbook w = null;
+	public EditExcel() {
 	}
-
-	public void run() {
+	
+	public void setPath(String path) {
+		this.path = path;
+		deliminateFile();
+	}
+	
+	public void deliminateFile() {
 		try
 	    {
 	      BufferedWriter bw = null;
 	      
-	 
+	      File f = new File(path);
+	      FileEntry fe = new FileEntry(f);
+	      System.out.println(fe.refresh(f));
 	      //Excel document to be imported
 	      WorkbookSettings ws = new WorkbookSettings();
 	      ws.setLocale(new Locale("en", "EN"));
-	      Workbook w = Workbook.getWorkbook(new File(path),ws);
-	 
+	      w = Workbook.getWorkbook(new File(path));
+	      
 	      // Gets the sheets from workbook
 	      for (int sheet = 0; sheet < w.getNumberOfSheets(); sheet++)
 	      {
@@ -58,23 +67,20 @@ public class EditExcel implements Runnable{
 	        bw.flush();
 		    bw.close();
 	      }
-	    }
-	    catch (UnsupportedEncodingException e)
-	    {
-	    	System.out.println("fffffff");
-	      System.err.println(e.toString());
-	    }
-	    catch (IOException e)
-	    {
-	    	System.out.println("fffffff");
-	      System.err.println(e.toString());
-	    }
-	    catch (Exception e)
-	    {
-	    	System.out.println("fffffff");
-	      System.err.println(e.toString());
-	    }
-		
+	      UploadDAO uDao = new UploadDAO();
+	      uDao.uploadTxtFiles();
+	      w.close();
+	    } catch (BiffException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(w != null) {
+				w.close();
+			} 
+		} 
 	}
 
 	private BufferedWriter openWriter(String name) throws FileNotFoundException, UnsupportedEncodingException {
@@ -89,15 +95,15 @@ public class EditExcel implements Runnable{
 	private File createFile(String name) {
 		File file = null;
 		if(name.equals("Base Data")) {
-			file = new File("test2/base_data.txt");
+			file = new File("upload/base_data.txt");
 		} else if (name.equals("Event-Cause Table")) {
-			file = new File("test2/event_cause.txt");
+			file = new File("upload/event_cause.txt");
 		} else if (name.equals("Failure Class Table")) {
-			file = new File("test2/failure_class.txt");
+			file = new File("upload/failure_class.txt");
 		} else if (name.equals("UE Table")) {
-			file = new File("test2/ue.txt");
+			file = new File("upload/ue.txt");
 		} else if (name.equals("MCC - MNC Table")) {
-			file = new File("test2/mcc_mnc.txt");
+			file = new File("upload/mcc_mnc.txt");
 		}
 		return file;
 	}

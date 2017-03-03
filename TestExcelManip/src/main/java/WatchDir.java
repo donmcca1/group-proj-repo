@@ -46,7 +46,7 @@ public class WatchDir {
     private final WatchService watcher;
     private final Map<WatchKey,Path> keys;
     private boolean trace = false;
-
+    EditExcel ee = new EditExcel();;
     @SuppressWarnings("unchecked")
     static <T> WatchEvent<T> cast(WatchEvent<?> event) {
         return (WatchEvent<T>)event;
@@ -118,9 +118,7 @@ public class WatchDir {
                 // print out event
                 System.out.format("%s: %s\n", event.kind().name(), child);
                 if(event.kind().name().equals("ENTRY_CREATE") && child.toString().endsWith(".xls")) {
-                	EditExcel ee = new EditExcel(child.toString());
-                	Thread t1 = new Thread(ee);
-                	t1.start();
+                	ee.setPath(child.toString());
                 }
             }
 
@@ -139,11 +137,10 @@ public class WatchDir {
 
     public static void main(String[] args) {
         // register directory and process its events
-        Path dir = Paths.get("test2");
+        Path dir = Paths.get("upload");
         try {
 			new WatchDir(dir).processEvents();
 		} catch (IOException e) {
-			System.out.println("hhhhhhhh");
 			e.printStackTrace();
 		}
     }
