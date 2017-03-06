@@ -27,12 +27,12 @@ import java.util.List;
                         	
                         	
                         	// use comma as separator to read fields in data line
-                            String[] TestDataSheet = line.split(cvsSplitBy);
+                            String[] BaseDataSheet = line.split(cvsSplitBy);
                             
                             //fields to be validated
-                        	String operator = TestDataSheet[5];
-                        	String market = TestDataSheet[4];
-                        	String imsi = TestDataSheet[10];
+                        	String operator = BaseDataSheet[5];
+                        	String market = BaseDataSheet[4];
+                        	String imsi = BaseDataSheet[10];
                         	
                             
                             //add a zero to the end of the operator value where needed
