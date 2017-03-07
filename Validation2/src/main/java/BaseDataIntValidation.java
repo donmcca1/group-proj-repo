@@ -13,11 +13,11 @@ public class BaseDataIntValidation {
     //constructor
     public BaseDataIntValidation(){
     
-    	intValidation();
+    	validateFields();
     }
     
     //validation method
-    public void intValidation(){
+    public void validateFields(){
     	
     	try (BufferedReader br = new BufferedReader(new FileReader(baseDataFile))) {
          	
@@ -35,19 +35,42 @@ public class BaseDataIntValidation {
              	String[] currentLine = line.split(splitBy);
              	
                 //fields to be validated
-                String eventID = currentLine[1];
-                String failureClass = currentLine[2];
-                String ueType = currentLine[3];
-                String market = currentLine[4];
-                String operator = currentLine[5];
                 String cellID = currentLine[6];
                 String duration = currentLine[7];
-                String causeCode = currentLine[8];
                 String imsi = currentLine[10];
                 
-                //Checking eventID for any values not of type int
-                System.out.println(eventID);
-                System.out.println(NumberUtils.isDigits(eventID));
+                //--- CELL ID ---//
+                //checks it's a four digit number
+                
+                if(NumberUtils.isDigits(cellID) && cellID.length()==4){
+            		Boolean isValid = true;
+            		System.out.println(isValid);
+                } else {
+                	Boolean isValid = false;
+                	System.out.println(isValid);
+                };
+                
+                //--- DURATION ---//
+                //checks it's a number
+                
+                if(NumberUtils.isDigits(duration)){
+                	Boolean isValid = true;
+                	System.out.println(isValid);
+                } else {
+                	Boolean isValid = false;
+                	System.out.println(isValid);
+                };
+                
+                //--- IMSI ---//
+                //checks it's a 15-digit number
+                
+                if(NumberUtils.isDigits(imsi) && imsi.length()==15){
+            		Boolean isValid = true;
+            		System.out.println(isValid);
+                } else {
+                	Boolean isValid = false;
+                	System.out.println(isValid);
+                };
     		
     		} //endwhile
     	} catch (IOException e) {
