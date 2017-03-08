@@ -1,18 +1,18 @@
 $(document).ready(function(){
 	
-	$(document).ready(function(){
-	    $("#searchByImsiButton").prop('disabled',true);
-	    $("#imsi").keyup(function(){
-	        $("#searchByImsiButton").prop('disabled', this.value == "" ? true : false);     
-	    })
-	});  
-    
 	//--- SEARCH BY IMSI ---//
-	$("#searchByImsiButton").click(function(){	
+	$("#searchByImsiButton").click(function(){
 		
-			//-- retrieves IMSI from form --//
+		var imsi =$.trim($("#imsi").val());
+		
+		if(imsi){
 			imsi = $("#imsi").val();
-	
+		} else {
+			imsi = 0;
+		}
+		
+		console.log("Imsi is: " + imsi);
+		
 		$.ajax({
 			
 			type:"GET",
@@ -20,42 +20,11 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
-
 				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
 						("<li> Event Id: "+value.eventId+" Cause Code: "+value.causeCode+"</li>");
-				});	
-			}
-
-		});
-		
-	});
-	
-	//--- SEARCH BY DATES ---//
-	
-	$("#searchByDatesButton").click(function(){
-		
-		//-- retrieve dates from forms --//
-		startDate = $("#startDate").val();
-		endDate = $("#endDate").val();
-		
-		window.alert("Start Date:" + startDate);
-		
-		$.ajax({
-			
-			type:"GET",
-			url:"rest/base/date"+startDate,
-			dataType:"json",
-			
-			success: function(data) {
-
-				$("#responseHolder").empty();
-				
-				$.each(data.baseDataList, function(index, value){
-					$("#responseHolder").append
-						("<li> IMSI: "+value.imsi+"</li>");
 				});	
 			}
 
