@@ -57,7 +57,7 @@ public class EditExcel {
 	          {
 	            bw.write(row[0].getContents());
 	            for (int j = 1; j < row.length; j++)
-	            {
+	            { 
 	              bw.write(';');
 	              bw.write(row[j].getContents());
 	            }
@@ -67,6 +67,10 @@ public class EditExcel {
 	        bw.flush();
 		    bw.close();
 	      }
+	      
+	      //VALIDATION//
+	      Validation validation = new Validation();
+	      
 	      UploadDAO uDao = new UploadDAO();
 	      uDao.uploadTxtFiles();
 	      w.close();

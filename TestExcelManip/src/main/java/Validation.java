@@ -1,6 +1,13 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
@@ -8,7 +15,6 @@ import java.util.Hashtable;
 import org.apache.commons.lang3.math.NumberUtils;
 
 public class Validation {
-	
 	//importing files NEED TO CHANGE TO GET THE LOCATION DYNAMICALLY
 	String baseDataFile = "C:/group-repo/group-proj-repo/TestExcelManip/upload/base_data.txt";
 	String causeCodeFile = "C:/group-repo/group-proj-repo/TestExcelManip/upload/event_cause.txt";
@@ -27,23 +33,23 @@ public class Validation {
     Hashtable failureClassTable = new Hashtable();
     
     //for validating date
-    private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-	
-	//valid flag
-	Boolean lineValid = true;
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 	
 	public Validation(){
+		
 		try (BufferedReader br = new BufferedReader(new FileReader(baseDataFile))) {
          	
    		 //iteration variable removes the headings from the data file
    		int iteration = 0;
-        	
+   		
    		while ((line = br.readLine()) != null) {
-   			
 			if (iteration == 0){
 				iteration ++;
 					continue;
 			}
+			
+			//valid flag
+			Boolean lineValid = true;
 
 			String[] currentLine = line.split(splitBy);
 	    	
@@ -61,36 +67,36 @@ public class Validation {
 			String neVersion = currentLine[9];
 			String imsi = currentLine[10];
 
-			//---CHECKING THE FOREIGN KEYS---//
+			/*//---CHECKING THE FOREIGN KEYS---//
 			//Cause Code/Event ID
 			makeDoubleHashTable(causeCodeFile,splitBy,0,1,causeCodeEventIdTable);
-			validateDoubleHashTable(baseDataFile,splitBy,8,1,causeCodeEventIdTable);
+			lineValid = validateDoubleHashTable(baseDataFile,splitBy,8,1,causeCodeEventIdTable);
 			
 			//Mcc/MNC
 			makeDoubleHashTable(mccMncFile,splitBy,0,1,mccMncTable);
-			validateDoubleHashTable(baseDataFile,splitBy,4,5,mccMncTable);
+			lineValid = validateDoubleHashTable(baseDataFile,splitBy,4,5,mccMncTable);
 			
 			//UE type
 			makeHashTable(ueFile,splitBy,0,ueTable);
-			validateHashTable(baseDataFile,splitBy,3,ueTable);
+			lineValid = validateHashTable(baseDataFile,splitBy,3,ueTable);
 			
 			//Failure class
 			makeHashTable(failureClassFile,splitBy,0,failureClassTable);
-			validateHashTable(baseDataFile,splitBy,2,failureClassTable);
+			lineValid = validateHashTable(baseDataFile,splitBy,2,failureClassTable);*/
 			
 			//---CHECKING THE INTS---//
 			//CellID
 			//checks it's a four digit number
 	       
-			if(NumberUtils.isDigits(cellID) && cellID.length()==4){
-				
+			if(NumberUtils.isDigits(cellID)){
+
 			} else {
 				lineValid = false;
 			};
-	       
+			
 	       //Duration
 	       //checks it's a number
-	       
+	   
 	       if(NumberUtils.isDigits(duration)){
 	    	   
 	       } else {
@@ -106,6 +112,9 @@ public class Validation {
 	    	   lineValid = false;
 	       };
 	       
+
+	       
+	       
 	       //---CHECKING THE IMSI MATCHES THE OPERATOR AND MARKET---//
 	       //add a zero to the end of the operator value where needed
            if (operator.length()==1){
@@ -113,6 +122,7 @@ public class Validation {
            }else if (operator.length()==2){
            	operator=operator+"0";
            }
+
            
            //saving market and operator 
            String marketOperator = new String(market+operator);
@@ -126,16 +136,43 @@ public class Validation {
         	   lineValid = false;
            }
            
+
+           /*
            //---CHECKING THE DATE---//
            if (date.trim().length() != format.toPattern().length()){
         	   lineValid = false;
+           }*/
+           
+           
+	       System.out.println(lineValid);
+           
+           //---WRITE DATA---//
+           if(lineValid){
+        	   BufferedWriter bw = openWriter();
+        	   bw.write(line);
            }
 	       
-	
+           
 	} //endwhile
 	} catch (IOException e) {
 	        e.printStackTrace();
 	   }
+	}
+	
+	//---WRITING GOOD DATA---//
+	private BufferedWriter openWriter() throws FileNotFoundException, UnsupportedEncodingException {
+		  File file = createFile();
+		  OutputStream os = (OutputStream)new FileOutputStream(file);
+	      String encoding = "UTF8";
+	      OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
+	      BufferedWriter bw = new BufferedWriter(osw);
+	      return bw;
+	}
+	
+	private File createFile() {
+		File file = null;
+		file = new File("upload/base_data_validated.txt");
+		return file;
 	}
 	
 	//************************//
@@ -143,7 +180,7 @@ public class Validation {
 	//************************//
 	
 	//--- GENERATE KEYS FROM BASE DATA AND LOOKUP IN HASH TABLE ---//
-		public void validateHashTable(String fileLocation, String splitBy, int index, Hashtable hashtable){
+		public Boolean validateHashTable(String fileLocation, String splitBy, int index, Hashtable hashtable){
 			try (BufferedReader br = new BufferedReader(new FileReader(fileLocation))) {
 	         	
 				 //iteration variable removes the headings from the data file
@@ -163,19 +200,20 @@ public class Validation {
 	            	String foreignKey = currentLine[index];
 	            	
 	            	if(foreignKey.equals("(null)")){
-
+	            		return true;
 	            	}else if (hashtable.containsValue(foreignKey)==false){
-	            		lineValid=false;
+	            		return false;
 	            	}
 	            }
 	             
 	         } catch (IOException e) {
 	             e.printStackTrace();
 	         }
+			return true;
 		}
 		
 		//two foreign keys
-		public void validateDoubleHashTable(String fileLocation, String splitBy, int index1, int index2, Hashtable hashtable){
+		public Boolean validateDoubleHashTable(String fileLocation, String splitBy, int index1, int index2, Hashtable hashtable){
 			try (BufferedReader br = new BufferedReader(new FileReader(fileLocation))) {
 	         	
 				 //iteration variable removes the headings from the data file
@@ -197,15 +235,16 @@ public class Validation {
 	            	String foreignKey = new String(key1+key2);
 	            	
 	            	if(key1.equals("(null)") || key2.equals("(null)")){
-	            
+	            		return true;
 	            	}else if (hashtable.containsValue(foreignKey)==false){
-	            		lineValid=false;
+	            		return false;
 	            	}
 	            }
 	             
 	         } catch (IOException e) {
 	             e.printStackTrace();
 	         }
+			return true;
 		}
 		
 		//--- MAKE HASH TABLE FOR FOREIGN KEY VALIDATION ---//
@@ -267,9 +306,9 @@ public class Validation {
 	         }
 		}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		new Validation();
 	
-	}
+	}*/
 
 }

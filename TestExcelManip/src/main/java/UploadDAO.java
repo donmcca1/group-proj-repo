@@ -43,7 +43,7 @@ public class UploadDAO {
 		path = path.substring(0, path.indexOf("target")) + "upload/";
 		
 		Query bd = em.createNativeQuery(loadBaseData);
-		bd.setParameter(1, path + "base_data.txt");
+		bd.setParameter(1, path + "base_data_validated.txt");
 		bd.executeUpdate();
 		
 		Query ec = em.createNativeQuery(loadEventCause);
