@@ -5,7 +5,10 @@ import java.sql.Date;
 import com.ericsson.group.businessEntities.RequestAdapter;
 import com.ericsson.group.services.*;
 
-
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+@Stateless
+@Local
 public class FacadeDAO implements FacadeDAOInterface {
 	JPABaseDAO baseDao = new JPABaseDAO();
 	

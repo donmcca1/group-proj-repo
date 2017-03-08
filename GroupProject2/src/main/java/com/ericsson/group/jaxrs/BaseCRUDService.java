@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.ericsson.group.entities.BaseData;
 import com.ericsson.group.entities.BaseDataList;
-import com.ericsson.group.services.BaseService;
+
 import com.ericsson.group.services.FacadeServiceInterface;
 
 @Path("/base")

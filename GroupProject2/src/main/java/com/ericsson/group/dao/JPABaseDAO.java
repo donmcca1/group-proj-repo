@@ -14,7 +14,7 @@ import com.ericsson.group.entities.BaseData;
 
 @Stateless
 @Local
-public class JPABaseDAO {
+public class JPABaseDAO{
 	
 	@PersistenceContext
 	private EntityManager em;
