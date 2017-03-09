@@ -68,12 +68,13 @@ public class EditExcel {
 		    bw.close();
 	      }
 	      
-	      //VALIDATION//
-	      Validation validation = new Validation();
+	      /*//---VALIDATION NEEDS TO BE INTEGRATED---//
+	      Validation validation = new Validation();*/
 	      
 	      UploadDAO uDao = new UploadDAO();
 	      uDao.uploadTxtFiles();
 	      w.close();
+	      
 	    } catch (BiffException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
