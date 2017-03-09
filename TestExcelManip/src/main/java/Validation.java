@@ -143,8 +143,8 @@ public class Validation {
         	   lineValid = false;
            }*/
            
-           
-	       System.out.println(lineValid);
+           System.out.println(lineValid);
+	       
            
            //---WRITE DATA---//
            if(lineValid){
@@ -306,9 +306,9 @@ public class Validation {
 	         }
 		}
 	
-/*	public static void main(String[] args) {
+	public static void main(String[] args) {
 		new Validation();
 	
-	}*/
+	}
 
 }
