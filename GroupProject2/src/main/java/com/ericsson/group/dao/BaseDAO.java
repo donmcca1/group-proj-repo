@@ -16,6 +16,6 @@ public interface BaseDAO {
 	public Collection<BaseData> getBaseDataByImsi(Long imsi);
 	
 	//--- SELECT BY Date ---//
-	public Collection<BaseData> getBaseDataByDate(Date date);
+	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
 
 }
