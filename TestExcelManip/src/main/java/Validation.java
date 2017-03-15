@@ -8,13 +8,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
 public class Validation {
+	
 	//importing files NEED TO CHANGE TO GET THE LOCATION DYNAMICALLY
 	String baseDataFile = "C:/group-repo/group-proj-repo/TestExcelManip/upload/base_data.txt";
 	String causeCodeFile = "C:/group-repo/group-proj-repo/TestExcelManip/upload/event_cause.txt";
@@ -31,15 +35,18 @@ public class Validation {
     Hashtable mccMncTable = new Hashtable();
     Hashtable ueTable = new Hashtable();
     Hashtable failureClassTable = new Hashtable();
-    
-    //for validating date
-    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 	
 	public Validation(){
+		//make the hash tables for foreign key validation
+		makeDoubleHashTable(causeCodeFile,splitBy,0,1,causeCodeEventIdTable);
+		makeDoubleHashTable(mccMncFile,splitBy,0,1,mccMncTable);
+		makeHashTable(ueFile,splitBy,0,ueTable);
+		makeHashTable(failureClassFile,splitBy,0,failureClassTable);
 		
+		//validate each line
 		try (BufferedReader br = new BufferedReader(new FileReader(baseDataFile))) {
          	
-   		 //iteration variable removes the headings from the data file
+		//iteration variable removes the headings from the data file
    		int iteration = 0;
    		
    		while ((line = br.readLine()) != null) {
@@ -67,26 +74,31 @@ public class Validation {
 			String neVersion = currentLine[9];
 			String imsi = currentLine[10];
 
-			/*//---CHECKING THE FOREIGN KEYS---//
+			//---CHECKING THE FOREIGN KEYS---//
+			
 			//Cause Code/Event ID
-			makeDoubleHashTable(causeCodeFile,splitBy,0,1,causeCodeEventIdTable);
-			lineValid = validateDoubleHashTable(baseDataFile,splitBy,8,1,causeCodeEventIdTable);
+			if(validateDoubleHashTable(currentLine,8,1,causeCodeEventIdTable)==false){
+				lineValid = false;
+			}	
 			
 			//Mcc/MNC
-			makeDoubleHashTable(mccMncFile,splitBy,0,1,mccMncTable);
-			lineValid = validateDoubleHashTable(baseDataFile,splitBy,4,5,mccMncTable);
+			if(validateDoubleHashTable(currentLine,4,5,mccMncTable)==false){
+				lineValid = false;
+			}	
 			
 			//UE type
-			makeHashTable(ueFile,splitBy,0,ueTable);
-			lineValid = validateHashTable(baseDataFile,splitBy,3,ueTable);
+			if(validateHashTable(currentLine,3,ueTable)==false){
+				lineValid = false;
+			}	
 			
 			//Failure class
-			makeHashTable(failureClassFile,splitBy,0,failureClassTable);
-			lineValid = validateHashTable(baseDataFile,splitBy,2,failureClassTable);*/
+			if(validateHashTable(currentLine,2,failureClassTable)==false){
+				lineValid = false;
+			}	
 			
 			//---CHECKING THE INTS---//
 			//CellID
-			//checks it's a four digit number
+			//checks it's a number
 	       
 			if(NumberUtils.isDigits(cellID)){
 
@@ -112,9 +124,6 @@ public class Validation {
 	    	   lineValid = false;
 	       };
 	       
-
-	       
-	       
 	       //---CHECKING THE IMSI MATCHES THE OPERATOR AND MARKET---//
 	       //add a zero to the end of the operator value where needed
            if (operator.length()==1){
@@ -123,7 +132,6 @@ public class Validation {
            	operator=operator+"0";
            }
 
-           
            //saving market and operator 
            String marketOperator = new String(market+operator);
            
@@ -136,12 +144,11 @@ public class Validation {
         	   lineValid = false;
            }
            
-
-           /*
            //---CHECKING THE DATE---//
-           if (date.trim().length() != format.toPattern().length()){
-        	   lineValid = false;
-           }*/
+			
+			if (isValidFormat(date)==false){
+				lineValid = false;
+			}
            
            System.out.println(lineValid);
 	       
@@ -159,7 +166,9 @@ public class Validation {
 	   }
 	}
 	
-	//---WRITING GOOD DATA---//
+	//************************//
+	//***DATA WRITE METHODS***//
+	//************************//
 	private BufferedWriter openWriter() throws FileNotFoundException, UnsupportedEncodingException {
 		  File file = createFile();
 		  OutputStream os = (OutputStream)new FileOutputStream(file);
@@ -180,71 +189,33 @@ public class Validation {
 	//************************//
 	
 	//--- GENERATE KEYS FROM BASE DATA AND LOOKUP IN HASH TABLE ---//
-		public Boolean validateHashTable(String fileLocation, String splitBy, int index, Hashtable hashtable){
-			try (BufferedReader br = new BufferedReader(new FileReader(fileLocation))) {
-	         	
-				 //iteration variable removes the headings from the data file
-				int iteration = 0;
-	         	
-				while ((line = br.readLine()) != null) {
-					
-	             	if (iteration == 0){
-	             		iteration ++;
-	             			continue;
-	             	}
-	             	
-	             	// use splitBy as separator to read fields in data line
-	             	String[] currentLine = line.split(splitBy);
-	             	
-	             	//read in the the foreign key
-	            	String foreignKey = currentLine[index];
+		public Boolean validateHashTable(String[] currentLine, int index, Hashtable hashtable){
+			Boolean hashBoolean = true;
+			
+         	//read in the the foreign key
+        	String foreignKey = currentLine[index];
+        	
+        	if (hashtable.containsValue(foreignKey)==false){
+        		hashBoolean = false;
+        	}
 	            	
-	            	if(foreignKey.equals("(null)")){
-	            		return true;
-	            	}else if (hashtable.containsValue(foreignKey)==false){
-	            		return false;
-	            	}
-	            }
-	             
-	         } catch (IOException e) {
-	             e.printStackTrace();
-	         }
-			return true;
+			return hashBoolean;
 		}
 		
 		//two foreign keys
-		public Boolean validateDoubleHashTable(String fileLocation, String splitBy, int index1, int index2, Hashtable hashtable){
-			try (BufferedReader br = new BufferedReader(new FileReader(fileLocation))) {
-	         	
-				 //iteration variable removes the headings from the data file
-				int iteration = 0;
-	         	
-				while ((line = br.readLine()) != null) {
-					
-	             	if (iteration == 0){
-	             		iteration ++;
-	             			continue;
-	             	}
+		public Boolean validateDoubleHashTable(String[] currentLine, int index1, int index2, Hashtable hashtable){
+			Boolean hashBoolean = true;
 	             	
-	             	// use splitBy as separator to read fields in data line
-	             	String[] currentLine = line.split(splitBy);
-	             	
-	             	//read in the foreign keys
-	             	String key1 = currentLine[index1];
-	            	String key2 = currentLine[index2];
-	            	String foreignKey = new String(key1+key2);
-	            	
-	            	if(key1.equals("(null)") || key2.equals("(null)")){
-	            		return true;
-	            	}else if (hashtable.containsValue(foreignKey)==false){
-	            		return false;
-	            	}
-	            }
-	             
-	         } catch (IOException e) {
-	             e.printStackTrace();
-	         }
-			return true;
+         	//read in the foreign keys
+         	String key1 = currentLine[index1];
+        	String key2 = currentLine[index2];
+        	String foreignKey = new String(key1+key2);
+        	
+        	if (hashtable.containsValue(foreignKey)==false){
+        		hashBoolean = false;
+        	}
+	         
+			return hashBoolean;
 		}
 		
 		//--- MAKE HASH TABLE FOR FOREIGN KEY VALIDATION ---//
@@ -305,6 +276,48 @@ public class Validation {
 	             e.printStackTrace();
 	         }
 		}
+		
+		//*****************//
+		//***DATE METHOD***//
+		//*****************//
+		
+		public static boolean isValidFormat(String value) {
+	        Date date = null;
+	        
+	        String regex = "([0-9]{2})/(.*?)";
+	        Matcher m = Pattern.compile(regex).matcher(value);
+	        
+	        if(m.matches()){
+	        	
+	        	try {
+		            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+		            date = sdf.parse(value);
+		            if (!value.equals(sdf.format(date))) {
+		                date = null;
+		            }
+		        } catch (ParseException ex) {
+		            ex.printStackTrace();
+		        }
+		        return date != null;
+	        	
+	        } else {
+	        
+		        try {
+		            SimpleDateFormat sdf = new SimpleDateFormat("d/MM/yy HH:mm");
+		            date = sdf.parse(value);
+		            if (!value.equals(sdf.format(date))) {
+		                date = null;
+		            }
+		        } catch (ParseException ex) {
+		            ex.printStackTrace();
+		        }
+		        return date != null;
+		        
+	        }
+	    }
+		
+		//source: http://stackoverflow.com/questions/20231539/java-check-the-date-format-of-current-string-is-according-to-required-format-or
+
 	
 	public static void main(String[] args) {
 		new Validation();
