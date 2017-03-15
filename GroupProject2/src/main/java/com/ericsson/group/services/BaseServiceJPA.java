@@ -33,25 +33,31 @@ public class BaseServiceJPA implements BaseService{
 	}
 	
 	//-- SELECT BY DATE ---//
-	public Collection<BaseData> getBaseDataByDate(String date){
+	public Collection<BaseData> getBaseDataByDate(String startDate, String endDate){
 		
-		System.out.println("The date given to the base service is: " + date);
+		System.out.println("The date given to the base service is: " + startDate);
 		
 		//turn string into a date
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date utilDate;
+		java.util.Date utilStartDate;
+		java.util.Date utilEndDate;
 		try {
-			utilDate = sdf.parse(date);
+			utilStartDate = sdf.parse(startDate);
+			utilEndDate = sdf.parse(endDate);
 		} catch (ParseException e) {
-			utilDate = new Date(0000-00-00);
+			utilStartDate = new Date(0000-00-00);
+			utilEndDate = new Date(0000-00-00);
 		}
 		
-		System.out.println("The Util Date is: " + utilDate);
+		System.out.println("The Util s Date is: " + utilStartDate);
+		System.out.println("The Util e Date is: " + utilEndDate);
 		
-		java.sql.Date sqlDate = new Date(utilDate.getTime()); 
+		java.sql.Date sqlStartDate = new Date(utilStartDate.getTime()); 
+		java.sql.Date sqlEndDate = new Date(utilEndDate.getTime()); 
 		
-		System.out.println("The SQL date is: " + sqlDate);
+		System.out.println("The SQL startdate is: " + sqlStartDate);
+		System.out.println("The SQL enddate is: " + sqlEndDate);
 		
-		return dao.getBaseDataByDate(sqlDate);
+		return dao.getBaseDataByDate(sqlStartDate, sqlEndDate);
 	}
 }

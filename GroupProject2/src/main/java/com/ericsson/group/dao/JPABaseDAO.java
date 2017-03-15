@@ -35,10 +35,10 @@ public class JPABaseDAO implements BaseDAO {
 	//--- SELECT BY DATE ---//
 	
 	//will need to add enddate
-	public Collection<BaseData> getBaseDataByDate(Date startDate){
-		System.out.println(startDate);
-		Query query = em.createQuery("from BaseData c where c.date = :startDate");
-		query.setParameter("date",startDate);
+	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate){
+		Query query = em.createQuery("from BaseData c where c.date >= :sDate AND c.date <= :eDate");
+		query.setParameter("sDate",startDate);
+		query.setParameter("eDate", endDate);
 		return (List<BaseData>)query.getResultList();
 	}
 
