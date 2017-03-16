@@ -16,18 +16,6 @@ public class Validator {
 	
 	Validator(){
 	}
-	//public boolean isValidEventCause(int eventCause){
-		//eventCauseList.get(0).
-		
-		/*ColumnReaderEventCause testEventCause = new ColumnReaderEventCause();
-	
-		if (TestDataSheet[1]== null){
-        	return false;
-        }else if(TestDataSheet[8] == null){
-        	return false;
-        }else{
-        	System.out.println(TestDataSheet[1]+TestDataSheet[8]);		
-	}*/
 	
 	public boolean isValidDate(String inDate) 
 	{	
