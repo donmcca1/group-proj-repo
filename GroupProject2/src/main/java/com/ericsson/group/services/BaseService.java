@@ -13,5 +13,5 @@ public interface BaseService {
 	public Collection<BaseData> getBaseDataByImsi(Long imsi);
 	
 	//--- SELECT BY DATE ---//
-	public Collection<BaseData> getBaseDataByDate(String startDate, String endDate);
+	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
 }

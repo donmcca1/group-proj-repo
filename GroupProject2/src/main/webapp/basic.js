@@ -46,7 +46,8 @@ $(document).ready(function(){
 		$.ajax({
 			
 			type:"GET",
-			url:"rest/base/"+startDate+"/"+endDate,
+			url:"rest/base/date",
+			data: { start: startDate, end: endDate },
 		    cache: false,
 			dataType:"json",
 			

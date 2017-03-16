@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.ericsson.group.entities.BaseDataList;
@@ -39,8 +40,8 @@ public class BaseCRUDService {
 	//--- SELECT BY DATE ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{startDate}/{endDate}")
-	public BaseDataList getBaseDataByDate(@PathParam("startDate") String startDate, @PathParam("endDate") String endDate){
+	@Path("/date")
+	public BaseDataList getBaseDataByDate(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
 		BaseDataList list = new BaseDataList();
 		list.setBaseDataList(service.getBaseDataByDate(startDate, endDate));
 		return list;
