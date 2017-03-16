@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -36,7 +37,26 @@ public class Validation {
     Hashtable ueTable = new Hashtable();
     Hashtable failureClassTable = new Hashtable();
 	
-	public Validation(){
+	public Validation() {
+		
+		//clear the base_data_validated file
+		BufferedWriter bwc;
+		try {
+			bwc = clearWriter();
+			bwc.write("");
+			bwc.close();
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		//make the hash tables for foreign key validation
 		makeDoubleHashTable(causeCodeFile,splitBy,0,1,causeCodeEventIdTable);
 		makeDoubleHashTable(mccMncFile,splitBy,0,1,mccMncTable);
@@ -126,7 +146,7 @@ public class Validation {
 	       
 	       //---CHECKING THE IMSI MATCHES THE OPERATOR AND MARKET---//
 	       //add a zero to the end of the operator value where needed
-           if (operator.length()==1){
+/*           if (operator.length()==1){
            	operator=operator+"00";
            }else if (operator.length()==2){
            	operator=operator+"0";
@@ -142,7 +162,7 @@ public class Validation {
 
            }else{
         	   lineValid = false;
-           }
+           }*/
            
            //---CHECKING THE DATE---//
 			
@@ -150,38 +170,56 @@ public class Validation {
 				lineValid = false;
 			}
            
-           System.out.println(lineValid);
-	       
+          // System.out.println(lineValid);
+	      // System.out.println(line);
            
            //---WRITE DATA---//
            if(lineValid){
-        	   BufferedWriter bw = openWriter();
+        	   BufferedWriter bw = validatedWriter();
         	   bw.write(line);
+        	   bw.newLine();
+        	   bw.close();
+           } else {
+        	   BufferedWriter bw = invalidWriter();
+        	   bw.write(line);
+        	   bw.newLine();
+        	   bw.close();
            }
-	       
-           
+              
 	} //endwhile
 	} catch (IOException e) {
 	        e.printStackTrace();
 	   }
 	}
 	
-	//************************//
-	//***DATA WRITE METHODS***//
-	//************************//
-	private BufferedWriter openWriter() throws FileNotFoundException, UnsupportedEncodingException {
-		  File file = createFile();
-		  OutputStream os = (OutputStream)new FileOutputStream(file);
-	      String encoding = "UTF8";
-	      OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
-	      BufferedWriter bw = new BufferedWriter(osw);
-	      return bw;
+	//***********************//
+	//***DATA WRITE METHOD***//
+	//***********************//
+	private BufferedWriter clearWriter() throws FileNotFoundException, UnsupportedEncodingException {
+		File file = new File("upload/base_data_validated.txt");
+		OutputStream os = (OutputStream)new FileOutputStream(file,false);
+	    String encoding = "UTF8";
+	    OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
+	    BufferedWriter bw = new BufferedWriter(osw);
+	    return bw;
 	}
 	
-	private File createFile() {
-		File file = null;
-		file = new File("upload/base_data_validated.txt");
-		return file;
+	private BufferedWriter validatedWriter() throws FileNotFoundException, UnsupportedEncodingException {
+		File file = new File("upload/base_data_validated.txt");
+		OutputStream os = (OutputStream)new FileOutputStream(file,true);
+	    String encoding = "UTF8";
+	    OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
+	    BufferedWriter bw = new BufferedWriter(osw);
+	    return bw;
+	}
+	
+	private BufferedWriter invalidWriter() throws FileNotFoundException, UnsupportedEncodingException {
+		File file = new File("upload/base_data_invalid.txt");
+		OutputStream os = (OutputStream)new FileOutputStream(file,true);
+	    String encoding = "UTF8";
+	    OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
+	    BufferedWriter bw = new BufferedWriter(osw);
+	    return bw;
 	}
 	
 	//************************//
@@ -317,7 +355,6 @@ public class Validation {
 	    }
 		
 		//source: http://stackoverflow.com/questions/20231539/java-check-the-date-format-of-current-string-is-according-to-required-format-or
-
 	
 	public static void main(String[] args) {
 		new Validation();
