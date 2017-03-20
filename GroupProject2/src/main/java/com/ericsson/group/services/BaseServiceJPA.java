@@ -36,4 +36,10 @@ public class BaseServiceJPA implements BaseService{
 	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate){		
 		return dao.getBaseDataByDate(startDate, endDate);
 	}
+	
+	//--- COUNT BY MODEL AND DATE ---//
+	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate){	
+		return dao.countByModelAndDate(ue_type, startDate, endDate);
+	}
+	
 }

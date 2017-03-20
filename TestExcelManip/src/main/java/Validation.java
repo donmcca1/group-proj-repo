@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -164,6 +163,8 @@ public class Validation {
         	   lineValid = false;
            }*/
            
+	       //---need to validate NE Number or w/e it is---//
+	       
            //---CHECKING THE DATE---//
 			
 			if (isValidFormat(date)==false){

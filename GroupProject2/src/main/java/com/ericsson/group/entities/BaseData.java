@@ -21,18 +21,28 @@ public class BaseData implements Serializable{
 	
 	@Column(name="imsi") private long imsi;
 	@Column(name="event_id") private Integer eventId;
+	@Column(name="ue_type") private Integer ue_type;
 	@Column(name="cause_code") private Integer causeCode;
 	@Column(name="failure_class") private Integer failureClass;
 	@Column(name="date_time") private Date date;
 	
 	public BaseData() {}
 	
-	public BaseData(long imsi, Integer eventId, Integer causeCode, Integer failureClass, Date date){
+	public BaseData(long imsi, Integer eventId, Integer ue_type, Integer causeCode, Integer failureClass, Date date){
 		this.imsi = imsi;
 		this.eventId = eventId;
+		this.ue_type = ue_type;
 		this.causeCode = causeCode;
 		this.failureClass = failureClass;
 		this.date = date;
+	}
+
+	public Integer getUe_type() {
+		return ue_type;
+	}
+
+	public void setUe_type(Integer ue_type) {
+		this.ue_type = ue_type;
 	}
 
 	public int getId() {

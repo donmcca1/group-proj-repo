@@ -14,4 +14,8 @@ public interface BaseService {
 	
 	//--- SELECT BY DATE ---//
 	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
+	
+	//--- COUNT BY MODEL AND DATE ---//
+	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
+	
 }

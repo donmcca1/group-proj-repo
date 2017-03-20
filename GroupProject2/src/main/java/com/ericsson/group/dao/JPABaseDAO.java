@@ -33,13 +33,20 @@ public class JPABaseDAO implements BaseDAO {
 	}
 	
 	//--- SELECT BY DATE ---//
-	
-	//will need to add enddate
 	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate){
 		Query query = em.createQuery("from BaseData c where c.date >= :sDate AND c.date <= :eDate");
 		query.setParameter("sDate",startDate);
 		query.setParameter("eDate", endDate);
 		return (List<BaseData>)query.getResultList();
+	}
+	
+	//--- COUNT BY MODEL AND DATE ---//
+	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate){
+		Query query = em.createQuery("select count (c) from BaseData c where c.ue_type = :ue_type AND c.date >= :sDate AND c.date <= :eDate");
+		query.setParameter("ue_type", ue_type);
+		query.setParameter("sDate",startDate);
+		query.setParameter("eDate", endDate);
+		return (Long)query.getSingleResult();
 	}
 
 }

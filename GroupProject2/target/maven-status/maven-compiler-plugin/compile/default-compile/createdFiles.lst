@@ -1,7 +1,0 @@
-com\ericsson\group\dao\JPABaseDAO.class
-com\ericsson\group\services\BaseServiceJPA.class
-com\ericsson\group\entities\BaseDataList.class
-com\ericsson\group\entities\BaseData.class
-com\ericsson\group\jaxrs\BaseCRUDService.class
-com\ericsson\group\dao\BaseDAO.class
-com\ericsson\group\services\BaseService.class
