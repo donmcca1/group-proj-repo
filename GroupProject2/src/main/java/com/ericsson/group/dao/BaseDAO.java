@@ -10,12 +10,14 @@ import com.ericsson.group.entities.BaseData;
 @Local
 public interface BaseDAO {
 	//--- SELECT ALL ---//
-	public Collection<BaseData> getBaseData();
+	public Collection<?> getBaseData();
 	
 	//--- SELECT BY IMSI ---//
 	public Collection<BaseData> getBaseDataByImsi(Long imsi);
 	
 	//--- SELECT BY Date ---//
 	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
+
+	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
 
 }

@@ -20,7 +20,7 @@ public class JPABaseDAO implements BaseDAO {
 	private EntityManager em;
 	
 	//--- SELECT ALL ---//
-	public Collection<BaseData> getBaseData() {
+	public Collection<?> getBaseData() {
 		Query query = em.createQuery("from BaseData");
 		return query.getResultList();
 	}
@@ -40,6 +40,14 @@ public class JPABaseDAO implements BaseDAO {
 		query.setParameter("sDate",startDate);
 		query.setParameter("eDate", endDate);
 		return (List<BaseData>)query.getResultList();
+	}
+
+	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
+		System.out.println("here aaa");
+		Query query = em.createNativeQuery("select imsi, count(*), sum(duration) from base_data where (date_time between ? AND ?) group by imsi;");
+		query.setParameter(1, startDate);
+		query.setParameter(2, endDate);
+		return (List<?>)query.getResultList();
 	}
 
 }
