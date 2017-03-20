@@ -91,5 +91,37 @@ $(document).ready(function(){
 			});
 			
 		});	
+
+//--- SEARCH BY DATES FOR NUM FAILURES AND DURATION---//
+	
+	$("#searchByDatesButton2").click(function(){
+		
+		//-- retrieve dates from forms --//
+		startDate = $("#startDate2").val();
+		endDate = $("#endDate2").val();
+		
+		window.alert("hi");
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/numfail",
+			data: { start2: startDate, end2: endDate },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
+
+				$("#responseHolder").empty();
+				
+				$.each(data, function(index, value){
+					$("#responseHolder").append
+						("<li> IMSI: "+value+"</li>");
+				});	
+			}
+
+		});
+		
+	});	
 	
 });	

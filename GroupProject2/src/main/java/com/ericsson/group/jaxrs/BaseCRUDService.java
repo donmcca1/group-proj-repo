@@ -1,6 +1,8 @@
 package com.ericsson.group.jaxrs;
 
 import java.sql.Date;
+import java.util.Collection;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,10 +23,8 @@ public class BaseCRUDService {
 	//--- SELECT ALL ---//
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-	public BaseDataList getBaseData(){
-		BaseDataList list = new BaseDataList();
-		list.setBaseDataList(service.getAllBaseData());
-		return list;
+	public Collection<?> getBaseData(){
+		return service.getAllBaseData();
 	}
 	
 	//--- SELECT BY IMSI ---//
@@ -54,6 +54,17 @@ public class BaseCRUDService {
 	public Long countByModelAndDate(@QueryParam("ue_type") Integer ue_type,
 			@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
 		return (Long)service.countByModelAndDate(ue_type, startDate, endDate);
+	}
+
+	//--- SELECT BY DATE ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/numfail")
+	public Collection<?> getBaseDataByDate2(@QueryParam("start2") Date startDate, @QueryParam("end2") Date endDate){
+		System.out.println("here in date 2");
+		Collection<?> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
+		System.out.println(v.size());
+		return v;
 	}
 
 }

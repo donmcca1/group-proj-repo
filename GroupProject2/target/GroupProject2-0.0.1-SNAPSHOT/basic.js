@@ -41,16 +41,43 @@ $(document).ready(function(){
 		startDate = $("#startDate").val();
 		endDate = $("#endDate").val();
 		
-		window.alert("Start Date:" + startDate);
-		
 		$.ajax({
 			
 			type:"GET",
 			url:"rest/base/date",
-			data: { 
-		        "startDate": startDate, 
-		        "endDate": endDate
-		    },
+			data: { start: startDate, end: endDate },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
+
+				$("#responseHolder").empty();
+				
+				$.each(data.baseDataList, function(index, value){
+					$("#responseHolder").append
+						("<li> IMSI: "+value.imsi+"</li>");
+				});	
+			}
+
+		});
+		
+	});	
+	
+//--- SEARCH BY DATES FOR NUM FAILURES AND DURATION---//
+	
+	$("#searchByDatesButton2").click(function(){
+		
+		//-- retrieve dates from forms --//
+		startDate = $("#startDate2").val();
+		endDate = $("#endDate2").val();
+		
+		window.alert("hi");
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/numfail",
+			data: { start2: startDate2, end2: endDate2 },
 		    cache: false,
 			dataType:"json",
 			

@@ -23,7 +23,7 @@ public class BaseServiceJPA implements BaseService{
 	private BaseDAO dao;
 	
 	//--- SELECT ALL ---//
-	public Collection<BaseData> getAllBaseData() {
+	public Collection<?> getAllBaseData() {
 		return dao.getBaseData();
 	}
 
@@ -41,5 +41,11 @@ public class BaseServiceJPA implements BaseService{
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate){	
 		return dao.countByModelAndDate(ue_type, startDate, endDate);
 	}
-	
+
+	//-- SELECT BY DATE NUM FAILURES AND DURATION---//
+	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
+		System.out.println("here again in 2");
+		return dao.getNumFailuresAndDurationByDate(startDate, endDate);
+	}
+
 }

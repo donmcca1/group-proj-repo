@@ -7,7 +7,7 @@ import com.ericsson.group.entities.BaseData;
 
 public interface BaseService {
 	//--- SELECT ALL ---//
-	public Collection<BaseData> getAllBaseData();
+	public Collection<?> getAllBaseData();
 	
 	//--- SELECT BY IMSI ---//
 	public Collection<BaseData> getBaseDataByImsi(Long imsi);
@@ -17,5 +17,8 @@ public interface BaseService {
 	
 	//--- COUNT BY MODEL AND DATE ---//
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
-	
+
+	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
+	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+
 }
