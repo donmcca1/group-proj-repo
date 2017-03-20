@@ -68,8 +68,8 @@ public class EditExcel {
 		    bw.close();
 	      }
 	      
-	      /*//---VALIDATION NEEDS TO BE INTEGRATED---//
-	      Validation validation = new Validation();*/
+	      //---VALIDATION---//
+	      Validation validation = new Validation();
 	      
 	      UploadDAO uDao = new UploadDAO();
 	      uDao.uploadTxtFiles();
