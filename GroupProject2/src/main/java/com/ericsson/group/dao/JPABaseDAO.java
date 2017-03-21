@@ -56,5 +56,15 @@ public class JPABaseDAO implements BaseDAO {
 		query.setParameter(2, endDate);
 		return (List<?>)query.getResultList();
 	}
+	
+	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
+		Query query = em.createQuery("select count (c) from BaseData c where c.imsi = :imsi AND c.date >= :sDate AND c.date <= :eDate");
+		query.setParameter("imsi", imsi);
+		query.setParameter("sDate",startDate);
+		query.setParameter("eDate", endDate);
+		System.out.println("DAO");
+		return (Long)query.getSingleResult();
+	}
 
 }

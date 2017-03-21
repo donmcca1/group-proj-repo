@@ -47,5 +47,10 @@ public class BaseServiceJPA implements BaseService{
 		System.out.println("here again in 2");
 		return dao.getNumFailuresAndDurationByDate(startDate, endDate);
 	}
+	
+	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
+		return dao.getFailuresByDate(imsi, startDate, endDate);
+	}
 
 }

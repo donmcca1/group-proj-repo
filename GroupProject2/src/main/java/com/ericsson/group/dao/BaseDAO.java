@@ -22,5 +22,8 @@ public interface BaseDAO {
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
 
 	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+	
+	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
 
 }
