@@ -49,12 +49,12 @@ public class JPABaseDAO implements BaseDAO {
 		return (Long)query.getSingleResult();
 	}
 
-	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
-		System.out.println("here aaa");
-		Query query = em.createNativeQuery("select imsi, count(*), sum(duration) from base_data where (date_time between ? AND ?) group by imsi;");
-		query.setParameter(1, startDate);
-		query.setParameter(2, endDate);
-		return (List<?>)query.getResultList();
+	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
+	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
+		Query query = em.createQuery("select imsi, count(c), sum(duration) from BaseData c where c.date >= :sDate AND c.date <= :eDate group by imsi");
+		query.setParameter("sDate",startDate);
+		query.setParameter("eDate", endDate);
+		return (List<Object[]>)query.getResultList();
 	}
 
 }

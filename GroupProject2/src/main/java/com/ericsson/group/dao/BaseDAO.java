@@ -2,6 +2,7 @@ package com.ericsson.group.dao;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Local;
 
@@ -21,6 +22,7 @@ public interface BaseDAO {
 	//--- COUNT BY MODEL AND DATE ---//
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
 
-	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
+	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
 
 }

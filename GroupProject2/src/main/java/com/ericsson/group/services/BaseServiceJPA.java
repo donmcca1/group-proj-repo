@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Local;
@@ -43,8 +44,7 @@ public class BaseServiceJPA implements BaseService{
 	}
 
 	//-- SELECT BY DATE NUM FAILURES AND DURATION---//
-	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
-		System.out.println("here again in 2");
+	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
 		return dao.getNumFailuresAndDurationByDate(startDate, endDate);
 	}
 

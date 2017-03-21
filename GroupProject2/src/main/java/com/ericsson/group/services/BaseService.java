@@ -2,6 +2,7 @@ package com.ericsson.group.services;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 
 import com.ericsson.group.entities.BaseData;
 
@@ -19,6 +20,6 @@ public interface BaseService {
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
 
 	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
-	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
 
 }

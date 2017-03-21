@@ -63,6 +63,35 @@ $(document).ready(function(){
 		
 	});	
 	
+	//--- SEARCH BY MODEL AND DATES ---//
+		
+		$("#searchByModelAndDatesButton").click(function(){
+			
+			//-- retrieve dates from forms --//
+			ue_type = $("#ue_type").val();
+			startDate = $("#startDate2").val();
+			endDate = $("#endDate2").val();
+			
+			$.ajax({
+				
+				type:"GET",
+				url:"rest/base/date/ue_type",
+				data: { ue_type: ue_type, start: startDate, end: endDate },
+			    cache: false,
+				dataType:"json",
+				
+				success: function(data) {
+					
+	
+					$("#responseHolder").empty();
+					
+					$("#responseHolder").append("<li> Count: "+data+"</li>");
+				}
+	
+			});
+			
+		});	
+
 //--- SEARCH BY DATES FOR NUM FAILURES AND DURATION---//
 	
 	$("#searchByDatesButton2").click(function(){
@@ -77,7 +106,7 @@ $(document).ready(function(){
 			
 			type:"GET",
 			url:"rest/base/numfail",
-			data: { start2: startDate2, end2: endDate2 },
+			data: { start2: startDate, end2: endDate },
 		    cache: false,
 			dataType:"json",
 			
@@ -85,9 +114,9 @@ $(document).ready(function(){
 
 				$("#responseHolder").empty();
 				
-				$.each(data.baseDataList, function(index, value){
+				$.each(data, function(index, value){
 					$("#responseHolder").append
-						("<li> IMSI: "+value.imsi+"</li>");
+						("<li> IMSI: "+data+"</li>");
 				});	
 			}
 
