@@ -21,5 +21,8 @@ public interface BaseService {
 
 	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
 	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+	
+	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
 
 }

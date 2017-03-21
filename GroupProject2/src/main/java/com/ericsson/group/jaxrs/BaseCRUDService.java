@@ -65,5 +65,15 @@ public class BaseCRUDService {
 		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
 		return v;
 	}
+	
+	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/date/imsi")
+	public Long getFailuresByDate(@QueryParam("imsi") Long imsi, @QueryParam("start") Date startDate, 
+			@QueryParam("end") Date endDate){
+		System.out.println("CRUD");
+		return (Long)service.getFailuresByDate(imsi, startDate, endDate);
+	}
 
 }
