@@ -52,5 +52,10 @@ public class BaseServiceJPA implements BaseService{
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
 		return dao.getFailuresByDate(imsi, startDate, endDate);
 	}
+	
+	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
+	public Collection<?> countByModelEventIdCauseCode(Integer ue_type){
+		return dao.countByModelEventIdCauseCode(ue_type);
+	}
 
 }

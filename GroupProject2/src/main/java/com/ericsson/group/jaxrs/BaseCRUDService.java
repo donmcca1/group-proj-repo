@@ -75,5 +75,14 @@ public class BaseCRUDService {
 		System.out.println("CRUD");
 		return (Long)service.getFailuresByDate(imsi, startDate, endDate);
 	}
+	
+	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/ue_type/count")
+	public Collection<?> countByModelEventIdCauseCode(@QueryParam("ue_type") Integer ue_type){
+		Collection<?> c = service.countByModelEventIdCauseCode(ue_type);
+		return c;
+	}
 
 }

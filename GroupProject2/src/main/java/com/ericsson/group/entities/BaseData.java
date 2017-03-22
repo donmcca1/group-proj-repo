@@ -20,21 +20,21 @@ public class BaseData implements Serializable{
 	private int id;
 	
 	@Column(name="imsi") private long imsi;
-	@Column(name="event_id") private Integer eventId;
+	@Column(name="event_id") private Integer event_id;
 	@Column(name="ue_type") private Integer ue_type;
 	@Column(name="duration") private Integer duration;
-	@Column(name="cause_code") private Integer causeCode;
-	@Column(name="failure_class") private Integer failureClass;
+	@Column(name="cause_code") private Integer cause_code;
+	@Column(name="failure_class") private Integer failure_class;
 	@Column(name="date_time") private Date date;
 	
 	public BaseData() {}
 	
-	public BaseData(long imsi, Integer eventId, Integer ue_type, Integer causeCode, Integer failureClass, Date date, Integer duration){
+	public BaseData(long imsi, Integer event_id, Integer ue_type, Integer cause_code, Integer failure_class, Date date, Integer duration){
 		this.imsi = imsi;
-		this.eventId = eventId;
+		this.event_id = event_id;
 		this.ue_type = ue_type;
-		this.causeCode = causeCode;
-		this.failureClass = failureClass;
+		this.cause_code = cause_code;
+		this.failure_class = failure_class;
 		this.date = date;
 		this.duration = duration;
 	}
@@ -68,11 +68,11 @@ public class BaseData implements Serializable{
 	}
 
 	public Integer getFailureClass() {
-		return failureClass;
+		return failure_class;
 	}
 
-	public void setFailureClass(Integer failureClass) {
-		this.failureClass = failureClass;
+	public void setFailureClass(Integer failure_class) {
+		this.failure_class = failure_class;
 	}
 
 	public void setImsi(long imsi) {
@@ -80,19 +80,19 @@ public class BaseData implements Serializable{
 	}
 
 	public Integer getEventId() {
-		return eventId;
+		return event_id;
 	}
 
-	public void setEventId(Integer eventId) {
-		this.eventId = eventId;
+	public void setEventId(Integer event_id) {
+		this.event_id = event_id;
 	}
 
 	public Integer getCauseCode() {
-		return causeCode;
+		return cause_code;
 	}
 
-	public void setCauseCode(Integer causeCode) {
-		this.causeCode = causeCode;
+	public void setCauseCode(Integer cause_code) {
+		this.cause_code = cause_code;
 	}
 
 	public Integer getDuration() {

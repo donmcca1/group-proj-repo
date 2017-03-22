@@ -161,4 +161,39 @@ $(document).ready(function(){
 		
 	});
 	
+	//--- LILY SEARCH BY MODEL RETURN EVENTID/CAUSE CODE COUNTS ---//
+	$("#searchByUETypeButton").click(function(){
+		
+		//-- retrieve dates from forms --//
+		ue_type = $("#ue_type").val();
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/ue_type/count",
+			data: { ue_type: ue_type },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
+
+				$("#responseHolder").empty();
+				
+				$.each(data, function(index, value){
+				//--Get results from value string, splitting on commas--//
+				
+					var str = value.toString();
+					var strArray = str.split(",");
+					var event_id = strArray[0];
+					var cause_code = strArray[1];
+					
+					$("#responseHolder").append
+						("<li>Event ID: "+event_id+" Cause Code: "+cause_code+"</li>");
+				});	
+			}
+
+		});
+		
+	});
+	
 });	

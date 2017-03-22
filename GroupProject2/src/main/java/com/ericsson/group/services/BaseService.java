@@ -24,5 +24,8 @@ public interface BaseService {
 	
 	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
+	
+	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
+	public Collection<?> countByModelEventIdCauseCode(Integer ue_type);
 
 }
