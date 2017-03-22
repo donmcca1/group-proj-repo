@@ -184,11 +184,12 @@ $(document).ready(function(){
 				
 					var str = value.toString();
 					var strArray = str.split(",");
-					var event_id = strArray[0];
-					var cause_code = strArray[1];
+					var count = strArray[0];
+					var event_id = strArray[1];
+					var cause_code = strArray[2];
 					
 					$("#responseHolder").append
-						("<li>Event ID: "+event_id+" Cause Code: "+cause_code+"</li>");
+						("<li>Count: "+count+" Event ID: "+event_id+" Cause Code: "+cause_code+"</li>");
 				});	
 			}
 

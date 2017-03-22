@@ -69,7 +69,7 @@ public class JPABaseDAO implements BaseDAO {
 	
 	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
 	public Collection<?> countByModelEventIdCauseCode(Integer ue_type){
-		Query query = em.createQuery("select c.event_id, c.cause_code from BaseData c where c.ue_type = :ue_type");
+		Query query = em.createQuery("select count (c), c.event_id, c.cause_code from BaseData c where c.ue_type = :ue_type group by c.event_id, c.cause_code");
 		query.setParameter("ue_type", ue_type);
 		return (List<?>)query.getResultList();
 	}
