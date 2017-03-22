@@ -27,5 +27,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/resteasy-multipart-provider-3.0.8.Final.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

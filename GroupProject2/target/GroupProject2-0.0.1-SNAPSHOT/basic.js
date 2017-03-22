@@ -100,8 +100,6 @@ $(document).ready(function(){
 		startDate = $("#startDate2").val();
 		endDate = $("#endDate2").val();
 		
-		window.alert("hi");
-		
 		$.ajax({
 			
 			type:"GET",
@@ -115,13 +113,52 @@ $(document).ready(function(){
 				$("#responseHolder").empty();
 				
 				$.each(data, function(index, value){
+					
+					//--Get results from value string, splitting on commas--// 
+					
+					var full = value.toString();
+					var pos = full.indexOf(",");
+					var imsi = full.substring(0, pos);
+					var pos2 = full.indexOf(",", pos+1);
+					var count = full.substring(pos+1, pos2);
+					var sum = full.substring(pos2+1);
+					
 					$("#responseHolder").append
-						("<li> IMSI: "+data+"</li>");
+						("<li> IMSI: "+ imsi + " Number of failures: " + count + " Duration of failures: " + sum + "</li>");
 				});	
 			}
 
 		});
 		
 	});	
+	
+	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	$("#searchByDatesButton1").click(function(){
+		
+		//-- retrieve dates from forms --//
+		imsi = $("#imsi1").val();
+		startDate = $("#startDate1").val();
+		endDate = $("#endDate1").val();
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/date/imsi",
+			// imsi: imsi = 500, imsi1: imsi1 = 404
+			data: { imsi: imsi, start: startDate, end: endDate },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
+				//console.log(data);
+
+				$("#responseHolder").empty();
+				
+				$("#responseHolder").append("<li> Failure: "+data+"</li>");
+			}
+
+		});
+		
+	});
 	
 });	
