@@ -1,10 +1,10 @@
 package com.ericsson.group.services;
 
+import com.ericsson.group.entities.BaseData;
+
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
-
-import com.ericsson.group.entities.BaseData;
 
 public interface BaseService {
 	
@@ -23,7 +23,7 @@ public interface BaseService {
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
 	
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi);
 	
 	//******************//
 	//*** SE QUERIES ***//

@@ -1,16 +1,15 @@
 package com.ericsson.group.dao;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
+import com.ericsson.group.entities.BaseData;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import com.ericsson.group.entities.BaseData;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 @Stateless
 @Local
@@ -48,8 +47,13 @@ public class JPABaseDAO implements BaseDAO {
 	}
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	
-	
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi) {
+		Query query = em.createQuery("from BaseData c where c.imsi = :imsi");
+		query.setParameter("imsi", imsi);
+		return (List<BaseData>)query.getResultList();
+	}
+
+
 	//******************//
 	//*** SE QUERIES ***//
 	//******************//

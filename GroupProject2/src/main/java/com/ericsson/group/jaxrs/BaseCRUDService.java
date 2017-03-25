@@ -1,33 +1,14 @@
 package com.ericsson.group.jaxrs;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.ericsson.group.entities.BaseDataList;
+import com.ericsson.group.services.BaseService;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Encoded;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import com.ericsson.group.entities.BaseDataList;
-import com.ericsson.group.services.BaseService;
 
 @Path("/base")
 public class BaseCRUDService {
@@ -70,8 +51,16 @@ public class BaseCRUDService {
 	}
 	
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	
-	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/cause")
+	public BaseDataList getCauseCodeByImsi(@QueryParam("imsi") Long imsi){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getBaseDataByImsi(imsi));
+		return list;
+	}
+
+
 	//******************//
 	//*** SE QUERIES ***//
 	//******************//
@@ -97,15 +86,6 @@ public class BaseCRUDService {
 	}
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
-	
-	
-	//*******************//
-	//*** NME QUERIES ***//
-	//*******************//
-	
-	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/numfail")
 	public List<Object[]> getBaseDataByDate2(@QueryParam("start2") Date startDate, @QueryParam("end2") Date endDate){
 		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
@@ -130,10 +110,10 @@ public class BaseCRUDService {
 	//***********************//
 	
 	//assign users
-	
+
 	//--- DATA IMPORT ---//
 	
-	@POST
+	/*@POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/file")
     public Response handleUpload(MultipartFormDataInput multipartFormDataInput) {
@@ -217,5 +197,5 @@ public class BaseCRUDService {
         }
         return "UnknownFile";
     }
-
+*/
 }

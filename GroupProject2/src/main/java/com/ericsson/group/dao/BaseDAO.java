@@ -1,12 +1,11 @@
 package com.ericsson.group.dao;
 
+import com.ericsson.group.entities.BaseData;
+
+import javax.ejb.Local;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
-
-import javax.ejb.Local;
-
-import com.ericsson.group.entities.BaseData;
 
 @Local
 public interface BaseDAO {
@@ -25,8 +24,9 @@ public interface BaseDAO {
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	
-	
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi);
+
+
 	//******************//
 	//*** SE QUERIES ***//
 	//******************//

@@ -1,19 +1,12 @@
 package com.ericsson.group.services;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-
 import com.ericsson.group.dao.BaseDAO;
 import com.ericsson.group.entities.BaseData;
+
+import javax.ejb.*;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 @Stateless
 @Local
@@ -44,8 +37,9 @@ public class BaseServiceJPA implements BaseService{
 	}
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	
-	
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi) {
+		return dao.getCauseCodeByImsi(imsi);
+	}
 	//******************//
 	//*** SE QUERIES ***//
 	//******************//
