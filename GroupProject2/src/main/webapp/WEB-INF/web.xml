@@ -4,4 +4,8 @@
     <servlet-name>javax.ws.rs.core.Application</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
+  
+  <listener>
+       <listener-class>com.ericsson.group.utilities.MyServletContextListener</listener-class>
+   </listener>
 </web-app>
