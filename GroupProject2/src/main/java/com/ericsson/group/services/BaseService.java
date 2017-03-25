@@ -7,25 +7,58 @@ import java.util.List;
 import com.ericsson.group.entities.BaseData;
 
 public interface BaseService {
-	//--- SELECT ALL ---//
-	public Collection<?> getAllBaseData();
 	
-	//--- SELECT BY IMSI ---//
+	//--- SELECT ALL (NO FRONT END) ---//
+	public Collection<BaseData> getAllBaseData();
+	
+	//*******************//
+	//*** CSR QUERIES ***//
+	//*******************//
+	
+	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
+	// currently returns all; selection made at front end
 	public Collection<BaseData> getBaseDataByImsi(Long imsi);
-	
-	//--- SELECT BY DATE ---//
-	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
-	
-	//--- COUNT BY MODEL AND DATE ---//
-	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
 
-	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
-	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
-	
-	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	//--- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES ---//
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
 	
-	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
+	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
+	
+	
+	//******************//
+	//*** SE QUERIES ***//
+	//******************//
+	
+	//--- 4. SELECT BY DATE, RETURN IMSI ---//
+	// currently returns all; selection made at front end
+	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
+
+	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
+	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
+
+	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	
+	
+	//*******************//
+	//*** NME QUERIES ***//
+	//*******************//
+	
+	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
+	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+	
+	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	public Collection<?> countByModelEventIdCauseCode(Integer ue_type);
+
+	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	
+	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+
+	//***********************//
+	//*** SA ONLY QUERIES ***//
+	//***********************//
+	
+	//assign users
+	
+	//--- DATA IMPORT ---//
 
 }

@@ -18,5 +18,4 @@ public class BaseDataList implements Serializable{
 		this.baseDataList = baseDataList;
 	}
 	
-	
 }
