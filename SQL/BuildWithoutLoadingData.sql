@@ -21,7 +21,7 @@ CREATE TABLE `group_project_ericsson`.`base_data` (
   `operator` INT NOT NULL,
   `cell_id` INT NOT NULL,
   `duration` INT NOT NULL,
-  `cause_code` INT NULL,
+  `cause_code` INT NOT NULL,
   `ne_version` VARCHAR(10) NOT NULL,
   `imsi` BIGINT NOT NULL,
   PRIMARY KEY (`id`));

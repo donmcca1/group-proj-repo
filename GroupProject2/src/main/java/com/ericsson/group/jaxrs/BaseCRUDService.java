@@ -1,47 +1,36 @@
 package com.ericsson.group.jaxrs;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.ericsson.group.entities.BaseDataList;
+import com.ericsson.group.services.BaseService;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Encoded;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import com.ericsson.group.entities.BaseDataList;
-import com.ericsson.group.services.BaseService;
 
 @Path("/base")
 public class BaseCRUDService {
 	@Inject
 	private BaseService service;
 	
-	//--- SELECT ALL ---//
+	//--- SELECT ALL (NO FRONT END) ---//
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
-	public Collection<?> getBaseData(){
-		return service.getAllBaseData();
+	public BaseDataList getBaseData(){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getAllBaseData());
+		return list;
 	}
 	
-	//--- SELECT BY IMSI ---//
+	
+	//*******************//
+	//*** CSR QUERIES ***//
+	//*******************//
+	
+	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
+	// currently returns all; selection made at front end
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{imsi}")
@@ -51,35 +40,7 @@ public class BaseCRUDService {
 		return list;
 	}
 	
-	//--- SELECT BY DATE ---//
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/date")
-	public BaseDataList getBaseDataByDate(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
-		BaseDataList list = new BaseDataList();
-		list.setBaseDataList(service.getBaseDataByDate(startDate, endDate));
-		return list;
-	}
-	
-	//--- COUNT BY MODEL AND DATE ---//
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/date/ue_type")
-	public Long countByModelAndDate(@QueryParam("ue_type") Integer ue_type,
-			@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
-		return (Long)service.countByModelAndDate(ue_type, startDate, endDate);
-	}
-
-	//--- SELECT BY DATE NUM FAILURES AND DURATION---//
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/numfail")
-	public List<Object[]> getBaseDataByDate2(@QueryParam("start2") Date startDate, @QueryParam("end2") Date endDate){
-		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
-		return v;
-	}
-	
-	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
+	//--- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/date/imsi")
@@ -89,7 +50,49 @@ public class BaseCRUDService {
 		return (Long)service.getFailuresByDate(imsi, startDate, endDate);
 	}
 	
-	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
+	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/cause")
+	public BaseDataList getCauseCodeByImsi(@QueryParam("imsi") Long imsi){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getBaseDataByImsi(imsi));
+		return list;
+	}
+
+
+	//******************//
+	//*** SE QUERIES ***//
+	//******************//
+	
+	//--- 4. SELECT BY DATE, RETURN IMSI ---//
+	// currently returns all; selection made at front end
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/date")
+	public BaseDataList getBaseDataByDate(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getBaseDataByDate(startDate, endDate));
+		return list;
+	}
+	
+	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/date/ue_type")
+	public Long countByModelAndDate(@QueryParam("ue_type") Integer ue_type,
+			@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
+		return (Long)service.countByModelAndDate(ue_type, startDate, endDate);
+	}
+
+	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	@Path("/numfail")
+	public List<Object[]> getBaseDataByDate2(@QueryParam("start2") Date startDate, @QueryParam("end2") Date endDate){
+		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
+		return v;
+	}
+	
+	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ue_type/count")
@@ -97,4 +100,16 @@ public class BaseCRUDService {
 		Collection<?> c = service.countByModelEventIdCauseCode(ue_type);
 		return c;
 	}
+
+	
+	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	
+	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+
+	//***********************//
+	//*** SA ONLY QUERIES ***//
+	//***********************//
+	
+	//assign users
+
 }

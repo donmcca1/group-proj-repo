@@ -5,14 +5,19 @@ $(document).ready(function(){
 	    $("#imsi").keyup(function(){
 	        $("#searchByImsiButton").prop('disabled', this.value == "" ? true : false);     
 	    })
-	});  
-    
-	//--- SEARCH BY IMSI ---//
-	$("#searchByImsiButton").click(function(){	
-		
-			//-- retrieves IMSI from form --//
-			imsi = $("#imsi").val();
+	});
 	
+	//*******************//
+	//*** CSR QUERIES ***//
+	//*******************//
+	
+	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
+	// currently returns all; selection made at front end
+	$("#searchButton1").click(function(){	
+		
+		//-- retrieves IMSI from form --//
+		imsi = $("#imsi1").val();
+
 		$.ajax({
 			
 			type:"GET",
@@ -20,26 +25,84 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
-
+	
 				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
-						("<li> Event Id: "+value.eventId+" Cause Code: "+value.causeCode+"</li>");
+						("<li> Event Id: "+value.event_id+" Cause Code: "+value.cause_code+"</li>");
 				});	
+			}
+	
+		});
+	
+	});
+
+	//--- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES ---//
+	
+	$("#searchButton2").click(function(){
+		
+		//-- retrieve dates from forms --//
+		imsi = $("#imsi2").val();
+		startDate = $("#startDate2").val();
+		endDate = $("#endDate2").val();
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/date/imsi",
+			data: { imsi: imsi, start: startDate, end: endDate },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
+
+				$("#responseHolder").empty();
+				
+				$("#responseHolder").append("<li> Failure: "+data+"</li>");
 			}
 
 		});
 		
 	});
+
+	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
+    $("#cause").click(function(){
+        imsi = $("#imsi2").val();
+
+        $.ajax({
+
+            type:"GET",
+            url:"rest/base/cause",
+            data: {imsi: imsi},
+            dataType:"json",
+
+            success: function(data) {
+
+                $("#responseHolder").empty();
+
+                $.each(data.baseDataList, function(index, value){
+                    $("#responseHolder").append
+                    ("<li> Cause Code: "+value.cause_code+" Failure Class: "+value.failure_class+"</li>");
+                });
+            }
+
+        });
+
+    });
+
+
+    //******************//
+	//*** SE QUERIES ***//
+	//******************//
 	
-	//--- SEARCH BY DATES ---//
-	
-	$("#searchByDatesButton").click(function(){
+	//--- 4. SELECT BY DATE, RETURN IMSI ---//
+	// currently returns all; selection made at front end
+	$("#searchButton4").click(function(){
 		
 		//-- retrieve dates from forms --//
-		startDate = $("#startDate").val();
-		endDate = $("#endDate").val();
+		startDate = $("#startDate4").val();
+		endDate = $("#endDate4").val();
 		
 		$.ajax({
 			
@@ -62,49 +125,56 @@ $(document).ready(function(){
 		});
 		
 	});	
-	
-	//--- SEARCH BY MODEL AND DATES ---//
-		
-		$("#searchByModelAndDatesButton").click(function(){
-			
-			//-- retrieve dates from forms --//
-			ue_type = $("#ue_type").val();
-			startDate = $("#startDate2").val();
-			endDate = $("#endDate2").val();
-			
-			$.ajax({
-				
-				type:"GET",
-				url:"rest/base/date/ue_type",
-				data: { ue_type: ue_type, start: startDate, end: endDate },
-			    cache: false,
-				dataType:"json",
-				
-				success: function(data) {
-					
-	
-					$("#responseHolder").empty();
-					
-					$("#responseHolder").append("<li> Count: "+data+"</li>");
-				}
-	
-			});
-			
-		});	
 
-//--- SEARCH BY DATES FOR NUM FAILURES AND DURATION---//
+	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
 	
-	$("#searchByDatesButton2").click(function(){
+	$("#searchButton5").click(function(){
 		
 		//-- retrieve dates from forms --//
-		startDate = $("#startDate2").val();
-		endDate = $("#endDate2").val();
+		ue_type = $("#ue_type5").val();
+		startDate = $("#startDate5").val();
+		endDate = $("#endDate5").val();
+		
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/date/ue_type",
+			data: { ue_type: ue_type, start: startDate, end: endDate },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
+				
+
+				$("#responseHolder").empty();
+				
+				$("#responseHolder").append("<li> Count: "+data+"</li>");
+			}
+
+		});
+		
+	});	
+
+	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	
+	
+	//*******************//
+	//*** NME QUERIES ***//
+	//*******************//
+	
+	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
+	
+	$("#searchButton7").click(function(){
+		
+		//-- retrieve dates from forms --//
+		startDate = $("#startDate7").val();
+		endDate = $("#endDate7").val();
 		
 		$.ajax({
 			
 			type:"GET",
 			url:"rest/base/numfail",
-			data: { start2: startDate, end2: endDate },
+			data: { start: startDate, end: endDate },
 		    cache: false,
 			dataType:"json",
 			
@@ -131,41 +201,13 @@ $(document).ready(function(){
 		});
 		
 	});	
+
+	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	
-	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
-	$("#searchByDatesButton1").click(function(){
+	$("#searchButton8").click(function(){
 		
 		//-- retrieve dates from forms --//
-		imsi = $("#imsi1").val();
-		startDate = $("#startDate1").val();
-		endDate = $("#endDate1").val();
-		
-		$.ajax({
-			
-			type:"GET",
-			url:"rest/base/date/imsi",
-			// imsi: imsi = 500, imsi1: imsi1 = 404
-			data: { imsi: imsi, start: startDate, end: endDate },
-		    cache: false,
-			dataType:"json",
-			
-			success: function(data) {
-				//console.log(data);
-
-				$("#responseHolder").empty();
-				
-				$("#responseHolder").append("<li> Failure: "+data+"</li>");
-			}
-
-		});
-		
-	});
-	
-	//--- LILY SEARCH BY MODEL RETURN EVENTID/CAUSE CODE COUNTS ---//
-	$("#searchByUETypeButton").click(function(){
-		
-		//-- retrieve dates from forms --//
-		ue_type = $("#ue_type").val();
+		ue_type = $("#ue_type8").val();
 		
 		$.ajax({
 			
@@ -184,16 +226,29 @@ $(document).ready(function(){
 				
 					var str = value.toString();
 					var strArray = str.split(",");
-					var event_id = strArray[0];
-					var cause_code = strArray[1];
+					var count = strArray[0];
+					var event_id = strArray[1];
+					var cause_code = strArray[2];
 					
 					$("#responseHolder").append
-						("<li>Event ID: "+event_id+" Cause Code: "+cause_code+"</li>");
+						("<li>Count: "+count+" Event ID: "+event_id+" Cause Code: "+cause_code+"</li>");
 				});	
 			}
 
 		});
 		
 	});
+
+	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	
+	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+
+	//***********************//
+	//*** SA ONLY QUERIES ***//
+	//***********************//
+	
+	//assign users
+	
+	//--- DATA IMPORT ---//
 	
 });	

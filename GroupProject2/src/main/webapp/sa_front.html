@@ -19,42 +19,34 @@
 
 	<h1>LTE (4G) Network Event Interface: SysAdmin</h1>
 	
-	<!-- Get Event ID and Cause Code by IMSI -->
+	<!--*******************
+	//*** CSR QUERIES ***//
+	********************-->
+	
+	<!-- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE -->
+	<!-- currently returns all; selection made at front end -->
+	
 	<div>
 		
 		<h1>Get Event ID and Cause Code by IMSI</h1>
 	
-		IMSI: <input type="text" id="imsi">
+		IMSI: <input type="text" id="imsi1">
 		
 		<br><br>
 		
-		<input type="button" id="searchByImsiButton" value="Search">
+		<input type="button" id="searchButton1" value="Search">
+	
+	</div>
 
-	</div>
+	<!-- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES -->
 	
-	<!-- Get IMSI by Date -->
 	<div>
 	
-		<h1>Get IMSI by Date</h1>
+		<h1>Get Number of Call Failures for IMSI by Date</h1>
 		
-		Start Date:
-		<input type="date" id="startDate">
+		IMSI: <input type="text" id="imsi2">
 		
 		<br><br>
-		
-		End Date:
-		<input type="date" id="endDate">
-		
-		<br>
-		
-		<input type="button" id="searchByDatesButton" value="Search">
-		
-	</div>
-	
-	<!-- Get Num failures and duration by Date -->
-	<div>
-	
-		<h1>Get Num failures and duration by Date</h1>
 		
 		Start Date:
 		<input type="date" id="startDate2">
@@ -66,25 +58,135 @@
 		
 		<br>
 		
-		<input type="button" id="searchByDatesButton2" value="Search">
+		<input type="button" id="searchButton2" value="Search For Failures">
 		
 	</div>
+
+	<!-- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES -->
 	
-	<!-- File Upload -->
+	
+	<!--******************
+	//*** SE QUERIES ***//
+	*******************-->
+	
+	<!-- 4. SELECT BY DATE, RETURN IMSI -->
+	<!-- currently returns all; selection made at front end -->
+	
 	<div>
-	<br><br>
 	
-	<h1>Upload File</h1>
+		<h1>Get IMSI by Date</h1>
+		
+		Start Date:
+		<input type="date" id="startDate4">
+		
+		<br><br>
+		
+		End Date:
+		<input type="date" id="endDate4">
+		
+		<br>
+		
+		<input type="button" id="searchButton4" value="Search">
+		
+	</div>
+
+	<!-- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES -->
 	
-	<br><br>
+	<div>
 	
+		<h1>Get Number of Call Failures for Model of Phone by Date</h1>
+		
+		Model of Phone: <input type="text" id="ue_type5">
+		
+		<br><br>
+		
+		Start Date:
+		<input type="date" id="startDate5">
+		
+		<br><br>
+		
+		End Date:
+		<input type="date" id="endDate5">
+		
+		<br>
+		
+		<input type="button" id="searchButton5" value="Search">
+		
+	</div>
+
+	<!-- 6. SELECT BY CAUSE_CODE, RETURN IMSIs -->
+	
+	
+	<!--*******************
+	//*** NME QUERIES ***//
+	********************-->
+	
+	<!-- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION -->
+	
+<<<<<<< HEAD
 	<form action="http://localhost:8080/GroupProject2-0.0.1-SNAPSHOT/rest/upload/file" method="post" enctype="multipart/form-data">
     	<input type="file" name="file" />
     	<input type="submit" />
 	</form>
+=======
+	<div>
+	
+		<h1>Get Num failures and duration by Date</h1>
+		
+		Start Date:
+		<input type="date" id="startDate7">
+		
+		<br><br>
+		
+		End Date:
+		<input type="date" id="endDate7">
+		
+		<br>
+		
+		<input type="button" id="searchButton7" value="Search">
+>>>>>>> ac485a87c7365e4d2b21e2180663570412903e05
 		
 	</div>
 
+	<!-- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT -->
+	<div>
+	
+		<h1>Get Number of Occurrences of Failure ID/Cause Code Combos for Model of Phone</h1>
+		
+		Model of Phone: <input type="text" id="ue_type8">
+		
+		<br><br>
+		
+		<input type="button" id="searchButton8" value="Search">
+		
+	</div>
+
+	<!-- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS -->
+	
+	<!-- 10. SELECT BY DATE, RETURN TOP 10 IMSIs -->
+
+	
+	<!--***********************
+	//*** SA ONLY QUERIES ***//
+	************************-->
+	
+	<!-- assign users -->
+	
+	<!-- DATA IMPORT -->
+	
+	<div>
+		<br><br>
+		
+		<h1>Upload File</h1>
+		
+		<br><br>
+		
+		<form action="http://localhost:8080/GroupProject2-0.0.1-SNAPSHOT/rest/base/file" method="post" enctype="multipart/form-data">
+	    	<input type="file" name="file" />
+	    	<input type="submit" />
+		</form>
+		
+	</div>
 	
 	<!-- Where Responses Go -->
 	<ul id="responseHolder">

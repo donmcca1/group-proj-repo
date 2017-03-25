@@ -1,19 +1,12 @@
 package com.ericsson.group.services;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.List;
-
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-
 import com.ericsson.group.dao.BaseDAO;
 import com.ericsson.group.entities.BaseData;
+
+import javax.ejb.*;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
 
 @Stateless
 @Local
@@ -23,39 +16,72 @@ public class BaseServiceJPA implements BaseService{
 	@EJB
 	private BaseDAO dao;
 	
-	//--- SELECT ALL ---//
-	public Collection<?> getAllBaseData() {
+	//--- SELECT ALL (NO FRONT END) ---//
+	public Collection<BaseData> getAllBaseData() {
 		return dao.getBaseData();
 	}
-
-	//--- SELECT BY IMSI ---//
+	
+	//*******************//
+	//*** CSR QUERIES ***//
+	//*******************//
+	
+	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
+	// currently returns all; selection made at front end
 	public Collection<BaseData> getBaseDataByImsi(Long imsi){
 		return dao.getBaseDataByImsi(imsi);
 	}
+
+	//--- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES ---//
+	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
+		return dao.getFailuresByDate(imsi, startDate, endDate);
+	}
+
+	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi) {
+		return dao.getCauseCodeByImsi(imsi);
+	}
+	//******************//
+	//*** SE QUERIES ***//
+	//******************//
 	
-	//-- SELECT BY DATE ---//
+	//--- 4. SELECT BY DATE, RETURN IMSI ---//
+	// currently returns all; selection made at front end
 	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate){		
 		return dao.getBaseDataByDate(startDate, endDate);
 	}
-	
-	//--- COUNT BY MODEL AND DATE ---//
+
+	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate){	
 		return dao.countByModelAndDate(ue_type, startDate, endDate);
 	}
-
-	//-- SELECT BY DATE NUM FAILURES AND DURATION---//
+	
+	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	
+	
+	//*******************//
+	//*** NME QUERIES ***//
+	//*******************//
+	
+	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
 		return dao.getNumFailuresAndDurationByDate(startDate, endDate);
 	}
 	
-	//--- SELECT BY IMSI, COUNT FAILURES BY DATE ---//
-	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
-		return dao.getFailuresByDate(imsi, startDate, endDate);
-	}
-	
-	//--- LILY COUNT OF EVENTID/CAUSECODE BY MODEL ---//
+	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	public Collection<?> countByModelEventIdCauseCode(Integer ue_type){
 		return dao.countByModelEventIdCauseCode(ue_type);
 	}
 
+	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	
+	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+
+	//***********************//
+	//*** SA ONLY QUERIES ***//
+	//***********************//
+	
+	//assign users
+	
+	//--- DATA IMPORT ---//
+	
 }
