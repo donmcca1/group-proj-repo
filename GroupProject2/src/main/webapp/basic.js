@@ -13,10 +13,10 @@ $(document).ready(function(){
 	
 	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
 	// currently returns all; selection made at front end
-	$("#searchByImsiButton").click(function(){	
+	$("#searchButton1").click(function(){	
 		
 		//-- retrieves IMSI from form --//
-		imsi = $("#imsi").val();
+		imsi = $("#imsi1").val();
 
 		$.ajax({
 			
@@ -30,7 +30,7 @@ $(document).ready(function(){
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
-						("<li> Event Id: "+value.eventId+" Cause Code: "+value.causeCode+"</li>");
+						("<li> Event Id: "+value.event_id+" Cause Code: "+value.cause_code+"</li>");
 				});	
 			}
 	
@@ -40,24 +40,22 @@ $(document).ready(function(){
 
 	//--- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES ---//
 	
-	$("#searchByDatesButton1").click(function(){
+	$("#searchButton2").click(function(){
 		
 		//-- retrieve dates from forms --//
-		imsi = $("#imsi1").val();
-		startDate = $("#startDate1").val();
-		endDate = $("#endDate1").val();
+		imsi = $("#imsi2").val();
+		startDate = $("#startDate2").val();
+		endDate = $("#endDate2").val();
 		
 		$.ajax({
 			
 			type:"GET",
 			url:"rest/base/date/imsi",
-			// imsi: imsi = 500, imsi1: imsi1 = 404
 			data: { imsi: imsi, start: startDate, end: endDate },
 		    cache: false,
 			dataType:"json",
 			
 			success: function(data) {
-				//console.log(data);
 
 				$("#responseHolder").empty();
 				
@@ -77,11 +75,11 @@ $(document).ready(function(){
 	
 	//--- 4. SELECT BY DATE, RETURN IMSI ---//
 	// currently returns all; selection made at front end
-	$("#searchByDatesButton").click(function(){
+	$("#searchButton4").click(function(){
 		
 		//-- retrieve dates from forms --//
-		startDate = $("#startDate").val();
-		endDate = $("#endDate").val();
+		startDate = $("#startDate4").val();
+		endDate = $("#endDate4").val();
 		
 		$.ajax({
 			
@@ -107,12 +105,12 @@ $(document).ready(function(){
 
 	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
 	
-	$("#searchByModelAndDatesButton").click(function(){
+	$("#searchButton5").click(function(){
 		
 		//-- retrieve dates from forms --//
-		ue_type = $("#ue_type").val();
-		startDate = $("#startDate2").val();
-		endDate = $("#endDate2").val();
+		ue_type = $("#ue_type5").val();
+		startDate = $("#startDate5").val();
+		endDate = $("#endDate5").val();
 		
 		$.ajax({
 			
@@ -143,17 +141,17 @@ $(document).ready(function(){
 	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	
-	$("#searchByDatesButton2").click(function(){
+	$("#searchButton7").click(function(){
 		
 		//-- retrieve dates from forms --//
-		startDate = $("#startDate2").val();
-		endDate = $("#endDate2").val();
+		startDate = $("#startDate7").val();
+		endDate = $("#endDate7").val();
 		
 		$.ajax({
 			
 			type:"GET",
 			url:"rest/base/numfail",
-			data: { start2: startDate, end2: endDate },
+			data: { start: startDate, end: endDate },
 		    cache: false,
 			dataType:"json",
 			
@@ -183,10 +181,10 @@ $(document).ready(function(){
 
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	
-	$("#searchByUETypeButton").click(function(){
+	$("#searchButton8").click(function(){
 		
 		//-- retrieve dates from forms --//
-		ue_type = $("#ue_type").val();
+		ue_type = $("#ue_type8").val();
 		
 		$.ajax({
 			

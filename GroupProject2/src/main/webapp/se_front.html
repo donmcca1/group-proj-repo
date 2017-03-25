@@ -19,7 +19,25 @@
 
 	<h1>LTE (4G) Network Event Interface: SysAdmin</h1>
 	
-	<!-- Get IMSI by Date -->
+	<!--*******************
+	//*** CSR QUERIES ***//
+	********************-->
+	
+	<!-- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE -->
+	<!-- currently returns all; selection made at front end -->
+
+	<!-- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES -->
+
+	<!-- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES -->
+	
+	
+	<!--******************
+	//*** SE QUERIES ***//
+	*******************-->
+	
+	<!-- 4. SELECT BY DATE, RETURN IMSI -->
+	<!-- currently returns all; selection made at front end -->
+	
 	<div>
 	
 		<h1>Get IMSI by Date</h1>
@@ -37,8 +55,9 @@
 		<input type="button" id="searchByDatesButton" value="Search">
 		
 	</div>
+
+	<!-- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES -->
 	
-	<!-- Num. Call Failures For Model of Phone by Date -->
 	<div>
 	
 		<h1>Get Number of Call Failures for Model of Phone by Date</h1>
@@ -60,6 +79,31 @@
 		<input type="button" id="searchByModelAndDatesButton" value="Search">
 		
 	</div>
+
+	<!-- 6. SELECT BY CAUSE_CODE, RETURN IMSIs -->
+	
+	
+	<!--*******************
+	//*** NME QUERIES ***//
+	********************-->
+	
+	<!-- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION -->
+
+	<!-- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT -->
+
+	<!-- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS -->
+	
+	<!-- 10. SELECT BY DATE, RETURN TOP 10 IMSIs -->
+
+	
+	<!--***********************
+	//*** SA ONLY QUERIES ***//
+	************************-->
+	
+	<!-- assign users -->
+	
+	<!-- DATA IMPORT -->
+	
 	
 	<!-- Where Responses Go -->
 	<ul id="responseHolder">
