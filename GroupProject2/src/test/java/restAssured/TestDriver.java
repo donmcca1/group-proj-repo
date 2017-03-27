@@ -44,6 +44,12 @@ public class TestDriver {
 
 	}
 	
-	
+	@Test public void
+	query1() {
+	    when().
+	            get("/rest/base/{imsi}",310560000000012L).
+	    then().
+	            body("baseDataList.event_id", hasItems(4098,4097,4097));
+	}
 
 }
