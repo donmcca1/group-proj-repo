@@ -1,11 +1,12 @@
 package restAssured;
 
-import io.restassured.RestAssured;
-import io.restassured.RestAssured.*;
-import io.restassured.matcher.RestAssuredMatchers.*;
-import org.hamcrest.Matchers.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import io.restassured.*;
+import static io.restassured.RestAssured.*;
+import static io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.*;
 
 public class TestDriver {
 
@@ -32,6 +33,16 @@ public class TestDriver {
         RestAssured.baseURI = baseHost;
 
     }
+	
+	@Test public void
+	get_200_status_code() {
+	    
+	    when().
+	            get("/rest/base").
+	    then().
+	            statusCode(200);
+
+	}
 	
 	
 
