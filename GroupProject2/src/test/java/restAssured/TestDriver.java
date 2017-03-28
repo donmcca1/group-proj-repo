@@ -1,11 +1,13 @@
 package restAssured;
 
-import io.restassured.RestAssured;
-import io.restassured.RestAssured.*;
-import io.restassured.matcher.RestAssuredMatchers.*;
-import org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import io.restassured.RestAssured;
 
 public class TestDriver {
 
@@ -33,6 +35,36 @@ public class TestDriver {
 
     }
 	
+	@Test public void
+	get_200_status_code() {
+	    
+	    when().
+	            get("/rest/base").
+	    then().
+	            statusCode(200);
+
+	}
 	
+	@Test public void
+	query1() {
+	    when().
+	            get("/rest/base/{imsi}",310560000000012L).
+	    then().
+	            body("baseDataList.event_id", hasItems(4098,4097,4097));
+	}
+	
+	@Test public void
+	query2() {
+		given().
+			param("imsi",310560000000012L).
+			param("start","2013-11-01").
+			param("end","2013-11-01").
+	    when().
+	        //Parameters can also be specified in Get but this is less secure
+	    	//get("/rest/base/date/imsi?imsi=310560000000012&start=2013-11-01&end=2013-11-01").
+	    	get("/rest/base/date/imsi").
+	    then().
+	            body(equalTo("240"));
+	}
 
 }
