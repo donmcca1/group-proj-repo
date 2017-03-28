@@ -60,11 +60,32 @@ public class TestDriver {
 			param("start","2013-11-01").
 			param("end","2013-11-01").
 	    when().
-	        //Parameters can also be specified in Get but this is less secure
-	    	//get("/rest/base/date/imsi?imsi=310560000000012&start=2013-11-01&end=2013-11-01").
 	    	get("/rest/base/date/imsi").
 	    then().
 	            body(equalTo("240"));
+	}
+	
+	@Test public void
+	query4(){
+		given().
+			param("start","2013-11-01").
+			param("end","2013-11-01").
+		when().
+			get("/rest/base/date/").
+		then().
+			body("baseDataList.imsi", hasItems(344930000000011L,310560000000012L,344930000000011L));
+	}
+	
+	@Test public void
+	query5(){
+		given().
+			param("ue_type",21060800).
+			param("start","2013-11-01").
+			param("end","2013-11-01").
+		when().
+			get("/rest/base/date/ue_type").
+		then().
+			body(equalTo("400"));
 	}
 
 }
