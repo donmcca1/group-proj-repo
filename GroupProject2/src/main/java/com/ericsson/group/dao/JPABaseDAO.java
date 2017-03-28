@@ -47,10 +47,10 @@ public class JPABaseDAO implements BaseDAO {
 	}
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	public Collection<BaseData> getCauseCodeByImsi(Long imsi) {
-		Query query = em.createQuery("from BaseData c where c.imsi = :imsi");
+	public Collection<?> getCauseCodeByImsi(Long imsi) {
+		Query query = em.createQuery("select distinct cause_code from BaseData c where c.imsi = :imsi");
 		query.setParameter("imsi", imsi);
-		return (List<BaseData>)query.getResultList();
+		return (List<?>)query.getResultList();
 	}
 
 

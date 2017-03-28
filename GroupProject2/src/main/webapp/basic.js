@@ -67,8 +67,8 @@ $(document).ready(function(){
 	});
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-    $("#cause").click(function(){
-        imsi = $("#imsi2").val();
+    $("#searchButton3").click(function(){
+        imsi = $("#imsi3").val();
 
         $.ajax({
 
@@ -78,14 +78,12 @@ $(document).ready(function(){
             dataType:"json",
 
             success: function(data) {
+				
 
-                $("#responseHolder").empty();
-
-                $.each(data.baseDataList, function(index, value){
-                    $("#responseHolder").append
-                    ("<li> Cause Code: "+value.cause_code+" Failure Class: "+value.failure_class+"</li>");
-                });
-            }
+				$("#responseHolder").empty();
+				
+				$("#responseHolder").append("<li> Cause Code: "+data+"</li>");
+			}
 
         });
 

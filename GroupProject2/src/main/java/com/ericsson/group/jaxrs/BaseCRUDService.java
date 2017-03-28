@@ -54,10 +54,9 @@ public class BaseCRUDService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/cause")
-	public BaseDataList getCauseCodeByImsi(@QueryParam("imsi") Long imsi){
-		BaseDataList list = new BaseDataList();
-		list.setBaseDataList(service.getBaseDataByImsi(imsi));
-		return list;
+	public Collection<?> getCauseCodeByImsi(@QueryParam("imsi") Long imsi){
+		Collection<?> c = service.getCauseCodeByImsi(imsi);
+		return c;
 	}
 
 
