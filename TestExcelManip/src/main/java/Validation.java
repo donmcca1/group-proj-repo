@@ -329,7 +329,7 @@ public class Validation {
 	        if(m.matches()){
 	        	
 	        	try {
-		            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+		            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm");
 		            date = sdf.parse(value);
 		            if (!value.equals(sdf.format(date))) {
 		                date = null;
@@ -342,7 +342,7 @@ public class Validation {
 	        } else {
 	        
 		        try {
-		            SimpleDateFormat sdf = new SimpleDateFormat("d/MM/yy HH:mm");
+		            SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yy HH:mm");
 		            date = sdf.parse(value);
 		            if (!value.equals(sdf.format(date))) {
 		                date = null;

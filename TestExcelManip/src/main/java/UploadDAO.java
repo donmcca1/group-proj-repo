@@ -28,7 +28,7 @@ public class UploadDAO {
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		
-		String loadBaseData = "LOAD DATA LOCAL INFILE ? INTO TABLE base_data FIELDS TERMINATED BY ';' IGNORE 1 LINES (@date_time, event_id, @failure_class, ue_type, market,  operator, cell_id, duration, @cause_code, ne_version, imsi) SET failure_class=REPLACE(@failure_class,'(null)',-1), failure_class=NULLIF(failure_class,-1), cause_code=REPLACE(@cause_code,'(null)',-1), cause_code=NULLIF(cause_code,-1), `date_time`=STR_TO_DATE(@`date_time`,'%d/%m/%Y %H:%i')  ;";
+		String loadBaseData = "LOAD DATA LOCAL INFILE ? INTO TABLE base_data FIELDS TERMINATED BY ';' IGNORE 1 LINES (@date_time, event_id, @failure_class, ue_type, market,  operator, cell_id, duration, @cause_code, ne_version, imsi) SET failure_class=REPLACE(@failure_class,'(null)',-1), failure_class=NULLIF(failure_class,-1), cause_code=REPLACE(@cause_code,'(null)',-1), cause_code=NULLIF(cause_code,-1), `date_time`=STR_TO_DATE(@`date_time`,'%m/%d/%Y %H:%i')  ;";
 		
 		String loadEventCause = "LOAD DATA LOCAL INFILE ? INTO TABLE event_cause FIELDS TERMINATED BY ';' IGNORE 1 LINES (`cause_code`,`event_id`,@`description`) SET `description`=REPLACE(@`description`,'(null)',-1), `description`=NULLIF(`description`,-1);";
 
