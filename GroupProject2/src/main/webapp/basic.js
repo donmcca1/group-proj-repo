@@ -237,7 +237,38 @@ $(document).ready(function(){
 		
 	});
 
-	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    $("#searchButton9").click(function(){
+        
+        //-- retrieve dates from forms --//
+        startDate = $("#startDate9").val();
+        endDate = $("#endDate9").val();
+        
+        $.ajax({
+            
+            type:"GET",
+            url:"rest/base/top10",
+            data: { start: startDate, end: endDate },
+            cache: false,
+            dataType:"json",
+            
+            success: function(data) {
+
+                $("#responseHolder").empty();
+                
+                $.each(data.baseDataList, function(index, value){
+                    $("#responseHolder").append
+                        ("<li> Market: "+value.market+"</li>")
+                        .append
+                        ("<li> Operator: "+value.operator+"</li>")
+                        .append
+                        ("<li> Cell ID: "+value.cell_id+"</li>");
+                }); 
+            }
+
+        });
+        
+    });
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 

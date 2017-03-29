@@ -72,7 +72,11 @@ public class BaseServiceJPA implements BaseService{
 		return dao.countByModelEventIdCauseCode(ue_type);
 	}
 
-	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	@Override
+	public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate) {
+		return dao.top10MarketOperatorCell(startDate, endDate);
+	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 

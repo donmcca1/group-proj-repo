@@ -11,7 +11,7 @@ import io.restassured.RestAssured;
 
 public class TestDriver {
 
-	@BeforeClass
+    @BeforeClass
     public static void setup() {
         String port = System.getProperty("server.port");
         if (port == null) {
@@ -34,58 +34,58 @@ public class TestDriver {
         RestAssured.baseURI = baseHost;
 
     }
-	
-	@Test public void
-	get_200_status_code() {
-	    
-	    when().
-	            get("/rest/base").
-	    then().
-	            statusCode(200);
+    
+    @Test public void
+    get_200_status_code() {
+        
+        when().
+                get("/rest/base").
+        then().
+                statusCode(200);
 
-	}
-	
-	@Test public void
-	query1() {
-	    when().
-	            get("/rest/base/{imsi}",310560000000012L).
-	    then().
-	            body("baseDataList.event_id", hasItems(4098,4097,4097));
-	}
-	
-	@Test public void
-	query2() {
-		given().
-			param("imsi",310560000000012L).
-			param("start","2013-11-01").
-			param("end","2013-11-01").
-	    when().
-	    	get("/rest/base/date/imsi").
-	    then().
-	            body(equalTo("240"));
-	}
-	
-	@Test public void
-	query4(){
-		given().
-			param("start","2013-11-01").
-			param("end","2013-11-01").
-		when().
-			get("/rest/base/date/").
-		then().
-			body("baseDataList.imsi", hasItems(344930000000011L,310560000000012L,344930000000011L));
-	}
-	
-	@Test public void
-	query5(){
-		given().
-			param("ue_type",21060800).
-			param("start","2013-11-01").
-			param("end","2013-11-01").
-		when().
-			get("/rest/base/date/ue_type").
-		then().
-			body(equalTo("400"));
-	}
+    }
+    
+    @Test public void
+    query1() {
+        when().
+                get("/rest/base/{imsi}",310560000000012L).
+        then().
+                body("baseDataList.event_id", hasItems(4098,4097,4097));
+    }
+    
+    @Test public void
+    query2() {
+        given().
+            param("imsi",310560000000012L).
+            param("start","2013-11-01").
+            param("end","2013-11-01").
+        when().
+            get("/rest/base/date/imsi").
+        then().
+                body(equalTo("240"));
+    }
+    
+    @Test public void
+    query4(){
+        given().
+            param("start","2013-11-01").
+            param("end","2013-11-01").
+        when().
+            get("/rest/base/date/").
+        then().
+            body("baseDataList.imsi", hasItems(344930000000011L,310560000000012L,344930000000011L));
+    }
+    
+    @Test public void
+    query5(){
+        given().
+            param("ue_type",21060800).
+            param("start","2013-11-01").
+            param("end","2013-11-01").
+        when().
+            get("/rest/base/date/ue_type").
+        then().
+            body(equalTo("400"));
+    }
 
 }

@@ -51,7 +51,8 @@ public interface BaseDAO {
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	public Collection<?> countByModelEventIdCauseCode(Integer ue_type);
 
-	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate);
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 
