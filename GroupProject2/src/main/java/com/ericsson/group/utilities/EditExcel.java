@@ -114,7 +114,7 @@ public class EditExcel {
 	}
 
 	private File createFile(String name) {
-		String path = MyServletContextListener.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		String path = EditExcel.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     	path = path.substring(0, path.indexOf("classes")) + "upload";
     	
 		File file = null;

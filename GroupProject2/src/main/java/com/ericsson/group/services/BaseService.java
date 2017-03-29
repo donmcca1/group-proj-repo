@@ -23,7 +23,7 @@ public interface BaseService {
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
 	
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	public Collection<BaseData> getCauseCodeByImsi(Long imsi);
+	public Collection<?> getCauseCodeByImsi(Long imsi);
 	
 	//******************//
 	//*** SE QUERIES ***//
