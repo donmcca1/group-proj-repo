@@ -1,15 +1,16 @@
-package com.ericsson.group.services;
+package com.ericsson.group.dao;
 
 import com.ericsson.group.entities.BaseData;
 
+import javax.ejb.Local;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
-public interface BaseService {
-	
+@Local
+public interface BaseDAO {
 	//--- SELECT ALL (NO FRONT END) ---//
-	public Collection<BaseData> getAllBaseData();
+	public Collection<BaseData> getBaseData();
 	
 	//*******************//
 	//*** CSR QUERIES ***//
@@ -21,10 +22,11 @@ public interface BaseService {
 
 	//--- 2. SELECT BY IMSI & DATE, COUNT NUMBER OF FAILURES ---//
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate);
-	
+
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	public Collection<?> getCauseCodeByImsi(Long imsi);
-	
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi);
+
+
 	//******************//
 	//*** SE QUERIES ***//
 	//******************//
@@ -45,12 +47,11 @@ public interface BaseService {
 	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
-	
+
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	public Collection<?> countByModelEventIdCauseCode(Integer ue_type);
 
-    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-	public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate);
+	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 

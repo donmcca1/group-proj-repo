@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- add in the css link here -->
+
+	<!-- javascript version -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+	<!-- javascript file -->
+	<script lang="JavaScript" src="basic.js"></script>
+
+	<meta charset="UTF-8">
+
+	<title>Basic Front</title>
+</head>
+
+<body>
+
+<h1>LTE (4G) Network Event Interface: CustServiceRep</h1>
+
+<!-- Get Event ID and Cause Code by IMSI -->
+<div>
+
+	<h1>Get Event ID and Cause Code by IMSI</h1>
+
+	IMSI: <input type="text" id="imsi">
+
+	<br><br>
+
+	<input type="button" id="searchByImsiButton" value="Search">
+
+</div>
+<!-- Get Cause Code and Failure Class by IMSI -->
+<div>
+
+	<h1>Get Cause Code and Failure Class by IMSI</h1>
+
+	IMSI: <input type="text" id="imsi2">
+
+	<br><br>
+
+	<input type="button" id="cause" value="Search">
+
+</div>
+
+
+<div>
+
+	<h1>Get Number of Call Failures for Model of Phone by Date</h1>
+
+	IMSI: <input type="text" id="imsi1">
+
+	<br><br>
+
+	Start Date:
+	<input type="date" id="startDate1">
+
+	<br><br>
+
+	End Date:
+	<input type="date" id="endDate1">
+
+	<br>
+
+	<input type="button" id="searchByDatesButton1" value="Search For Failures">
+
+</div>
+
+<!-- Where Responses Go -->
+<ul id="responseHolder">
+</ul>
+
+</body>
+
+</html>

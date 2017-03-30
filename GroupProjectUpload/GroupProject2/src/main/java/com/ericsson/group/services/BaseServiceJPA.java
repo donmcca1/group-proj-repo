@@ -37,7 +37,7 @@ public class BaseServiceJPA implements BaseService{
 	}
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
-	public Collection<?> getCauseCodeByImsi(Long imsi) {
+	public Collection<BaseData> getCauseCodeByImsi(Long imsi) {
 		return dao.getCauseCodeByImsi(imsi);
 	}
 	//******************//
@@ -72,11 +72,7 @@ public class BaseServiceJPA implements BaseService{
 		return dao.countByModelEventIdCauseCode(ue_type);
 	}
 
-    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-	@Override
-	public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate) {
-		return dao.top10MarketOperatorCell(startDate, endDate);
-	}
+	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 

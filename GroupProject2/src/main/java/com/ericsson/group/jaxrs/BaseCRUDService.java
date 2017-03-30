@@ -86,7 +86,7 @@ public class BaseCRUDService {
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
 	@Path("/numfail")
-	public List<Object[]> getBaseDataByDate2(@QueryParam("start2") Date startDate, @QueryParam("end2") Date endDate){
+	public List<Object[]> getBaseDataByDate2(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
 		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
 		return v;
 	}
@@ -101,7 +101,16 @@ public class BaseCRUDService {
 	}
 
 	
-	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/top10")
+	public BaseDataList top10MarketOperatorCell(@QueryParam("start") Date startDate, 
+        @QueryParam("end") Date endDate){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.top10MarketOperatorCell(startDate, endDate));
+		return list;
+}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 

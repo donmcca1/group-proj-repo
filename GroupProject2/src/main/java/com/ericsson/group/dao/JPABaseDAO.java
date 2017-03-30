@@ -98,7 +98,17 @@ public class JPABaseDAO implements BaseDAO {
 		return (List<?>)query.getResultList();
 	}
 
-	//--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    @Override
+    public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate) {
+        Query query = em.createQuery("select market, operator, cell_id "
+                + "from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
+                + "group by market, operator, cell_id");
+        query.setParameter("sDate",startDate);
+        query.setParameter("eDate", endDate);
+        query.setMaxResults(10);
+        return (List<BaseData>)query.getResultList();
+    }
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 
