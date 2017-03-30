@@ -63,7 +63,9 @@ public class Validation {
 		makeHashTable(failureClassFile,splitBy,0,failureClassTable);
 		
 		//validate each line
-		try (BufferedReader br = new BufferedReader(new FileReader(baseDataFile))) {
+		try {
+			
+		BufferedReader br = new BufferedReader(new FileReader(baseDataFile));	
          	
 		//iteration variable removes the headings from the data file
    		int iteration = 0;
@@ -260,7 +262,9 @@ public class Validation {
 		//--- MAKE HASH TABLE FOR FOREIGN KEY VALIDATION ---//
 		//one foreign key
 		public void makeHashTable(String fileLocation, String splitBy, int index, Hashtable hashtable){
-			try (BufferedReader br = new BufferedReader(new FileReader(fileLocation))) {
+			try {
+				
+				BufferedReader br = new BufferedReader(new FileReader(fileLocation));
 	         	
 				 //iteration variable removes the headings from the data file
 				int iteration = 0;
@@ -288,7 +292,9 @@ public class Validation {
 		
 		//two foreign keys
 		public void makeDoubleHashTable(String fileLocation, String splitBy, int index1, int index2, Hashtable hashtable){
-			try (BufferedReader br = new BufferedReader(new FileReader(fileLocation))) {
+			try {
+				
+				BufferedReader br = new BufferedReader(new FileReader(fileLocation));
 	         	
 				 //iteration variable removes the headings from the data file
 				int iteration = 0;

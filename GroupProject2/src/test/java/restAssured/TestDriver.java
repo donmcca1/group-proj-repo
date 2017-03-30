@@ -63,7 +63,7 @@ public class TestDriver {
         when().
             get("/rest/base/date/imsi").
         then().
-                body(equalTo("384"));
+                body(equalTo("192"));
     }
     
     @Test public void
@@ -96,7 +96,7 @@ public class TestDriver {
         when().
             get("/rest/base/date/ue_type").
         then().
-            body(equalTo("636"));
+            body(equalTo("318"));
     }
     
     //query6 NOT DONE
