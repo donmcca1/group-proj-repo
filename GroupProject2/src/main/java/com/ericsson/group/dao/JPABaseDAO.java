@@ -77,7 +77,11 @@ public class JPABaseDAO implements BaseDAO {
 	}
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
-	
+	public Collection<BaseData> getImsiByCauseCode(Integer cause_code){
+		Query query = em.createQuery("from BaseData c where c.cause_code = :cause_code");
+		query.setParameter("cause_code", cause_code);
+		return (List<BaseData>)query.getResultList();
+	}
 	
 	//*******************//
 	//*** NME QUERIES ***//

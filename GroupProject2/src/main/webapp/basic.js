@@ -154,7 +154,33 @@ $(document).ready(function(){
 	});	
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	// currently returns all; selection made at front end
+	$("#searchButton6").click(function(){	
+		
+		//-- retrieves IMSI from form --//
+		cause_code = $("#cause_code6").val();
+
+		$.ajax({
+			
+			type:"GET",
+			url:"rest/base/cause/imsi",
+			data: { cause_code: cause_code },
+		    cache: false,
+			dataType:"json",
+			
+			success: function(data) {
 	
+				$("#responseHolder").empty();
+				
+				$.each(data.baseDataList, function(index, value){
+					$("#responseHolder").append
+						("<li> imsi: "+value.imsi+"</li>");
+				});	
+			}
+	
+		});
+	
+	});
 	
 	//*******************//
 	//*** NME QUERIES ***//

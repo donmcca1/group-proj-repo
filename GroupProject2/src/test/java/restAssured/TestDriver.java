@@ -99,7 +99,15 @@ public class TestDriver {
             body(equalTo("318"));
     }
     
-    //query6 NOT DONE
+    @Test public void
+    query6() {
+        given().
+            param("cause_code",9).
+        when().
+            get("/rest/base/cause/imsi").
+        then().
+        	body("baseDataList.imsi", hasItems(240210000000013L,344930000000011L,310560000000012L));
+    }
     
     //query7 BROKEN
     

@@ -37,7 +37,7 @@ public interface BaseService {
 	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
-	
+	public Collection<BaseData> getImsiByCauseCode(Integer cause_code);
 	
 	//*******************//
 	//*** NME QUERIES ***//

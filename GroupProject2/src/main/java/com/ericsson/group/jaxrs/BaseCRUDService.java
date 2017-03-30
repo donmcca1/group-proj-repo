@@ -85,6 +85,20 @@ public class BaseCRUDService {
 	}
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/cause/imsi")
+	public BaseDataList getImsiByCauseCode(@QueryParam("cause_code") Integer cause_code){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.getImsiByCauseCode(cause_code));
+		return list;
+	}
+	
+	//*******************//
+	//*** NME QUERIES ***//
+	//*******************//
+	
+	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	@Path("/numfail")
 	public List<Object[]> getBaseDataByDate2(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
 		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);

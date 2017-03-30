@@ -57,7 +57,9 @@ public class BaseServiceJPA implements BaseService{
 	}
 	
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
-	
+	public Collection<BaseData> getImsiByCauseCode(Integer cause_code){
+		return dao.getImsiByCauseCode(cause_code);
+	}
 	
 	//*******************//
 	//*** NME QUERIES ***//
