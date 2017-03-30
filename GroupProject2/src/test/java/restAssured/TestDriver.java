@@ -57,19 +57,19 @@ public class TestDriver {
     query2() {
         given().
             param("imsi",310560000000012L).
-            param("start","2013-11-01").
-            param("end","2013-11-01").
+            param("start","2013-01-11").
+            param("end","2013-01-11").
         when().
             get("/rest/base/date/imsi").
         then().
-                body(equalTo("240"));
+                body(equalTo("192"));
     }
     
     @Test public void
     query4(){
         given().
-            param("start","2013-11-01").
-            param("end","2013-11-01").
+            param("start","2013-01-11").
+            param("end","2013-01-11").
         when().
             get("/rest/base/date/").
         then().
@@ -80,12 +80,12 @@ public class TestDriver {
     query5(){
         given().
             param("ue_type",21060800).
-            param("start","2013-11-01").
-            param("end","2013-11-01").
+            param("start","2013-01-11").
+            param("end","2013-01-11").
         when().
             get("/rest/base/date/ue_type").
         then().
-            body(equalTo("400"));
+            body(equalTo("318"));
     }
 
 }
