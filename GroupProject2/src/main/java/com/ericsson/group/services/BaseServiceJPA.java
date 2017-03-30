@@ -40,6 +40,7 @@ public class BaseServiceJPA implements BaseService{
 	public Collection<?> getCauseCodeByImsi(Long imsi) {
 		return dao.getCauseCodeByImsi(imsi);
 	}
+	
 	//******************//
 	//*** SE QUERIES ***//
 	//******************//

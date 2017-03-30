@@ -69,20 +69,20 @@ $(document).ready(function(){
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
     $("#searchButton3").click(function(){
         imsi = $("#imsi3").val();
-
+        
         $.ajax({
 
             type:"GET",
             url:"rest/base/cause",
-            data: {imsi: imsi},
+            data: { imsi: imsi },
             dataType:"json",
 
             success: function(data) {
 				
-
 				$("#responseHolder").empty();
 				
-				$("#responseHolder").append("<li> Cause Code: "+data+"</li>");
+					$("#responseHolder").append("<li> Cause Codes: "+data+"</li>");
+				
 			}
 
         });
