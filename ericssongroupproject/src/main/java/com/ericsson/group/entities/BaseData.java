@@ -21,9 +21,11 @@ public class BaseData implements Serializable{
     private FailureClass failure_class;
 
 	@Column(name="cell_id") private Integer cell_id;
+	
 	@Column(name="duration") private Integer duration;
 
 	@Column(name="ne_version") private String ne_version;
+	
 	@Column(name="imsi") private long imsi;
 
     @ManyToOne
@@ -46,16 +48,17 @@ public class BaseData implements Serializable{
 	
 	public BaseData() {}
 	
-	public BaseData(Date date_time, Integer event_id, FailureClass failure_class, Integer cell_id, Integer duration,
-			Integer cause_code, String ne_version, Long imsi, EventCause event_cause){
+	public BaseData(Date date_time, FailureClass failure_class, Integer cell_id, Integer duration,
+			String ne_version, Long imsi, EventCause event_cause, UE ue, MccMnc mcc_mnc){
 		this.date_time = date_time;
+        this.failure_class = failure_class;
 		this.cell_id = cell_id;
 		this.duration = duration;
-		this.event_cause = event_cause;
 		this.ne_version = ne_version;
 		this.imsi = imsi;
-
-        this.failure_class = failure_class;
+		this.event_cause = event_cause;
+		this.ue = ue;
+		this.mcc_mnc = mcc_mnc;
 	}
 
 	public int getId() {
