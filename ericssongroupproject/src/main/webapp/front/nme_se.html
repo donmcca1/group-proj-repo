@@ -11,6 +11,13 @@
 	<meta name="author" content="" />
 	<title>Ericsson Network Data</title>
 	
+	<!-- JAVASCRIPT -->
+	<!-- javascript version -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"
+	type="text/javascript"></script>
+	<!-- javascript file -->
+	<script lang="JavaScript" src="js/se.js" type="text/javascript"></script>
+	
 	<!-- Bootstrap core CSS -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 	<!-- Custom fonts for this template -->
@@ -59,6 +66,7 @@
 		<!-- for queries -->
 		<div class="col-sm-5">
 		
+			<!-- 4. SELECT BY DATE, RETURN IMSI -->
 			<div class="card">
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
@@ -66,7 +74,7 @@
 					<div class="card-header">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Get All IMSIs by Time</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Get All IMSIs by Date</a>
 						</h4>
 					</div>
 					</div>
@@ -84,7 +92,7 @@
 								<label for="endDate4">End Date</label> 
 								<input type="date" class="form-control" id="endDate4" /></div>
 							</form>
-							<button type="button" class="btn">Submit</button>
+							<button type="button" class="btn" id="button4">Submit</button>
 						</div>	
 						</div>
 						
@@ -96,13 +104,14 @@
 			  
 			<br><br>
 			
+			<!-- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES -->
 			<div class="card">
 			<div class="panel panel-default">
 			
 				<div class="card-header">
                 <div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Get the Number of Failures by Model</a>
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Get the Number of Failures by Model and Date</a>
 					</h4>
                 </div>
 				</div>
@@ -114,7 +123,7 @@
 						<form>
 							<div class="form-group">
 							<label for="model5">Model</label> 
-							<input type="text" class="form-control" id="model5" />
+							<input type="text" class="form-control" id="ue5" />
 							
 							<label for="startDate5">Start Date</label> 
 							<input type="date" class="form-control" id="startDate5" />
@@ -122,7 +131,7 @@
 							<label for="endDate5">End Date</label> 
 							<input type="date" class="form-control" id="endDate5" /></div>
 						</form>
-						<button type="button" class="btn">Submit</button>
+						<button type="button" class="btn" id="button5">Submit</button>
 					</div>
 					</div>
                 </div>
@@ -131,6 +140,7 @@
 			  
 			<br><br>
 			
+			<!-- 6. SELECT BY CAUSE_CODE, RETURN IMSIs -->
 			<div class="card">			
 			<div class="panel panel-default">
 			
@@ -149,9 +159,9 @@
 						<form>
 							<div class="form-group">
 							<label for="causeCode6">Cause Code</label> 
-							<input type="text" class="form-control" id="causeCode6" /></div>
+							<input type="text" class="form-control" id="cause_code6" /></div>
 						</form>
-						<button type="button" class="btn">Submit</button>
+						<button type="button" class="btn" id="button6">Submit</button>
 					</div>
 					</div>
                 </div>
@@ -169,6 +179,8 @@
 				</h4>
 		  
 				<div class="card-block" id="response">
+					<ul id="responseHolder">
+					</ul>
 				</div>
 		  
 			</div>

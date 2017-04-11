@@ -74,7 +74,17 @@ $(document).ready(function(){
 				
 				$("#responseHolder").empty();
 				
-					$("#responseHolder").append("<li> Cause Codes: "+data+"</li>");
+				var dataArray = data;
+				
+				$.each(dataArray, function(){
+					var str = this.toString();
+					var strArray = str.split(",");
+					var cause_code = strArray[0];
+					var description = strArray[1];
+					$("#responseHolder").append("<li>Cause Code: " + cause_code + "; Description: " + description +"</li>");
+				})
+				
+				//$("#responseHolder").append("<li> Cause Codes: "+data+"</li>");
 				
 			}
 

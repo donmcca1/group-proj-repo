@@ -52,7 +52,7 @@ public class BaseServiceJPA implements BaseService{
 	}
 
 	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
-	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate){	
+	public Long countByModelAndDate(String ue_type, Date startDate, Date endDate){	
 		return dao.countByModelAndDate(ue_type, startDate, endDate);
 	}
 	

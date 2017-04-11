@@ -48,7 +48,7 @@ public class JPABaseDAO implements BaseDAO {
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
 	public Collection<?> getCauseCodeByImsi(Long imsi) {
-		Query query = em.createQuery("select distinct event_cause.cause_code from BaseData c where c.imsi = :imsi");
+		Query query = em.createQuery("select distinct event_cause.cause_code, event_cause.description from BaseData c where c.imsi = :imsi");
 		query.setParameter("imsi", imsi);
 		return (List<?>)query.getResultList();
 	}
@@ -68,8 +68,8 @@ public class JPABaseDAO implements BaseDAO {
 	}
 
 	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
-	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate){
-		Query query = em.createQuery("select count (c) from BaseData c where c.ue_type = :ue_type AND c.date_time >= :sDate AND c.date_time <= :eDate");
+	public Long countByModelAndDate(String ue_type, Date startDate, Date endDate){
+		Query query = em.createQuery("select count (c) from BaseData c where c.ue.model = :ue_type AND c.date_time >= :sDate AND c.date_time <= :eDate");
 		query.setParameter("ue_type", ue_type);
 		query.setParameter("sDate",startDate);
 		query.setParameter("eDate", endDate);

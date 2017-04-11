@@ -34,7 +34,7 @@ public interface BaseService {
 	public Collection<BaseData> getBaseDataByDate(Date startDate, Date endDate);
 
 	//--- 5. SELECT BY MODEL & DATE, COUNT NUMBER OF FAILURES ---//
-	public Long countByModelAndDate(Integer ue_type, Date startDate, Date endDate);
+	public Long countByModelAndDate(String ue_type, Date startDate, Date endDate);
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
 	public Collection<BaseData> getImsiByCauseCode(Integer cause_code);

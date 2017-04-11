@@ -79,7 +79,7 @@ public class BaseCRUDService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/date/ue_type")
-	public Long countByModelAndDate(@QueryParam("ue_type") Integer ue_type,
+	public Long countByModelAndDate(@QueryParam("ue_type") String ue_type,
 			@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
 		return (Long)service.countByModelAndDate(ue_type, startDate, endDate);
 	}
