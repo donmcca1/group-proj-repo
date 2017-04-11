@@ -44,10 +44,10 @@ public interface BaseService {
 	//*******************//
 	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
-	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
 	
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
-	public Collection<?> countByModelEventIdCauseCode(Integer ue_type);
+	public Collection<?> countByModelEventIdCauseCode(String ue_type);
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
 	public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate);

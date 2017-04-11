@@ -99,9 +99,11 @@ public class BaseCRUDService {
 	//*******************//
 	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/numfail")
-	public List<Object[]> getBaseDataByDate2(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
-		List<Object[]> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
+	public Collection<?> getBaseDataByDate2(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
+		Collection<?> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
 		return v;
 	}
 	
@@ -109,7 +111,7 @@ public class BaseCRUDService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/ue_type/count")
-	public Collection<?> countByModelEventIdCauseCode(@QueryParam("ue_type") Integer ue_type){
+	public Collection<?> countByModelEventIdCauseCode(@QueryParam("ue_type") String ue_type){
 		Collection<?> c = service.countByModelEventIdCauseCode(ue_type);
 		return c;
 	}

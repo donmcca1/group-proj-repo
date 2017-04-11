@@ -11,6 +11,13 @@
 	<meta name="author" content="" />
 	<title>Ericsson Network Data</title>
 	
+	<!-- JAVASCRIPT -->
+	<!-- javascript version -->
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"
+	type="text/javascript"></script>
+	<!-- javascript file -->
+	<script lang="JavaScript" src="js/nme.js" type="text/javascript"></script>
+	
 	<!-- Bootstrap core CSS -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 	<!-- Custom fonts for this template -->
@@ -58,6 +65,7 @@
 		<!-- for queries -->
 		<div class="col-sm-5">
 		
+			<!-- 7. SELECT BY DATE, COUNT FAILURES, SUM DURATION PER IMSI -->
 			<div class="card">
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
@@ -65,7 +73,7 @@
 					<div class="card-header">
 					<div class="panel-heading">
 						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Get Number Failures, Duration by IMSI and Time</a>
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Get Number Failures, Duration by Date per IMSI</a>
 						</h4>
 					</div>
 					</div>
@@ -76,8 +84,6 @@
 						<div class="panel-body">
 							<form>
 								<div class="form-group">
-								<label for="imsi7">IMSI</label> 
-								<input type="text" class="form-control" id="imsi7" />
 					  
 								<label for="startDate7">Start Date</label> 
 								<input type="date" class="form-control" id="startDate7" />
@@ -85,7 +91,7 @@
 								<label for="endDate7">End Date</label> 
 								<input type="date" class="form-control" id="endDate7" /></div>
 							</form>
-							<button type="button" class="btn">Submit</button>
+							<button type="button" class="btn" id="button7">Submit</button>
 						</div>	
 						</div>
 						
@@ -97,6 +103,7 @@
 			  
 			<br><br>
 			
+			<!-- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT -->
 			<div class="card">
 			<div class="panel panel-default">
 			
@@ -114,10 +121,10 @@
 					<div class="panel-body">
 						<form>
 							<div class="form-group">
-							<label for="model8">Model</label> 
-							<input type="text" class="form-control" id="imsi7" /></div>
+							<label for="ue8">Model</label> 
+							<input type="text" class="form-control" id="ue8" /></div>
 						</form>
-						<button type="button" class="btn">Submit</button>
+						<button type="button" class="btn" id="button8">Submit</button>
 					</div>
 					</div>
                 </div>
@@ -126,6 +133,7 @@
 			  
 			<br><br>
 			
+			<!-- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS -->
 			<div class="card">			
 			<div class="panel panel-default">
 			
@@ -149,7 +157,7 @@
 							<label for="endDate9">End Date</label> 
 							<input type="date" class="form-control" id="endDate9" /></div>
 						</form>
-						<button type="button" class="btn">Submit</button>
+						<button type="button" class="btn" id="button9">Submit</button>
 					</div>
 					</div>
                 </div>
@@ -158,6 +166,7 @@
 			
 			<br><br>
 			
+			<!-- 10. SELECT BY DATE, RETURN TOP 10 IMSIs -->
 			<div class="card">
 			<div class="panel panel-default">
 			
@@ -181,7 +190,7 @@
 							<label for="endDate10">End Date</label> 
 							<input type="date" class="form-control" id="endDate10" /></div>
 						</form>
-						<button type="button" class="btn">Submit</button>
+						<button type="button" class="btn" id="button10">Submit</button>
 					</div>
 					</div>
                 </div>
@@ -198,6 +207,8 @@
 				</h4>
 		  
 				<div class="card-block" id="response">
+					<ul id="responseHolder">
+					</ul>
 				</div>
 		  
 			</div>

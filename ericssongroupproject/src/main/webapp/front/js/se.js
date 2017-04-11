@@ -26,7 +26,7 @@ $(document).ready(function(){
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
-						("<li> IMSI: "+value.imsi+"</li>");
+						("<li>"+value.imsi+"</li>");
 				});	
 			}
 
@@ -84,7 +84,7 @@ $(document).ready(function(){
 				
 				$.each(data.baseDataList, function(index, value){
 					$("#responseHolder").append
-						("<li> imsi: "+value.imsi+"</li>");
+						("<li>"+value.imsi+"</li>");
 				});	
 			}
 	

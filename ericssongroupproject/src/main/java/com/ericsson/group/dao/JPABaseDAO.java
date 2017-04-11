@@ -78,7 +78,7 @@ public class JPABaseDAO implements BaseDAO {
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
 	public Collection<BaseData> getImsiByCauseCode(Integer cause_code){
-		Query query = em.createQuery("from BaseData c where c.cause_code = :cause_code");
+		Query query = em.createQuery("from BaseData c where c.event_cause.cause_code = :cause_code");
 		query.setParameter("cause_code", cause_code);
 		return (List<BaseData>)query.getResultList();
 	}
@@ -87,17 +87,17 @@ public class JPABaseDAO implements BaseDAO {
 	//*** NME QUERIES ***//
 	//*******************//
 	
-	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
-	public List<Object[]> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
-		Query query = em.createQuery("select imsi, count(c), sum(duration) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by imsi");
+	//--- 7. SELECT BY DATE, COUNT FAILURES, SUM DURATION BY IMSI ---//
+	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
+		Query query = em.createQuery("select imsi, count (c), sum (duration) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by imsi");
 		query.setParameter("sDate",startDate);
 		query.setParameter("eDate", endDate);
-		return (List<Object[]>)query.getResultList();
+		return (List<?>)query.getResultList();
 	}
 
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
-	public Collection<?> countByModelEventIdCauseCode(Integer ue_type){
-		Query query = em.createQuery("select count (c), c.event_id, c.cause_code from BaseData c where c.ue_type = :ue_type group by c.event_id, c.cause_code");
+	public Collection<?> countByModelEventIdCauseCode(String ue_type){
+		Query query = em.createQuery("select count (c), c.event_cause.event_id, c.event_cause.cause_code, c.event_cause.description from BaseData c where c.ue.model = :ue_type group by c.event_cause.event_id, c.event_cause.cause_code");
 		query.setParameter("ue_type", ue_type);
 		return (List<?>)query.getResultList();
 	}
