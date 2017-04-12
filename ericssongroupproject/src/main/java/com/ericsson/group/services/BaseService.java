@@ -53,6 +53,7 @@ public interface BaseService {
 	public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate);
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+	public Collection<BaseData> top10imsi(Date startDate, Date endDate);
 
 	//***********************//
 	//*** SA ONLY QUERIES ***//

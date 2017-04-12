@@ -92,7 +92,7 @@ $(document).ready(function(){
         $.ajax({
             
             type:"GET",
-            url:"rest/base/top10",
+            url:"rest/base/top10MOC",
             data: { start: startDate, end: endDate },
             cache: false,
             dataType:"json",
@@ -102,12 +102,9 @@ $(document).ready(function(){
                 $("#responseHolder").empty();
                 
                 $.each(data.baseDataList, function(index, value){
+                	
                     $("#responseHolder").append
-                        ("<li> Market: "+value.market+"</li>")
-                        .append
-                        ("<li> Operator: "+value.operator+"</li>")
-                        .append
-                        ("<li> Cell ID: "+value.cell_id+"</li>");
+                        ("<li> Market: "+value.mcc_mnc.country+"; Operator: "+value.mcc_mnc.operator+"; Cell ID: "+value.cell_id+"</li>");
                 }); 
             }
 

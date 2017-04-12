@@ -23,7 +23,7 @@ public class TestDriver {
 
         String basePath = System.getProperty("server.base");
         if(basePath==null){
-            basePath = "/ericssongroupproject";
+            basePath = "/ericssongroupproject/front";
         }
         RestAssured.basePath = basePath;
 
@@ -122,7 +122,7 @@ public class TestDriver {
             		"[1]", hasItems(100,4097,2));
     }
     
-/*    @Test public void
+    @Test public void
     query9(){
         given().
             param("ue_type",33001735).
@@ -131,6 +131,6 @@ public class TestDriver {
         then().
             body("[0]", hasItems(112,4097,1),
             		"[1]", hasItems(100,4097,2));
-    }*/
+    }
 
 }
