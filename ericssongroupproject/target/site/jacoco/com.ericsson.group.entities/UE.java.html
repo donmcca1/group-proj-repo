@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UE.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ericssongroupproject Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.ericsson.group.entities</a> &gt; <span class="el_source">UE.java</span></div><h1>UE.java</h1><pre class="source lang-java linenums">package com.ericsson.group.entities;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Created by mypc1 on 04/04/2017.
+ */
+@Entity
+@Table(name=&quot;ue&quot;)
+public class UE {
+    @Id// Assigns type as Primary Key
+    @Column(name = &quot;tac&quot;)// Identifies Columns within Table
+    private Integer tac;
+
+    @Column(name = &quot;marketing_name&quot;) private String marketing_name;
+    @Column(name = &quot;manufacturer&quot;) private String manufacturer;
+    @Column(name = &quot;model&quot;) private String model;
+    @Column(name = &quot;vendor_name&quot;) private String vendor_name;
+    @Column(name = &quot;ue_type&quot;) private String ue_type;
+    @Column(name = &quot;os&quot;) private String os;
+    @Column(name = &quot;input_mode&quot;) private String input_mode;
+
+<span class="fc" id="L25">    public UE() {</span>
+<span class="fc" id="L26">    }</span>
+
+    public Integer getTac() {
+<span class="nc" id="L29">        return tac;</span>
+    }
+
+    public void setTac(Integer tac) {
+<span class="nc" id="L33">        this.tac = tac;</span>
+<span class="nc" id="L34">    }</span>
+
+    public String getMarketing_name() {
+<span class="fc" id="L37">        return marketing_name;</span>
+    }
+
+    public void setMarketing_name(String marketing_name) {
+<span class="nc" id="L41">        this.marketing_name = marketing_name;</span>
+<span class="nc" id="L42">    }</span>
+
+    public String getManufacturer() {
+<span class="nc" id="L45">        return manufacturer;</span>
+    }
+
+    public void setManufacturer(String manufacturer) {
+<span class="nc" id="L49">        this.manufacturer = manufacturer;</span>
+<span class="nc" id="L50">    }</span>
+
+    public String getModel() {
+<span class="nc" id="L53">        return model;</span>
+    }
+
+    public void setModel(String model) {
+<span class="nc" id="L57">        this.model = model;</span>
+<span class="nc" id="L58">    }</span>
+
+    public String getVendor_name() {
+<span class="nc" id="L61">        return vendor_name;</span>
+    }
+
+    public void setVendor_name(String vendor_name) {
+<span class="nc" id="L65">        this.vendor_name = vendor_name;</span>
+<span class="nc" id="L66">    }</span>
+
+    public String getUe_type() {
+<span class="nc" id="L69">        return ue_type;</span>
+    }
+
+    public void setUe_type(String ue_type) {
+<span class="nc" id="L73">        this.ue_type = ue_type;</span>
+<span class="nc" id="L74">    }</span>
+
+    public String getOs() {
+<span class="nc" id="L77">        return os;</span>
+    }
+
+    public void setOs(String os) {
+<span class="nc" id="L81">        this.os = os;</span>
+<span class="nc" id="L82">    }</span>
+
+    public String getInput_mode() {
+<span class="nc" id="L85">        return input_mode;</span>
+    }
+
+    public void setInput_mode(String input_mode) {
+<span class="nc" id="L89">        this.input_mode = input_mode;</span>
+<span class="nc" id="L90">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

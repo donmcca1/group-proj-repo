@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseCRUDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ericssongroupproject Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.ericsson.group.jaxrs</a> &gt; <span class="el_source">BaseCRUDService.java</span></div><h1>BaseCRUDService.java</h1><pre class="source lang-java linenums">package com.ericsson.group.jaxrs;
+
+import com.ericsson.group.entities.BaseDataList;
+import com.ericsson.group.services.BaseService;
+
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
+
+@Path(&quot;/base&quot;)
+<span class="nc" id="L14">public class BaseCRUDService {</span>
+	@Inject
+	private BaseService service;
+	
+	//--- SELECT ALL (NO FRONT END) ---//
+	@GET
+    @Produces(MediaType.APPLICATION_JSON)
+	public BaseDataList getBaseData(){
+<span class="nc" id="L22">		BaseDataList list = new BaseDataList();</span>
+<span class="nc" id="L23">		list.setBaseDataList(service.getAllBaseData());</span>
+<span class="nc" id="L24">		return list;</span>
+	}
+	
+	
+	//*******************//
+	//*** CSR QUERIES ***//
+	//*******************//
+	
+	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
+	// currently returns all; selection made at front end
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/{imsi}&quot;)
+	public BaseDataList getBaseDataByImsi(@PathParam(&quot;imsi&quot;) Long imsi){
+<span class="nc" id="L38">		BaseDataList list = new BaseDataList();</span>
+<span class="nc" id="L39">		list.setBaseDataList(service.getBaseDataByImsi(imsi));</span>
+<span class="nc" id="L40">		return list;</span>
+	}
+	
+	//--- 2. SELECT BY IMSI &amp; DATE, COUNT NUMBER OF FAILURES ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/date/imsi&quot;)
+	public Long getFailuresByDate(@QueryParam(&quot;imsi&quot;) Long imsi, @QueryParam(&quot;start&quot;) Date startDate, 
+			@QueryParam(&quot;end&quot;) Date endDate){
+<span class="nc" id="L49">		System.out.println(&quot;CRUD&quot;);</span>
+<span class="nc" id="L50">		return (Long)service.getFailuresByDate(imsi, startDate, endDate);</span>
+	}
+	
+	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/cause&quot;)
+	public Collection&lt;?&gt; getCauseCodeByImsi(@QueryParam(&quot;imsi&quot;) Long imsi){
+<span class="nc" id="L58">		Collection&lt;?&gt; c = service.getCauseCodeByImsi(imsi);</span>
+<span class="nc" id="L59">		return c;</span>
+	}
+
+
+	//******************//
+	//*** SE QUERIES ***//
+	//******************//
+	
+	//--- 4. SELECT BY DATE, RETURN IMSI ---//
+	// currently returns all; selection made at front end
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/date&quot;)
+	public BaseDataList getBaseDataByDate(@QueryParam(&quot;start&quot;) Date startDate, @QueryParam(&quot;end&quot;) Date endDate){
+<span class="nc" id="L73">		BaseDataList list = new BaseDataList();</span>
+<span class="nc" id="L74">		list.setBaseDataList(service.getBaseDataByDate(startDate, endDate));</span>
+<span class="nc" id="L75">		return list;</span>
+	}
+	
+	//--- 5. SELECT BY MODEL &amp; DATE, COUNT NUMBER OF FAILURES ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/date/ue_type&quot;)
+	public Long countByModelAndDate(@QueryParam(&quot;ue_type&quot;) String ue_type,
+			@QueryParam(&quot;start&quot;) Date startDate, @QueryParam(&quot;end&quot;) Date endDate){
+<span class="nc" id="L84">		return (Long)service.countByModelAndDate(ue_type, startDate, endDate);</span>
+	}
+
+	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/cause/imsi&quot;)
+	public BaseDataList getImsiByCauseCode(@QueryParam(&quot;cause_code&quot;) Integer cause_code){
+<span class="nc" id="L92">		BaseDataList list = new BaseDataList();</span>
+<span class="nc" id="L93">		list.setBaseDataList(service.getImsiByCauseCode(cause_code));</span>
+<span class="nc" id="L94">		return list;</span>
+	}
+	
+	//*******************//
+	//*** NME QUERIES ***//
+	//*******************//
+	
+	//--- 7. SELECT BY IMSI &amp; DATE, COUNT FAILURES, SUM DURATION ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/numfail&quot;)
+	public Collection&lt;?&gt; getBaseDataByDate2(@QueryParam(&quot;start&quot;) Date startDate, @QueryParam(&quot;end&quot;) Date endDate){
+<span class="nc" id="L106">		Collection&lt;?&gt; v = service.getNumFailuresAndDurationByDate(startDate, endDate);</span>
+<span class="nc" id="L107">		return v;</span>
+	}
+	
+	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS &amp; COUNT ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/ue_type/count&quot;)
+	public Collection&lt;?&gt; countByModelEventIdCauseCode(@QueryParam(&quot;ue_type&quot;) String ue_type){
+<span class="nc" id="L115">		Collection&lt;?&gt; c = service.countByModelEventIdCauseCode(ue_type);</span>
+<span class="nc" id="L116">		return c;</span>
+	}
+
+	
+   /* //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/top10&quot;)
+	public BaseDataList top10MarketOperatorCell(@QueryParam(&quot;start&quot;) Date startDate, 
+        @QueryParam(&quot;end&quot;) Date endDate){
+		BaseDataList list = new BaseDataList();
+		list.setBaseDataList(service.top10MarketOperatorCell(startDate, endDate));
+		return list;
+	}*/
+	
+	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+
+	//***********************//
+	//*** SA ONLY QUERIES ***//
+	//***********************//
+	
+	//assign users
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

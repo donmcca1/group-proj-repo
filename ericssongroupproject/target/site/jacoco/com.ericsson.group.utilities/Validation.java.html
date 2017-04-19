@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Validation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ericssongroupproject Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.ericsson.group.utilities</a> &gt; <span class="el_source">Validation.java</span></div><h1>Validation.java</h1><pre class="source lang-java linenums">package com.ericsson.group.utilities;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.ericsson.group.dao.UploadDAO;
+import org.apache.commons.lang3.math.NumberUtils;
+
+public class Validation {
+	String path;
+	//importing files NEED TO CHANGE TO GET THE LOCATION DYNAMICALLY
+	String baseDataFile;
+	String causeCodeFile;
+	String mccMncFile;
+	String ueFile;
+	String failureClassFile;
+	
+	//formatting
+<span class="nc" id="L32">	String line = &quot;&quot;;</span>
+<span class="nc" id="L33">	String splitBy = &quot;;&quot;;</span>
+	
+	//for storing foreign keys
+<span class="nc" id="L36">    Hashtable causeCodeEventIdTable = new Hashtable();</span>
+<span class="nc" id="L37">    Hashtable mccMncTable = new Hashtable();</span>
+<span class="nc" id="L38">    Hashtable ueTable = new Hashtable();</span>
+<span class="nc" id="L39">    Hashtable failureClassTable = new Hashtable();</span>
+	
+<span class="nc" id="L41">	public Validation() {</span>
+<span class="nc" id="L42">		path = UploadDAO.class.getProtectionDomain().getCodeSource().getLocation().getPath();</span>
+<span class="nc" id="L43">		path = path.substring(0, path.indexOf(&quot;classes&quot;)) + &quot;upload/&quot;;</span>
+		
+<span class="nc" id="L45">		baseDataFile = path + &quot;/base_data.txt&quot;;</span>
+<span class="nc" id="L46">		causeCodeFile = path + &quot;/event_cause.txt&quot;;</span>
+<span class="nc" id="L47">		mccMncFile = path + &quot;/mcc_mnc.txt&quot;;</span>
+<span class="nc" id="L48">		failureClassFile = path + &quot;/failure_class.txt&quot;;</span>
+<span class="nc" id="L49">		ueFile = path + &quot;/ue.txt&quot;;</span>
+		
+		//clear the base_data_validated file
+		BufferedWriter bwc;
+		try {
+<span class="nc" id="L54">			bwc = clearWriter();</span>
+<span class="nc" id="L55">			bwc.write(&quot;&quot;);</span>
+<span class="nc" id="L56">			bwc.close();</span>
+<span class="nc" id="L57">		} catch (FileNotFoundException e2) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L59">			e2.printStackTrace();</span>
+<span class="nc" id="L60">		} catch (UnsupportedEncodingException e2) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L62">			e2.printStackTrace();</span>
+<span class="nc" id="L63">		} catch (IOException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L65">			e.printStackTrace();</span>
+<span class="nc" id="L66">		}</span>
+		
+		
+		//make the hash tables for foreign key validation
+<span class="nc" id="L70">		makeDoubleHashTable(causeCodeFile,splitBy,0,1,causeCodeEventIdTable);</span>
+<span class="nc" id="L71">		makeDoubleHashTable(mccMncFile,splitBy,0,1,mccMncTable);</span>
+<span class="nc" id="L72">		makeHashTable(ueFile,splitBy,0,ueTable);</span>
+<span class="nc" id="L73">		makeHashTable(failureClassFile,splitBy,0,failureClassTable);</span>
+		
+		//validate each line
+		try {
+<span class="nc" id="L77">			BufferedReader br = new BufferedReader(new FileReader(baseDataFile));</span>
+		//iteration variable removes the headings from the data file
+<span class="nc" id="L79">   		int iteration = 0;</span>
+   		
+<span class="nc bnc" id="L81" title="All 2 branches missed.">   		while ((line = br.readLine()) != null) {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">			if (iteration == 0){</span>
+<span class="nc" id="L83">				iteration ++;</span>
+<span class="nc" id="L84">					continue;</span>
+			}
+			
+			//valid flag
+<span class="nc" id="L88">			Boolean lineValid = true;</span>
+
+<span class="nc" id="L90">			String[] currentLine = line.split(splitBy);</span>
+	    	
+			//fields to be validated
+			
+<span class="nc" id="L94">			String date = currentLine[0];</span>
+<span class="nc" id="L95">			String eventID = currentLine[1];</span>
+<span class="nc" id="L96">			String failureClass = currentLine[2];</span>
+<span class="nc" id="L97">			String ueType = currentLine[3];</span>
+<span class="nc" id="L98">			String market = currentLine[4];</span>
+<span class="nc" id="L99">			String operator = currentLine[5];</span>
+<span class="nc" id="L100">			String cellID = currentLine[6];</span>
+<span class="nc" id="L101">			String duration = currentLine[7];</span>
+<span class="nc" id="L102">			String causeCode = currentLine[8];</span>
+<span class="nc" id="L103">			String neVersion = currentLine[9];</span>
+<span class="nc" id="L104">			String imsi = currentLine[10];</span>
+
+			//---CHECKING THE FOREIGN KEYS---//
+			
+			//Cause Code/Event ID
+<span class="nc bnc" id="L109" title="All 2 branches missed.">			if(validateDoubleHashTable(currentLine,8,1,causeCodeEventIdTable)==false){</span>
+<span class="nc" id="L110">				lineValid = false;</span>
+			}	
+			
+			//Mcc/MNC
+<span class="nc bnc" id="L114" title="All 2 branches missed.">			if(validateDoubleHashTable(currentLine,4,5,mccMncTable)==false){</span>
+<span class="nc" id="L115">				lineValid = false;</span>
+			}	
+			
+			//UE type
+<span class="nc bnc" id="L119" title="All 2 branches missed.">			if(validateHashTable(currentLine,3,ueTable)==false){</span>
+<span class="nc" id="L120">				lineValid = false;</span>
+			}	
+			
+			//Failure class
+<span class="nc bnc" id="L124" title="All 2 branches missed.">			if(validateHashTable(currentLine,2,failureClassTable)==false){</span>
+<span class="nc" id="L125">				lineValid = false;</span>
+			}	
+			
+			//---CHECKING THE INTS---//
+			//CellID
+			//checks it's a number
+	       
+<span class="nc bnc" id="L132" title="All 2 branches missed.">			if(NumberUtils.isDigits(cellID)){</span>
+
+			} else {
+<span class="nc" id="L135">				lineValid = false;</span>
+			};
+			
+	       //Duration
+	       //checks it's a number
+	   
+<span class="nc bnc" id="L141" title="All 2 branches missed.">	       if(NumberUtils.isDigits(duration)){</span>
+
+	       } else {
+<span class="nc" id="L144">	    	   lineValid = false;</span>
+	       };
+	       
+	       //IMSI
+	       //checks it's a 15-digit number
+	       
+<span class="nc bnc" id="L150" title="All 4 branches missed.">	       if(NumberUtils.isDigits(imsi) &amp;&amp; imsi.length()==15){</span>
+
+	       } else {
+<span class="nc" id="L153">	    	   lineValid = false;</span>
+	       };
+	       
+	       //---CHECKING THE IMSI MATCHES THE OPERATOR AND MARKET---//
+	       //add a zero to the end of the operator value where needed
+/*           if (operator.length()==1){
+           	operator=operator+&quot;00&quot;;
+           }else if (operator.length()==2){
+           	operator=operator+&quot;0&quot;;
+           }
+
+           //saving market and operator 
+           String marketOperator = new String(market+operator);
+           
+           //saving imsi substring
+           String subImsi = new String(imsi.substring(0,6));
+
+           if(marketOperator.equals(subImsi)){
+
+           }else{
+        	   lineValid = false;
+           }*/
+           
+	       //---need to validate NE Number or w/e it is---//
+	       
+           //---CHECKING THE DATE---//
+			
+<span class="nc bnc" id="L180" title="All 2 branches missed.">			if (isValidFormat(date)==false){</span>
+<span class="nc" id="L181">				lineValid = false;</span>
+			}
+           
+          // System.out.println(lineValid);
+	      // System.out.println(line);
+           
+           //---WRITE DATA---//
+<span class="nc bnc" id="L188" title="All 2 branches missed.">           if(lineValid){</span>
+<span class="nc" id="L189">        	   BufferedWriter bw = validatedWriter();</span>
+<span class="nc" id="L190">        	   bw.write(line);</span>
+<span class="nc" id="L191">        	   bw.newLine();</span>
+<span class="nc" id="L192">        	   bw.close();</span>
+<span class="nc" id="L193">           } else {</span>
+<span class="nc" id="L194">        	   BufferedWriter bw = invalidWriter();</span>
+<span class="nc" id="L195">        	   bw.write(line);</span>
+<span class="nc" id="L196">        	   bw.newLine();</span>
+<span class="nc" id="L197">        	   bw.close();</span>
+           }
+              
+<span class="nc" id="L200">	} //endwhile</span>
+<span class="nc" id="L201">	} catch (IOException e) {</span>
+<span class="nc" id="L202">	        e.printStackTrace();</span>
+<span class="nc" id="L203">	   }</span>
+<span class="nc" id="L204">	}</span>
+	
+	//***********************//
+	//***DATA WRITE METHOD***//
+	//***********************//
+	private BufferedWriter clearWriter() throws FileNotFoundException, UnsupportedEncodingException {
+<span class="nc" id="L210">		File file = new File(path + &quot;/base_data_validated.txt&quot;);</span>
+<span class="nc" id="L211">		OutputStream os = (OutputStream)new FileOutputStream(file,false);</span>
+<span class="nc" id="L212">	    String encoding = &quot;UTF8&quot;;</span>
+<span class="nc" id="L213">	    OutputStreamWriter osw = new OutputStreamWriter(os, encoding);</span>
+<span class="nc" id="L214">	    BufferedWriter bw = new BufferedWriter(osw);</span>
+<span class="nc" id="L215">	    return bw;</span>
+	}
+	
+	private BufferedWriter validatedWriter() throws FileNotFoundException, UnsupportedEncodingException {
+<span class="nc" id="L219">		File file = new File(path + &quot;/base_data_validated.txt&quot;);</span>
+<span class="nc" id="L220">		OutputStream os = (OutputStream)new FileOutputStream(file,true);</span>
+<span class="nc" id="L221">	    String encoding = &quot;UTF8&quot;;</span>
+<span class="nc" id="L222">	    OutputStreamWriter osw = new OutputStreamWriter(os, encoding);</span>
+<span class="nc" id="L223">	    BufferedWriter bw = new BufferedWriter(osw);</span>
+<span class="nc" id="L224">	    return bw;</span>
+	}
+	
+	private BufferedWriter invalidWriter() throws FileNotFoundException, UnsupportedEncodingException {
+<span class="nc" id="L228">		File file = new File(path + &quot;/base_data_invalid.txt&quot;);</span>
+<span class="nc" id="L229">		OutputStream os = (OutputStream)new FileOutputStream(file,true);</span>
+<span class="nc" id="L230">	    String encoding = &quot;UTF8&quot;;</span>
+<span class="nc" id="L231">	    OutputStreamWriter osw = new OutputStreamWriter(os, encoding);</span>
+<span class="nc" id="L232">	    BufferedWriter bw = new BufferedWriter(osw);</span>
+<span class="nc" id="L233">	    return bw;</span>
+	}
+	
+	//************************//
+	//***HASH TABLE METHODS***//
+	//************************//
+	
+	//--- GENERATE KEYS FROM BASE DATA AND LOOKUP IN HASH TABLE ---//
+		public Boolean validateHashTable(String[] currentLine, int index, Hashtable hashtable){
+<span class="nc" id="L242">			Boolean hashBoolean = true;</span>
+			
+         	//read in the the foreign key
+<span class="nc" id="L245">        	String foreignKey = currentLine[index];</span>
+        	
+<span class="nc bnc" id="L247" title="All 2 branches missed.">        	if (hashtable.containsValue(foreignKey)==false){</span>
+<span class="nc" id="L248">        		hashBoolean = false;</span>
+        	}
+	            	
+<span class="nc" id="L251">			return hashBoolean;</span>
+		}
+		
+		//two foreign keys
+		public Boolean validateDoubleHashTable(String[] currentLine, int index1, int index2, Hashtable hashtable){
+<span class="nc" id="L256">			Boolean hashBoolean = true;</span>
+	             	
+         	//read in the foreign keys
+<span class="nc" id="L259">         	String key1 = currentLine[index1];</span>
+<span class="nc" id="L260">        	String key2 = currentLine[index2];</span>
+<span class="nc" id="L261">        	String foreignKey = new String(key1+key2);</span>
+        	
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        	if (hashtable.containsValue(foreignKey)==false){</span>
+<span class="nc" id="L264">        		hashBoolean = false;</span>
+        	}
+	         
+<span class="nc" id="L267">			return hashBoolean;</span>
+		}
+		
+		//--- MAKE HASH TABLE FOR FOREIGN KEY VALIDATION ---//
+		//one foreign key
+		public void makeHashTable(String fileLocation, String splitBy, int index, Hashtable hashtable){
+			try {
+<span class="nc" id="L274">				BufferedReader br = new BufferedReader(new FileReader(fileLocation));</span>
+				 //iteration variable removes the headings from the data file
+<span class="nc" id="L276">				int iteration = 0;</span>
+	         	
+<span class="nc bnc" id="L278" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
+					
+<span class="nc bnc" id="L280" title="All 2 branches missed.">	             	if (iteration == 0){</span>
+<span class="nc" id="L281">	             		iteration ++;</span>
+<span class="nc" id="L282">	             			continue;</span>
+	             	}
+	             	
+	             	// use splitBy as separator to read fields in data line
+<span class="nc" id="L286">	             	String[] currentLine = line.split(splitBy);</span>
+	             	
+	             	//read in the Cause Code and EventID
+<span class="nc" id="L289">	             	String foreignKey = currentLine[index];</span>
+	            	
+<span class="nc" id="L291">	            	hashtable.put(foreignKey, foreignKey);</span>
+<span class="nc" id="L292">	             }</span>
+	             
+<span class="nc" id="L294">	         } catch (IOException e) {</span>
+<span class="nc" id="L295">	             e.printStackTrace();</span>
+<span class="nc" id="L296">	         }</span>
+<span class="nc" id="L297">		}</span>
+		
+		//two foreign keys
+		public void makeDoubleHashTable(String fileLocation, String splitBy, int index1, int index2, Hashtable hashtable){
+			try {
+<span class="nc" id="L302">				BufferedReader br = new BufferedReader(new FileReader(fileLocation));</span>
+				 //iteration variable removes the headings from the data file
+<span class="nc" id="L304">				int iteration = 0;</span>
+	         	
+<span class="nc bnc" id="L306" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
+					
+<span class="nc bnc" id="L308" title="All 2 branches missed.">	             	if (iteration == 0){</span>
+<span class="nc" id="L309">	             		iteration ++;</span>
+<span class="nc" id="L310">	             			continue;</span>
+	             	}
+	             	
+	             	// use splitBy as separator to read fields in data line
+<span class="nc" id="L314">	             	String[] currentLine = line.split(splitBy);</span>
+	             	
+	             	//read in the Cause Code and EventID
+<span class="nc" id="L317">	             	String key1 = currentLine[index1];</span>
+<span class="nc" id="L318">	            	String key2 = currentLine[index2];</span>
+<span class="nc" id="L319">	            	String foreignKey = new String(key1+key2);</span>
+	            	
+<span class="nc" id="L321">	            	hashtable.put(foreignKey, foreignKey);</span>
+<span class="nc" id="L322">	             }</span>
+	             
+<span class="nc" id="L324">	         } catch (IOException e) {</span>
+<span class="nc" id="L325">	             e.printStackTrace();</span>
+<span class="nc" id="L326">	         }</span>
+<span class="nc" id="L327">		}</span>
+		
+		//*****************//
+		//***DATE METHOD***//
+		//*****************//
+		
+		public static boolean isValidFormat(String value) {
+<span class="nc" id="L334">	        Date date = null;</span>
+	        
+<span class="nc" id="L336">	        String regex = &quot;([0-9]{2})/(.*?)&quot;;</span>
+<span class="nc" id="L337">	        Matcher m = Pattern.compile(regex).matcher(value);</span>
+	        
+<span class="nc bnc" id="L339" title="All 2 branches missed.">	        if(m.matches()){</span>
+	        	
+	        	try {
+<span class="nc" id="L342">		            SimpleDateFormat sdf = new SimpleDateFormat(&quot;MM/dd/yy HH:mm&quot;);</span>
+<span class="nc" id="L343">		            date = sdf.parse(value);</span>
+<span class="nc bnc" id="L344" title="All 2 branches missed.">		            if (!value.equals(sdf.format(date))) {</span>
+<span class="nc" id="L345">		                date = null;</span>
+		            }
+<span class="nc" id="L347">		        } catch (ParseException ex) {</span>
+<span class="nc" id="L348">		            ex.printStackTrace();</span>
+<span class="nc" id="L349">		        }</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">		        return date != null;</span>
+	        	
+	        } else {
+	        
+		        try {
+<span class="nc" id="L355">		            SimpleDateFormat sdf = new SimpleDateFormat(&quot;M/dd/yy HH:mm&quot;);</span>
+<span class="nc" id="L356">		            date = sdf.parse(value);</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">		            if (!value.equals(sdf.format(date))) {</span>
+<span class="nc" id="L358">		                date = null;</span>
+		            }
+<span class="nc" id="L360">		        } catch (ParseException ex) {</span>
+<span class="nc" id="L361">		            ex.printStackTrace();</span>
+<span class="nc" id="L362">		        }</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">		        return date != null;</span>
+		        
+	        }
+	    }
+		
+		//source: http://stackoverflow.com/questions/20231539/java-check-the-date-format-of-current-string-is-according-to-required-format-or
+	
+	public static void main(String[] args) {
+<span class="nc" id="L371">		new Validation();</span>
+	
+<span class="nc" id="L373">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

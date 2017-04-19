@@ -4,6 +4,7 @@ import com.ericsson.group.dao.EventDAO;
 import com.ericsson.group.entities.EventCause;
 
 import javax.ejb.*;
+import java.io.PrintStream;
 import java.util.Collection;
 
 /**
@@ -20,5 +21,13 @@ public class EventServiceImpl implements EventService {
     @Override
     public Collection<EventCause> getAllEventCause() {
         return dao.getAllEventCause();
+    }
+
+    public void greet(PrintStream to, String name) {
+        to.println(createGreeting(name));
+    }
+
+    public String createGreeting(String name) {
+        return "Hello, " + name + "!";
     }
 }

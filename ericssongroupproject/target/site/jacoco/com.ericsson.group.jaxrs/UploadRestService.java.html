@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UploadRestService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ericssongroupproject Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.ericsson.group.jaxrs</a> &gt; <span class="el_source">UploadRestService.java</span></div><h1>UploadRestService.java</h1><pre class="source lang-java linenums">package com.ericsson.group.jaxrs;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+
+
+
+import com.ericsson.group.services.BaseService;
+import com.ericsson.group.services.UploadService;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+
+// import com.group.ericsson.utilities.EditExcel;
+
+@Path(&quot;/upload&quot;)
+<span class="nc" id="L30">public class UploadRestService {</span>
+	@Inject
+	private UploadService service;
+	
+	
+	@POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path(&quot;/file&quot;)
+    public Response handleUpload(MultipartFormDataInput multipartFormDataInput) {
+		
+<span class="nc" id="L40">		System.out.println(&quot;herenowbaa&quot;);</span>
+<span class="nc" id="L41">		long startTime = System.nanoTime();</span>
+
+		// local variables
+<span class="nc" id="L44">        MultivaluedMap&lt;String, String&gt; multivaluedMap = null;</span>
+<span class="nc" id="L45">        String fileName = null;</span>
+<span class="nc" id="L46">        InputStream inputStream = null;</span>
+<span class="nc" id="L47">        String uploadFilePath = null;</span>
+		
+        try {
+<span class="nc" id="L50">            Map&lt;String, List&lt;InputPart&gt;&gt; map = multipartFormDataInput.getFormDataMap();</span>
+<span class="nc" id="L51">            List&lt;InputPart&gt; lstInputPart = map.get(&quot;file&quot;);</span>
+ 
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            for(InputPart inputPart : lstInputPart){</span>
+ 
+                // get filename to be uploaded
+<span class="nc" id="L56">                multivaluedMap = inputPart.getHeaders();</span>
+<span class="nc" id="L57">                fileName = getFileName(multivaluedMap);</span>
+<span class="nc bnc" id="L58" title="All 4 branches missed.">                if(null != fileName &amp;&amp; !&quot;&quot;.equalsIgnoreCase(fileName)){</span>
+ 
+                    // write &amp; upload file to UPLOAD_FILE_SERVER
+<span class="nc" id="L61">                    inputStream = inputPart.getBody(InputStream.class,null);</span>
+<span class="nc" id="L62">                    uploadFilePath = writeToFileServer(inputStream, fileName);</span>
+ 
+                    // close the stream
+<span class="nc" id="L65">                    inputStream.close();</span>
+                }
+<span class="nc" id="L67">            }</span>
+        }
+<span class="nc" id="L69">        catch(IOException ioe){</span>
+<span class="nc" id="L70">            ioe.printStackTrace();</span>
+        }
+<span class="nc" id="L72">        finally{</span>
+            // release resources, if any
+<span class="nc" id="L74">        }</span>
+        
+        
+<span class="nc" id="L77">        service.uploadData(uploadFilePath);</span>
+        
+<span class="nc" id="L79">        long endTime = System.nanoTime();</span>
+
+<span class="nc" id="L81">		long duration = (endTime - startTime);</span>
+		
+<span class="nc" id="L83">		System.out.println(duration + &quot; .....................&quot;);</span>
+<span class="nc" id="L84">        return Response.ok(&quot;File uploaded successfully at &quot; + uploadFilePath).build();</span>
+    }
+	
+	private String writeToFileServer(InputStream inputStream, String fileName) throws IOException {
+		 
+<span class="nc" id="L89">        OutputStream outputStream = null;</span>
+<span class="nc" id="L90">        String path = BaseCRUDService.class.getProtectionDomain().getCodeSource().getLocation().getPath();</span>
+<span class="nc" id="L91">    	path = path.substring(0, path.indexOf(&quot;classes&quot;)) + &quot;upload/&quot;;</span>
+<span class="nc" id="L92">        String qualifiedUploadFilePath = path + fileName;</span>
+ 
+        try {
+<span class="nc" id="L95">            outputStream = new FileOutputStream(new File(qualifiedUploadFilePath));</span>
+<span class="nc" id="L96">            int read = 0;</span>
+<span class="nc" id="L97">            byte[] bytes = new byte[1024];</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            while ((read = inputStream.read(bytes)) != -1) {</span>
+<span class="nc" id="L99">                outputStream.write(bytes, 0, read);</span>
+            }
+<span class="nc" id="L101">            outputStream.flush();</span>
+        }
+<span class="nc" id="L103">        catch (IOException ioe) {</span>
+<span class="nc" id="L104">            ioe.printStackTrace();</span>
+        }
+        finally{
+            //release resource, if any
+<span class="nc" id="L108">            outputStream.close();</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">        return qualifiedUploadFilePath;</span>
+    }
+ 
+	
+	private String getFileName(MultivaluedMap&lt;String, String&gt; multivaluedMap) {
+		
+<span class="nc" id="L116">        String[] contentDisposition = multivaluedMap.getFirst(&quot;Content-Disposition&quot;).split(&quot;;&quot;);</span>
+ 
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        for (String filename : contentDisposition) {</span>
+ 
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if ((filename.trim().startsWith(&quot;filename&quot;))) {</span>
+<span class="nc" id="L121">                String[] name = filename.split(&quot;=&quot;);</span>
+<span class="nc" id="L122">                String exactFileName = name[1].trim().replaceAll(&quot;\&quot;&quot;, &quot;&quot;);</span>
+<span class="nc" id="L123">                return exactFileName;</span>
+            }
+        }
+<span class="nc" id="L126">        return &quot;UnknownFile&quot;;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

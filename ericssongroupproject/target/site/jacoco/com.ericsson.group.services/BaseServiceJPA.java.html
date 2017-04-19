@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseServiceJPA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ericssongroupproject Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.ericsson.group.services</a> &gt; <span class="el_source">BaseServiceJPA.java</span></div><h1>BaseServiceJPA.java</h1><pre class="source lang-java linenums">package com.ericsson.group.services;
+
+import com.ericsson.group.dao.BaseDAO;
+import com.ericsson.group.entities.BaseData;
+
+import javax.ejb.*;
+import java.sql.Date;
+import java.util.Collection;
+import java.util.List;
+
+@Stateless
+@Local
+@TransactionAttribute (TransactionAttributeType.REQUIRED)// Ensures Transactions are used for ACID purposes
+<span class="nc" id="L14">public class BaseServiceJPA implements BaseService{</span>
+	
+	@EJB
+	private BaseDAO dao;
+	
+	//--- SELECT ALL (NO FRONT END) ---//
+	public Collection&lt;BaseData&gt; getAllBaseData() {
+<span class="nc" id="L21">		return dao.getBaseData();</span>
+	}
+	
+	//*******************//
+	//*** CSR QUERIES ***//
+	//*******************//
+	
+	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
+	// currently returns all; selection made at front end
+	public Collection&lt;BaseData&gt; getBaseDataByImsi(Long imsi){
+<span class="nc" id="L31">		return dao.getBaseDataByImsi(imsi);</span>
+	}
+
+	//--- 2. SELECT BY IMSI &amp; DATE, COUNT NUMBER OF FAILURES ---//
+	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
+<span class="nc" id="L36">		return dao.getFailuresByDate(imsi, startDate, endDate);</span>
+	}
+
+	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
+	public Collection&lt;?&gt; getCauseCodeByImsi(Long imsi) {
+<span class="nc" id="L41">		return dao.getCauseCodeByImsi(imsi);</span>
+	}
+	
+	//******************//
+	//*** SE QUERIES ***//
+	//******************//
+	
+	//--- 4. SELECT BY DATE, RETURN IMSI ---//
+	// currently returns all; selection made at front end
+	public Collection&lt;BaseData&gt; getBaseDataByDate(Date startDate, Date endDate){		
+<span class="nc" id="L51">		return dao.getBaseDataByDate(startDate, endDate);</span>
+	}
+
+	//--- 5. SELECT BY MODEL &amp; DATE, COUNT NUMBER OF FAILURES ---//
+	public Long countByModelAndDate(String ue_type, Date startDate, Date endDate){	
+<span class="nc" id="L56">		return dao.countByModelAndDate(ue_type, startDate, endDate);</span>
+	}
+	
+	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
+	public Collection&lt;BaseData&gt; getImsiByCauseCode(Integer cause_code){
+<span class="nc" id="L61">		return dao.getImsiByCauseCode(cause_code);</span>
+	}
+	
+	//*******************//
+	//*** NME QUERIES ***//
+	//*******************//
+	
+	//--- 7. SELECT BY IMSI &amp; DATE, COUNT FAILURES, SUM DURATION ---//
+	public Collection&lt;?&gt; getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
+<span class="nc" id="L70">		return dao.getNumFailuresAndDurationByDate(startDate, endDate);</span>
+	}
+	
+	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS &amp; COUNT ---//
+	public Collection&lt;?&gt; countByModelEventIdCauseCode(String ue_type){
+<span class="nc" id="L75">		return dao.countByModelEventIdCauseCode(ue_type);</span>
+	}
+
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+	@Override
+	public Collection&lt;BaseData&gt; top10MarketOperatorCell(Date startDate, Date endDate) {
+<span class="nc" id="L81">		return dao.top10MarketOperatorCell(startDate, endDate);</span>
+	}
+	
+	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+
+	//***********************//
+	//*** SA ONLY QUERIES ***//
+	//***********************//
+	
+	//assign users
+	
+	//--- DATA IMPORT ---//
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
