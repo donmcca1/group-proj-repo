@@ -128,6 +128,20 @@ public class JPABaseDAO implements BaseDAO {
 	
 	//assign users
 	
-	//--- DATA IMPORT ---//
+    //****************************//
+  	//*** AUTOCOMPLETE QUERIES ***//
+  	//****************************//
+    
+    public Collection<?> allIMSI(Long imsi){
+    	Query query = em.createQuery("select distinct imsi from BaseData c where c.imsi like CONCAT(:imsi,'%')");
+    	query.setParameter("imsi", imsi);
+    	return (List<?>)query.getResultList();
+    }
+    
+    public Collection<?> allModels(String model){
+    	Query query = em.createQuery("select model from UE c where model like CONCAT('%', :model, '%')");
+    	query.setParameter("model", model);
+    	return (List<?>)query.getResultList();
+    }
 
 }
