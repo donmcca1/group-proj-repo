@@ -14,13 +14,13 @@ import java.util.Collection;
 @Stateless
 @Local
 @TransactionAttribute(TransactionAttributeType.REQUIRED)// Ensures Transactions are used for ACID purposes
-<span class="fc" id="L17">public class EventServiceImpl implements EventService {</span>
+<span class="nc" id="L17">public class EventServiceImpl implements EventService {</span>
     @EJB
     private EventDAO dao;
 
     @Override
     public Collection&lt;EventCause&gt; getAllEventCause() {
-<span class="fc" id="L23">        return dao.getAllEventCause();</span>
+<span class="nc" id="L23">        return dao.getAllEventCause();</span>
     }
 
     public void greet(PrintStream to, String name) {

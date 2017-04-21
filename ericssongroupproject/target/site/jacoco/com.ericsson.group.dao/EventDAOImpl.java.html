@@ -16,14 +16,14 @@ import java.util.List;
  */
 @Stateless
 @Local
-<span class="fc" id="L19">public class EventDAOImpl implements EventDAO {</span>
+<span class="nc" id="L19">public class EventDAOImpl implements EventDAO {</span>
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public Collection&lt;EventCause&gt; getAllEventCause() {
-<span class="fc" id="L25">        Query query = em.createQuery(&quot;from EventCause&quot;);</span>
-<span class="fc" id="L26">        return (List&lt;EventCause&gt;)query.getResultList();</span>
+<span class="nc" id="L25">        Query query = em.createQuery(&quot;from EventCause&quot;);</span>
+<span class="nc" id="L26">        return (List&lt;EventCause&gt;)query.getResultList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

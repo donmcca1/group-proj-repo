@@ -17,14 +17,14 @@ import java.util.List;
 
 @Stateless
 @Local
-<span class="fc" id="L20">public class UeDAOImpl implements UeDAO {</span>
+<span class="nc" id="L20">public class UeDAOImpl implements UeDAO {</span>
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public Collection&lt;UE&gt; getAllUE() {
-<span class="fc" id="L26">        Query query = em.createQuery(&quot;from UE&quot;);</span>
-<span class="fc" id="L27">        return (List&lt;UE&gt;)query.getResultList();</span>
+<span class="nc" id="L26">        Query query = em.createQuery(&quot;from UE&quot;);</span>
+<span class="nc" id="L27">        return (List&lt;UE&gt;)query.getResultList();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

@@ -103,18 +103,24 @@ import java.util.List;
 	}
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-    @Override
     public Collection&lt;BaseData&gt; top10MarketOperatorCell(Date startDate, Date endDate) {
-<span class="nc" id="L108">        Query query = em.createQuery(&quot;select market, operator, cell_id &quot;</span>
-                + &quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;
-                + &quot;group by market, operator, cell_id&quot;);
-<span class="nc" id="L111">        query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L112">        query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L113">        query.setMaxResults(10);</span>
-<span class="nc" id="L114">        return (List&lt;BaseData&gt;)query.getResultList();</span>
+<span class="nc" id="L107">        Query query = em.createQuery(&quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;</span>
+                + &quot;group by c.mcc_mnc.country, c.mcc_mnc.operator, c.cell_id order by count(c) desc&quot;);
+<span class="nc" id="L109">        query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L110">        query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L111">        query.setMaxResults(10);</span>
+<span class="nc" id="L112">        return (List&lt;BaseData&gt;)query.getResultList();</span>
     }
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+    public Collection&lt;BaseData&gt; top10imsi(Date startDate, Date endDate) {
+<span class="nc" id="L117">        Query query = em.createQuery(&quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;</span>
+                + &quot;group by c.imsi order by count(c) desc&quot;);
+<span class="nc" id="L119">        query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L120">        query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L121">        query.setMaxResults(10);</span>
+<span class="nc" id="L122">        return (List&lt;BaseData&gt;)query.getResultList();</span>
+    }
 
 	//***********************//
 	//*** SA ONLY QUERIES ***//

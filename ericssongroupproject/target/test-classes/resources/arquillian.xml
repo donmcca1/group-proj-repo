@@ -10,16 +10,9 @@
     <container qualifier="widlfly-remote">
         <configuration>
             <property name="managementAddress">127.0.0.1</property>
-            <property name="managementPort">8080</property>
+            <property name="managementPort">9090</property>
             <property name="username">admin</property>
             <property name="password">adminadmin</property>
-        </configuration>
-    </container>
-
-    <!-- Configuration to be used when the WildFly managed profile is active -->
-    <container qualifier="widlfly-managed" default="true">
-        <configuration>
-            <property name="jbossHome">C:\Java\wildfly-8.2.1.Final</property>
         </configuration>
     </container>
 

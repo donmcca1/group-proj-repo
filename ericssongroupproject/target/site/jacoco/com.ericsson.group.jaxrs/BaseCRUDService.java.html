@@ -117,18 +117,27 @@ import java.util.List;
 	}
 
 	
-   /* //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
+    //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path(&quot;/top10&quot;)
+	@Path(&quot;/top10MOC&quot;)
 	public BaseDataList top10MarketOperatorCell(@QueryParam(&quot;start&quot;) Date startDate, 
         @QueryParam(&quot;end&quot;) Date endDate){
-		BaseDataList list = new BaseDataList();
-		list.setBaseDataList(service.top10MarketOperatorCell(startDate, endDate));
-		return list;
-	}*/
+<span class="nc" id="L126">		BaseDataList list = new BaseDataList();</span>
+<span class="nc" id="L127">		list.setBaseDataList(service.top10MarketOperatorCell(startDate, endDate));</span>
+<span class="nc" id="L128">		return list;</span>
+	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(&quot;/top10imsi&quot;)
+	public BaseDataList top10imsi(@QueryParam(&quot;start&quot;) Date startDate, 
+        @QueryParam(&quot;end&quot;) Date endDate){
+<span class="nc" id="L137">		BaseDataList list = new BaseDataList();</span>
+<span class="nc" id="L138">		list.setBaseDataList(service.top10imsi(startDate, endDate));</span>
+<span class="nc" id="L139">		return list;</span>
+	}
 
 	//***********************//
 	//*** SA ONLY QUERIES ***//

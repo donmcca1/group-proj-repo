@@ -76,12 +76,14 @@ import java.util.List;
 	}
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-	@Override
 	public Collection&lt;BaseData&gt; top10MarketOperatorCell(Date startDate, Date endDate) {
-<span class="nc" id="L81">		return dao.top10MarketOperatorCell(startDate, endDate);</span>
+<span class="nc" id="L80">		return dao.top10MarketOperatorCell(startDate, endDate);</span>
 	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
+	public Collection&lt;BaseData&gt; top10imsi(Date startDate, Date endDate) {
+<span class="nc" id="L85">		return dao.top10imsi(startDate, endDate);</span>
+	}
 
 	//***********************//
 	//*** SA ONLY QUERIES ***//
