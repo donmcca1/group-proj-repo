@@ -61,8 +61,12 @@ public interface BaseDAO {
 	//*** SA ONLY QUERIES ***//
 	//***********************//
 	
-	//assign users
-	
-	//--- DATA IMPORT ---//
+    //****************************//
+  	//*** AUTOCOMPLETE QUERIES ***//
+  	//****************************//
+    
+    public Collection<?> allIMSI(Long imsi);
+    
+    public Collection<?> allModels(String model);
 
 }

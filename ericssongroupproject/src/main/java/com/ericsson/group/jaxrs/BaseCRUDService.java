@@ -143,6 +143,23 @@ public class BaseCRUDService {
 	//*** SA ONLY QUERIES ***//
 	//***********************//
 	
-	//assign users
+    //****************************//
+  	//*** AUTOCOMPLETE QUERIES ***//
+  	//****************************//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/imsi")
+    public Collection<?> allIMSI(@QueryParam("term") Long imsi){
+		Collection<?> c = service.allIMSI(imsi);
+		return c;
+	};
+    
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/models")
+    public Collection<?> allModels(@QueryParam("term") String model){
+		Collection<?> c = service.allModels(model);
+		return c;
+	};
 
 }

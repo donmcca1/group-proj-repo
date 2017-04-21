@@ -89,8 +89,16 @@ public class BaseServiceJPA implements BaseService{
 	//*** SA ONLY QUERIES ***//
 	//***********************//
 	
-	//assign users
-	
-	//--- DATA IMPORT ---//
+    //****************************//
+  	//*** AUTOCOMPLETE QUERIES ***//
+  	//****************************//
+    
+    public Collection<?> allIMSI(Long imsi){
+    	return dao.allIMSI(imsi);
+    };
+    
+    public Collection<?> allModels(String model){
+    	return dao.allModels(model);
+    };
 	
 }
