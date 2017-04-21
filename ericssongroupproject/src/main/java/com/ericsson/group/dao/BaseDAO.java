@@ -63,12 +63,6 @@ public interface BaseDAO {
 	
 	//assign users
 	
-    //****************************//
-  	//*** AUTOCOMPLETE QUERIES ***//
-  	//****************************//
-    
-    public Collection<?> allIMSI(Long imsi);
-    
-    public Collection<?> allModels(String model);
+	//--- DATA IMPORT ---//
 
 }
