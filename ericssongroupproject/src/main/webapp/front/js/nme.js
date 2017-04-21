@@ -1,3 +1,5 @@
+
+
 $(document).ready(function(){
 	
 	//*******************//
@@ -21,7 +23,11 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
-
+				
+				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+					+'<thead><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></thead>'+'<tfoot><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></tfoot>'
+					+'<tbody>';
+					
 				$("#responseHolder").empty();
 				
 				$.each(data, function(index, value){
@@ -34,10 +40,15 @@ $(document).ready(function(){
 					var pos2 = full.indexOf(",", pos+1);
 					var count = full.substring(pos+1, pos2);
 					var sum = full.substring(pos2+1);
-					
-					$("#responseHolder").append
-						("<li> IMSI: "+ imsi + "; Number of failures: " + count + "; Duration of failures: " + sum + "</li>");
-				});	
+						
+					var newLine = '<tr><td>'+imsi+'</td><td>'+count+'</td><td>'+sum+'</td></tr>';
+					responseTable+=newLine;
+				});
+				
+				responseTable+='</tbody></table></div>';
+				
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
 			}
 
 		});
