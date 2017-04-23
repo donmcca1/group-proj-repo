@@ -11,7 +11,7 @@ $(document).ready(function(){
 	
 	$("#button7").click(function(){
 		
-		//-- retrieve dates from forms --//
+		//-- retrieve data from forms --//
 		startDate = $("#startDate7").val();
 		endDate = $("#endDate7").val();
 		
@@ -65,7 +65,7 @@ $(document).ready(function(){
 	
 	$("#button8").click(function(){
 		
-		//-- retrieve dates from forms --//
+		//-- retrieve data from forms --//
 		ue_type = $("#ue8").val();
 		
 		//-- clears the response holder, displays waiting icon, scrolls to top --//
@@ -116,7 +116,7 @@ $(document).ready(function(){
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
     $("#button9").click(function(){
         
-        //-- retrieve dates from forms --//
+        //-- retrieve data from forms --//
         startDate = $("#startDate9").val();
         endDate = $("#endDate9").val();
 		
@@ -161,7 +161,7 @@ $(document).ready(function(){
   //--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
     $("#button10").click(function(){
         
-        //-- retrieve dates from forms --//
+        //-- retrieve data from forms --//
         startDate = $("#startDate10").val();
         endDate = $("#endDate10").val();
 		

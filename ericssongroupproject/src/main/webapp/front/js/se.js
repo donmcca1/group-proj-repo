@@ -4,13 +4,21 @@ $(document).ready(function(){
 	//*** SE QUERIES ***//
 	//******************//
 	
+	//waiting icon
+	var waiting = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color:cornflowerblue"></i>';
+	
 	//--- 4. SELECT BY DATE, RETURN IMSI ---//
 	// currently returns all; selection made at front end
 	$("#button4").click(function(){
 		
-		//-- retrieve dates from forms --//
+		//-- retrieve data from forms --//
 		startDate = $("#startDate4").val();
 		endDate = $("#endDate4").val();
+		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
 		
 		$.ajax({
 			
@@ -21,13 +29,24 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
-
-				$("#responseHolder").empty();
+				
+				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+					+'<thead><tr><th>IMSI</th></tr></thead>'
+					+'<tfoot><tr><th>IMSI</th></tr></tfoot>'
+					+'<tbody>';
 				
 				$.each(data.baseDataList, function(index, value){
-					$("#responseHolder").append
-						("<li>"+value.imsi+"</li>");
+					
+					var newLine = '<tr><td>'+value.imsi+'</td></tr>';
+					responseTable+=newLine;
+					
 				});	
+				
+				responseTable+='</tbody></table></div>';
+				
+				$("#response").empty();
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
 			}
 
 		});
@@ -38,10 +57,15 @@ $(document).ready(function(){
 	
 	$("#button5").click(function(){
 		
-		//-- retrieve dates from forms --//
+		//-- retrieve data from forms --//
 		ue_type = $("#ue5").val();
 		startDate = $("#startDate5").val();
 		endDate = $("#endDate5").val();
+		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
 		
 		$.ajax({
 			
@@ -53,10 +77,12 @@ $(document).ready(function(){
 			
 			success: function(data) {
 				
-
-				$("#responseHolder").empty();
+				responseTable='<p><b>Count: </b>'+data+'</p>';
 				
-				$("#responseHolder").append("<li> Count: "+data+"</li>");
+				$("#response").empty();
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
+				
 			}
 
 		});
@@ -67,8 +93,13 @@ $(document).ready(function(){
 	// currently returns all; selection made at front end
 	$("#button6").click(function(){	
 		
-		//-- retrieves IMSI from form --//
+		//-- retrieve data from forms --//
 		cause_code = $("#cause_code6").val();
+		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
 
 		$.ajax({
 			
@@ -79,13 +110,26 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
+				
+				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+					+'<thead><tr><th>IMSI</th></tr></thead>'
+					+'<tfoot><tr><th>IMSI</th></tr></tfoot>'
+					+'<tbody>';
 	
 				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
-					$("#responseHolder").append
-						("<li>"+value.imsi+"</li>");
-				});	
+					
+					var newLine = '<tr><td>'+value.imsi+'</td></tr>';
+					responseTable+=newLine;
+					
+				});
+				
+				responseTable+='</tbody></table></div>';
+				
+				$("#response").empty();
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
 			}
 	
 		});
