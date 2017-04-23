@@ -40,13 +40,10 @@
     <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/sb-admin.min.js"></script>
 	
 </head>
   
-<body>
+<body onload="$(document).scroll(function(){$(this).scrollTop()>100?$('.scroll-to-top').fadeIn():$('.scroll-to-top').fadeOut()})">
   
 <!-- Navigation -->
 <!-- Top bar -->
@@ -81,7 +78,7 @@
 		<div class="row">
 		
 		<!-- for queries -->
-		<div class="col-sm-5">
+		<div class="col-sm-4">
 		
 			<!-- 7. SELECT BY DATE, COUNT FAILURES, SUM DURATION PER IMSI -->
 			<div class="card">
@@ -90,9 +87,9 @@
 				
 					<div class="card-header">
 					<div class="panel-heading">
-						<h4 class="panel-title">
+						<h5 class="panel-title">
 							<a data-toggle="collapse" data-parent="#accordion" href="#collapse1"><i class="fa fa-fw fa-calendar"></i> Get Number Failures, Duration by Date per IMSI</a>
-						</h4>
+						</h5>
 					</div>
 					</div>
 					
@@ -127,9 +124,9 @@
 			
 				<div class="card-header">
                 <div class="panel-heading">
-					<h4 class="panel-title">
+					<h5 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse2"><i class="fa fa-fw fa-search"></i> Get Unique Event ID/Cause Code Combos and Count by Model</a>
-					</h4>
+					</h5>
                 </div>
 				</div>
 				
@@ -157,9 +154,9 @@
 			
 				<div class="card-header">
                 <div class="panel-heading">
-					<h4 class="panel-title">
+					<h5 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse3"><i class="fa fa-fw fa-calendar"></i> Get Top 10 Market/Operator/Cell ID Combos by Date</a>
-					</h4>
+					</h5>
                 </div>
 				</div>
 				
@@ -190,9 +187,9 @@
 			
 				<div class="card-header">
                 <div class="panel-heading">
-					<h4 class="panel-title">
+					<h5 class="panel-title">
 						<a data-toggle="collapse" data-parent="#accordion" href="#collapse4"><i class="fa fa-fw fa-calendar"></i> Get Top 10 IMSIs by Date</a>
-					</h4>
+					</h5>
                 </div>
 				</div>
 				
@@ -217,16 +214,15 @@
 		</div>
 		
 		<!-- for responses -->
-		<div class="col-sm-7">
+		<div class="col-sm-8">
 			<div class="card">
 		  
-				<h4 class="card-header">
+				<h5 class="card-header">
 					<i class="fa fa-bar-chart"></i> Responses
-				</h4>
+				</h5>
 		  
 				<div class="card-block" id="response">
-					<ul id="responseHolder">
-					</ul>
+					<!-- datatable gets written into here -->
 				</div>
 		  
 			</div>
@@ -239,17 +235,5 @@
 	<a class="scroll-to-top rounded" href="#">
 		<i class="fa fa-chevron-up"></i>
 	</a>
-  
-	<!-- Bootstrap core JavaScript -->  
-	<script src="vendor/jquery/jquery.min.js"></script> 
-	<script src="vendor/tether/tether.min.js"></script> 
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script> 
 	
-	<!-- Plugin JavaScript -->   
-	<script src="vendor/chart.js/Chart.min.js"></script> 
-	<script src="vendor/datatables/jquery.dataTables.min.js"></script> 
-	<script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> 
-	
-	<!-- Custom scripts for this template -->   
-	<script src="js/sb-admin.min.js"></script></body>
 </html>

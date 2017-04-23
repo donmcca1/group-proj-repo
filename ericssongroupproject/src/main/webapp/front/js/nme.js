@@ -1,10 +1,11 @@
-
-
 $(document).ready(function(){
 	
 	//*******************//
 	//*** NME QUERIES ***//
 	//*******************//
+	
+	//waiting icon
+	var waiting = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color:cornflowerblue"></i>';
 	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	
@@ -13,6 +14,11 @@ $(document).ready(function(){
 		//-- retrieve dates from forms --//
 		startDate = $("#startDate7").val();
 		endDate = $("#endDate7").val();
+		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
 		
 		$.ajax({
 			
@@ -25,15 +31,14 @@ $(document).ready(function(){
 			success: function(data) {
 				
 				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></thead>'+'<tfoot><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></tfoot>'
+					+'<thead><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></thead>'
+					+'<tfoot><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></tfoot>'
 					+'<tbody>';
 					
-				$("#responseHolder").empty();
-				
+	
 				$.each(data, function(index, value){
 					
 					//--Get results from value string, splitting on commas--// 
-					
 					var full = value.toString();
 					var pos = full.indexOf(",");
 					var imsi = full.substring(0, pos);
@@ -47,6 +52,7 @@ $(document).ready(function(){
 				
 				responseTable+='</tbody></table></div>';
 				
+				$("#response").empty();
 				$("#response").append(responseTable);
 				$('#dataTable').dataTable();
 			}
@@ -62,6 +68,11 @@ $(document).ready(function(){
 		//-- retrieve dates from forms --//
 		ue_type = $("#ue8").val();
 		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
+		
 		$.ajax({
 			
 			type:"GET",
@@ -71,12 +82,15 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
-
-				$("#responseHolder").empty();
+				
+				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+					+'<thead><tr><th>Event ID</th><th>Cause Code</th><th>Description</th><th>Count</th></tr></thead>'
+					+'<tfoot><tr><th>Event ID</th><th>Cause Code</th><th>Description</th><th>Count</th></tr></tfoot>'
+					+'<tbody>';
 				
 				$.each(data, function(index, value){
-				//--Get results from value string, splitting on commas--//
-				
+					
+					//--Get results from value string, splitting on commas--//
 					var str = value.toString();
 					var strArray = str.split(",");
 					var count = strArray[0];
@@ -84,9 +98,15 @@ $(document).ready(function(){
 					var cause_code = strArray[2];
 					var description = strArray[3];
 					
-					$("#responseHolder").append
-						("<li>Count: "+count+"; Event ID: "+event_id+"; Cause Code: "+cause_code+"; Description: " + description +"</li>");
-				});	
+					var newLine = '<tr><td>'+event_id+'</td><td>'+cause_code+'</td><td>'+description+'</td><td>'+count+'</td></tr>';
+					responseTable+=newLine;
+				});
+
+				responseTable+='</tbody></table></div>';
+				
+				$("#response").empty();
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
 			}
 
 		});
@@ -99,6 +119,11 @@ $(document).ready(function(){
         //-- retrieve dates from forms --//
         startDate = $("#startDate9").val();
         endDate = $("#endDate9").val();
+		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
         
         $.ajax({
             
@@ -110,13 +135,23 @@ $(document).ready(function(){
             
             success: function(data) {
 
-                $("#responseHolder").empty();
+                var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+					+'<thead><tr><th>Market</th><th>Operator</th><th>Cell ID</th></tr></thead>'
+					+'<tfoot><tr><th>Market</th><th>Operator</th><th>Cell ID</th></tr></tfoot>'
+					+'<tbody>';
                 
                 $.each(data.baseDataList, function(index, value){
                 	
-                    $("#responseHolder").append
-                        ("<li> Market: "+value.mcc_mnc.country+"; Operator: "+value.mcc_mnc.operator+"; Cell ID: "+value.cell_id+"</li>");
+					var newLine = '<tr><td>'+value.mcc_mnc.country+'</td><td>'+value.mcc_mnc.operator+'</td><td>'+value.cell_id+'</td></tr>';
+					responseTable+=newLine;
+					
                 }); 
+				
+				responseTable+='</tbody></table></div>';
+				
+				$("#response").empty();
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
             }
 
         });
@@ -129,6 +164,11 @@ $(document).ready(function(){
         //-- retrieve dates from forms --//
         startDate = $("#startDate10").val();
         endDate = $("#endDate10").val();
+		
+		//-- clears the response holder, displays waiting icon, scrolls to top --//
+		$("#response").empty();
+		$("#response").append(waiting);
+		$(window).scrollTop(0);
         
         $.ajax({
             
@@ -140,12 +180,22 @@ $(document).ready(function(){
             
             success: function(data) {
 
-                $("#responseHolder").empty();
+                var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+					+'<thead><tr><th>IMSI</th></tr></thead>'
+					+'<tfoot><tr><th>IMSI</th></tr></tfoot>'
+					+'<tbody>';
                 
                 $.each(data.baseDataList, function(index, value){
-                    $("#responseHolder").append
-                        ("<li>"+value.imsi+"</li>");
-                }); 
+					
+					var newLine = '<tr><td>'+value.imsi+'</td></tr>';
+					responseTable+=newLine;
+                });
+
+				responseTable+='</tbody></table></div>';
+				
+				$("#response").empty();
+				$("#response").append(responseTable);
+				$('#dataTable').dataTable();
             }
 
         });
