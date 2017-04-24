@@ -28,13 +28,13 @@ $(document).ready(function(){
 			success: function(data) {
 				
 				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>Event ID</th><th>Cause Code</th><th>Description</th></tr></thead>'
-					+'<tfoot><tr><th>Event ID</th><th>Cause Code</th><th>Description</th></tr></tfoot>'
+					+'<thead><tr><th>Date</th><th>Event ID</th><th>Cause Code</th><th>Description</th></tr></thead>'
+					+'<tfoot><tr><th>Date</th><th>Event ID</th><th>Cause Code</th><th>Description</th></tr></tfoot>'
 					+'<tbody>';
 				
 				$.each(data.baseDataList, function(index, value){
 					
-					var newLine = '<tr><td>'+value.event_cause.event_id+'</td><td>'+value.event_cause.cause_code+'</td><td>'+value.event_cause.description+'</td></tr>';
+					var newLine = '<tr><td>'+value.date_time+'</td><td>'+value.event_cause.event_id+'</td><td>'+value.event_cause.cause_code+'</td><td>'+value.event_cause.description+'</td></tr>';
 					responseTable+=newLine;
 					
 				});
