@@ -31,13 +31,13 @@ $(document).ready(function(){
 			success: function(data) {
 				
 				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>IMSI</th></tr></thead>'
-					+'<tfoot><tr><th>IMSI</th></tr></tfoot>'
+					+'<thead><tr><th>Date</th><th>IMSI</th><th>Country</th><th>Operator</th></tr></thead>'
+					+'<tfoot><tr><th>Date</th><th>IMSI</th><th>Country</th><th>Operator</th></tr></tfoot>'
 					+'<tbody>';
 				
 				$.each(data.baseDataList, function(index, value){
 					
-					var newLine = '<tr><td>'+value.imsi+'</td></tr>';
+					var newLine = '<tr><td>'+value.date_time+'</td><td>'+value.imsi+'</td><td>'+value.mcc_mnc.country+'</td><td>'+value.mcc_mnc.operator+'</td></tr>';
 					responseTable+=newLine;
 					
 				});	
@@ -112,15 +112,15 @@ $(document).ready(function(){
 			success: function(data) {
 				
 				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>IMSI</th></tr></thead>'
-					+'<tfoot><tr><th>IMSI</th></tr></tfoot>'
+					+'<thead><tr><th>Date</th><th>IMSI</th><th>Country</th><th>Operator</th></tr></thead>'
+					+'<tfoot><tr><th>Date</th><th>IMSI</th><th>Country</th><th>Operator</th></tr></tfoot>'
 					+'<tbody>';
 	
 				$("#responseHolder").empty();
 				
 				$.each(data.baseDataList, function(index, value){
 					
-					var newLine = '<tr><td>'+value.imsi+'</td></tr>';
+					var newLine = '<tr><td>'+value.date_time+'</td><td>'+value.imsi+'</td><td>'+value.mcc_mnc.country+'</td><td>'+value.mcc_mnc.operator+'</td></tr>';
 					responseTable+=newLine;
 					
 				});
