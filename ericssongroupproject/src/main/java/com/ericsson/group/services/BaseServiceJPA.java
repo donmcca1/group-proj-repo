@@ -76,12 +76,12 @@ public class BaseServiceJPA implements BaseService{
 	}
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-	public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate) {
+	public Collection<?> top10MarketOperatorCell(Date startDate, Date endDate) {
 		return dao.top10MarketOperatorCell(startDate, endDate);
 	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
-	public Collection<BaseData> top10imsi(Date startDate, Date endDate) {
+	public Collection<?> top10imsi(Date startDate, Date endDate) {
 		return dao.top10imsi(startDate, endDate);
 	}
 

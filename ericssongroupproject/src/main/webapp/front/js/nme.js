@@ -31,22 +31,23 @@ $(document).ready(function(){
 			success: function(data) {
 				
 				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></thead>'
-					+'<tfoot><tr><th>IMSI</th><th>Count</th><th>Duration</th></tr></tfoot>'
+					+'<thead><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></thead>'
+					+'<tfoot><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></tfoot>'
 					+'<tbody>';
 					
 	
 				$.each(data, function(index, value){
 					
 					//--Get results from value string, splitting on commas--// 
-					var full = value.toString();
-					var pos = full.indexOf(",");
-					var imsi = full.substring(0, pos);
-					var pos2 = full.indexOf(",", pos+1);
-					var count = full.substring(pos+1, pos2);
-					var sum = full.substring(pos2+1);
+					var str = value.toString();
+					var strArray = str.split(",");
+					var imsi = strArray[0];
+					var country = strArray[1];
+					var operator = strArray[2];
+					var count = strArray[3];
+					var sum = strArray[4];
 						
-					var newLine = '<tr><td>'+imsi+'</td><td>'+count+'</td><td>'+sum+'</td></tr>';
+					var newLine = '<tr><td>'+imsi+'</td><td>'+country+'</td><td>'+operator+'</td><td>'+count+'</td><td>'+sum+'</td></tr>';
 					responseTable+=newLine;
 				});
 				
@@ -136,13 +137,21 @@ $(document).ready(function(){
             success: function(data) {
 
                 var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>Market</th><th>Operator</th><th>Cell ID</th></tr></thead>'
-					+'<tfoot><tr><th>Market</th><th>Operator</th><th>Cell ID</th></tr></tfoot>'
+					+'<thead><tr><th>Country</th><th>Operator</th><th>Cell ID</th><th>Count</th></tr></thead>'
+					+'<tfoot><tr><th>Country</th><th>Operator</th><th>Cell ID</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
                 
-                $.each(data.baseDataList, function(index, value){
+                $.each(data, function(index, value){
+					
+					//--Get results from value string, splitting on commas--//
+					var str = value.toString();
+					var strArray = str.split(",");
+					var country = strArray[0];
+					var operator = strArray[1];
+					var cell_id = strArray[2];
+					var count = strArray[3];
                 	
-					var newLine = '<tr><td>'+value.mcc_mnc.country+'</td><td>'+value.mcc_mnc.operator+'</td><td>'+value.cell_id+'</td></tr>';
+					var newLine = '<tr><td>'+country+'</td><td>'+operator+'</td><td>'+cell_id+'</td><td>'+count+'</td></tr>';
 					responseTable+=newLine;
 					
                 }); 
@@ -181,13 +190,21 @@ $(document).ready(function(){
             success: function(data) {
 
                 var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>IMSI</th></tr></thead>'
-					+'<tfoot><tr><th>IMSI</th></tr></tfoot>'
+					+'<thead><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th></tr></thead>'
+					+'<tfoot><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
                 
-                $.each(data.baseDataList, function(index, value){
+                $.each(data, function(index, value){
 					
-					var newLine = '<tr><td>'+value.imsi+'</td></tr>';
+					//--Get results from value string, splitting on commas--//
+					var str = value.toString();
+					var strArray = str.split(",");
+					var imsi = strArray[0];
+					var country = strArray[1];
+					var operator = strArray[2];
+					var count = strArray[3];
+					
+					var newLine = '<tr><td>'+imsi+'</td><td>'+country+'</td><td>'+operator+'</td><td>'+count+'</td></tr>';
 					responseTable+=newLine;
                 });
 

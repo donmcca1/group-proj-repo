@@ -89,7 +89,7 @@ public class JPABaseDAO implements BaseDAO {
 	
 	//--- 7. SELECT BY DATE, COUNT FAILURES, SUM DURATION BY IMSI ---//
 	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
-		Query query = em.createQuery("select imsi, count (c), sum (duration) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by imsi");
+		Query query = em.createQuery("select imsi, c.mcc_mnc.country, c.mcc_mnc.operator, count (c), sum (duration) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by imsi, c.mcc_mnc.country, c.mcc_mnc.operator");
 		query.setParameter("sDate",startDate);
 		query.setParameter("eDate", endDate);
 		return (List<?>)query.getResultList();
@@ -103,23 +103,23 @@ public class JPABaseDAO implements BaseDAO {
 	}
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-    public Collection<BaseData> top10MarketOperatorCell(Date startDate, Date endDate) {
-        Query query = em.createQuery("from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
+    public Collection<?> top10MarketOperatorCell(Date startDate, Date endDate) {
+        Query query = em.createQuery("select c.mcc_mnc.country, c.mcc_mnc.operator, cell_id, count (c) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
                 + "group by c.mcc_mnc.country, c.mcc_mnc.operator, c.cell_id order by count(c) desc");
         query.setParameter("sDate",startDate);
         query.setParameter("eDate", endDate);
         query.setMaxResults(10);
-        return (List<BaseData>)query.getResultList();
+        return (List<?>)query.getResultList();
     }
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
-    public Collection<BaseData> top10imsi(Date startDate, Date endDate) {
-        Query query = em.createQuery("from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
-                + "group by c.imsi order by count(c) desc");
+    public Collection<?> top10imsi(Date startDate, Date endDate) {
+        Query query = em.createQuery("select imsi, c.mcc_mnc.country, c.mcc_mnc.operator, count (c) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
+                + "group by imsi, c.mcc_mnc.country, c.mcc_mnc.operator order by count(c) desc");
         query.setParameter("sDate",startDate);
         query.setParameter("eDate", endDate);
         query.setMaxResults(10);
-        return (List<BaseData>)query.getResultList();
+        return (List<?>)query.getResultList();
     }
 
 	//***********************//

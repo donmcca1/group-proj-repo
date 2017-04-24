@@ -121,22 +121,20 @@ public class BaseCRUDService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/top10MOC")
-	public BaseDataList top10MarketOperatorCell(@QueryParam("start") Date startDate, 
+	public Collection<?> top10MarketOperatorCell(@QueryParam("start") Date startDate, 
         @QueryParam("end") Date endDate){
-		BaseDataList list = new BaseDataList();
-		list.setBaseDataList(service.top10MarketOperatorCell(startDate, endDate));
-		return list;
+		Collection<?> c = service.top10MarketOperatorCell(startDate, endDate);
+		return c;
 	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/top10imsi")
-	public BaseDataList top10imsi(@QueryParam("start") Date startDate, 
+	public Collection<?> top10imsi(@QueryParam("start") Date startDate, 
         @QueryParam("end") Date endDate){
-		BaseDataList list = new BaseDataList();
-		list.setBaseDataList(service.top10imsi(startDate, endDate));
-		return list;
+		Collection<?> c = service.top10imsi(startDate, endDate);
+		return c;
 	}
 
 	//***********************//
