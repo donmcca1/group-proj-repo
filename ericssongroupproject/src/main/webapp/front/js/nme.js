@@ -7,6 +7,8 @@ $(document).ready(function(){
 	//waiting icon
 	var waiting = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color:cornflowerblue"></i>';
 	
+	var myBarChart = '<canvas id="myBarChart" width="100" height="50"></canvas>'
+	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	
 	$("#button7").click(function(){
@@ -125,6 +127,10 @@ $(document).ready(function(){
 		$("#response").empty();
 		$("#response").append(waiting);
 		$(window).scrollTop(0);
+		
+		//-- add the chart to the charts div --//
+		$("#charts").empty();
+		$("#charts").append(waiting);
         
         $.ajax({
             
@@ -140,6 +146,9 @@ $(document).ready(function(){
 					+'<thead><tr><th>Country</th><th>Operator</th><th>Cell ID</th><th>Count</th></tr></thead>'
 					+'<tfoot><tr><th>Country</th><th>Operator</th><th>Cell ID</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
+					
+				var myData = [];
+				var myLabels = [];
                 
                 $.each(data, function(index, value){
 					
@@ -154,6 +163,8 @@ $(document).ready(function(){
 					var newLine = '<tr><td>'+country+'</td><td>'+operator+'</td><td>'+cell_id+'</td><td>'+count+'</td></tr>';
 					responseTable+=newLine;
 					
+					myData.push(count);
+					myLabels.push(cell_id);
                 }); 
 				
 				responseTable+='</tbody></table></div>';
@@ -161,12 +172,58 @@ $(document).ready(function(){
 				$("#response").empty();
 				$("#response").append(responseTable);
 				$('#dataTable').dataTable();
-            }
+				
+				$("#charts").empty();
+				$("#charts").append(myBarChart);
+				
+				//add the chart
+				var ctx = document.getElementById("myBarChart");
+				var myLineChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: myLabels,
+						datasets: [{
+							label: "Count",
+							backgroundColor: "rgba(2,117,216,1)",
+							borderColor: "rgba(2,117,216,1)",
+							data: myData,
+						}],
+					},
+					options: {
+						scales: {
+							xAxes: [{
+								time: {
+									unit: 'Cell ID'
+								},
+								gridLines: {
+									display: false
+								},
+								ticks: {
+									maxTicksLimit: 10
+								}
+							}],
+							yAxes: [{
+								ticks: {
+									min: 0,
+									max: 8000,
+									maxTicksLimit: 5
+								},
+								gridLines: {
+									display: true
+								}
+							}],
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
+			}
 
         });
         
     });
-    
+	
   //--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
     $("#button10").click(function(){
         
