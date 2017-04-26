@@ -35,22 +35,13 @@
 
       <!-- Form -->
       <section>
-        <form action="success.html" method="post" id="signup-form">
+        <form method="post" id="signup-form">
 
           <div class="input-group signup-name"><div class="input-group-addon">Name</div><input type="text" placeholder="Name" name="signup-name" id="signup-name"><span aria-hidden="true" id="status-name" class="status-icon"></span><span id ="username"></span></div>
-          <div class="input-group signup-password"><div class="input-group-addon">Password</div><input type="password" placeholder="Password" name="signup-password" id="signup-password"><span aria-hidden="true" id="status-password" class="status-icon"></span><span id="result"></span></div>
+          <div class="input-group signup-password"><div class="input-group-addon">Password</div><input type="password" placeholder="Password" name="signup-password" id="signup-password"><span aria-hidden="true" id="status-password" class="status-icon"></span></div>
+          <span id="result"></span>
           <div class="input-group signup-repassword"><div class="input-group-addon">Repassword</div><input type="password" placeholder="Retype Password" name="signup-repassword" id="signup-repassword"><span aria-hidden="true" id="status-repassword" class="status-icon"></span></div>
           <div class="input-group signup-role"><div class="input-group-addon">Role</div><input type="text" placeholder="Role" name="signup-role" id="signup-role"><span aria-hidden="true" id="status-role" class="status-icon"></span></div>
-         <!-- <div class="input-group signup-role">
-            <div class="input-group-addon">Role</div>
-            <select name="signup-role" id="signup-role">
-              <option>System Administrator</option>
-              <option>Network Management Engineer</option>
-              <option>Customer Service Representative</option>
-            </select>
-            <span aria-hidden="true" id="status-role" class="status-icon"></span>
-          </div>-->
-
           <div class="clearfix"></div>
 
           <div class="row section-action">
@@ -73,7 +64,7 @@
               var is_uname = input.val();
               $.ajax({
                   type:"GET",
-                  url:"rest/users",
+                  url:"/front/rest/users",
                   dataType:"json",
                   success: function(data) {
                       if(is_uname == data.username){

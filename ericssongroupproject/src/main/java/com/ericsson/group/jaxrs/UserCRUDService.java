@@ -42,9 +42,23 @@ public class UserCRUDService {
     @GET
     @Path("/{username}/{password}")
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean findUser(@PathParam("username") String username, @PathParam("password") String password){
+    public User findUser(@PathParam("username") String username, @PathParam("password") String password){
         return service.findUser(username, password);
     }
+    @GET
+    @Path("/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean checkUser(@PathParam("username") String username){
+        return service.checkUser(username);
+    }
+    /*@GET
+    @Path("/user/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("username") String username){
+        return service.getUser(username);
+    }*/
+
+
 
 
 }

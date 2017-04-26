@@ -38,9 +38,17 @@ public class UserServiceImpl implements UserServiceLocal {
         dao.deleteUser(id);
     }
 
-    public boolean findUser(String username, String password) {
+    public User findUser(String username, String password) {
 
         return dao.findUser(username,password);
 
     }
+    public boolean checkUser(String username){
+        return dao.checkUser(username);
+    }
+
+
+   /* public User getUser(String username) {
+        return dao.getUser(username);
+    }*/
 }

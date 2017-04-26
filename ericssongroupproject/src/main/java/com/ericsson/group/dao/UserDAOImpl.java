@@ -38,8 +38,24 @@ public class UserDAOImpl implements UserDAO {
     }
 
 
-    public boolean findUser(String username, String password) {
-        Query query = em.createQuery("select   c.username, c.password from User c where c.password = :password AND  c.username = :username ");
-        return  query.setParameter("username", username).setParameter("password", password).setMaxResults(1).getResultList().isEmpty();
+    public User findUser(String username, String password) {
+        Query query = em.createQuery("select   c from User c where c.password = :password AND  c.username = :username ");
+       /* return  (User)query.setParameter("username", username).setParameter("password", password).setMaxResults(1).getResultList().isEmpty();*/
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        return (User)query.getSingleResult();
     }
+
+    //to check is user exists
+    public boolean checkUser(String username) {
+        Query query = em.createQuery("from User c where c.username = :username");
+        boolean status = query.setParameter("username", username).setMaxResults(1).getResultList().isEmpty();
+        return status;
+    }
+
+   /* public User getUser(String username) {
+        Query query = em.createQuery("select c from User c where c.username = :username");
+        query.setParameter("username", username);
+        return (User)query.getSingleResult();
+    }*/
 }
