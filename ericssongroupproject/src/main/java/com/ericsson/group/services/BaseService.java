@@ -10,6 +10,9 @@ public interface BaseService {
 	
 	//--- SELECT ALL (NO FRONT END) ---//
 	public Collection<BaseData> getAllBaseData();
+
+	//--- IMSI AUTO COMPLETE ---//
+	public Collection<String> imsiAutoComplete(Long imsi);
 	
 	//*******************//
 	//*** CSR QUERIES ***//

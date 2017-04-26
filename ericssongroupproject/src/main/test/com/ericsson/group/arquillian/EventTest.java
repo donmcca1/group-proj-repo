@@ -37,6 +37,7 @@ public class EventTest {
     @Deployment
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
+                .addPackage(eventCRUDService.class.getPackage())
                 .addClasses(EventService.class, EventServiceImpl.class, EventDAO.class, EventDAOImpl.class, EventCause.class, EventCausePK.class)
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -52,6 +53,13 @@ public class EventTest {
 
         List<EventCause> testEvents = (List<EventCause>) eventService.getAllEventCause();
         Assert.assertEquals("test event description", testEvents.get(0).getDescription());
+    }
+
+    @Test
+    public final void test() throws Exception {
+        eventCRUDService eventCRUD = new eventCRUDService();
+
+
     }
 
 

@@ -11,6 +11,9 @@ import java.util.List;
 public interface BaseDAO {
 	//--- SELECT ALL (NO FRONT END) ---//
 	public Collection<BaseData> getBaseData();
+
+	//--- IMSI AUTO COMPLETE ---//
+	public Collection<Long> imsiAutoComplete(Long imsi);
 	
 	//*******************//
 	//*** CSR QUERIES ***//

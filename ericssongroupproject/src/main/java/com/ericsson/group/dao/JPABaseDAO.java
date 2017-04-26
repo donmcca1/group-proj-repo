@@ -23,6 +23,12 @@ public class JPABaseDAO implements BaseDAO {
 		Query query = em.createQuery("from BaseData");
 		return (List<BaseData>)query.getResultList();
 	}
+
+	//--- IMSI AUTO COMPLETE ---//
+	public Collection<Long> imsiAutoComplete(Long imsi){
+		Query query = em.createNamedQuery("imsiautocomplete").setParameter("imsi",imsi);
+		return (List<Long>)query.getResultList();
+	}
 	
 	//*******************//
 	//*** CSR QUERIES ***//

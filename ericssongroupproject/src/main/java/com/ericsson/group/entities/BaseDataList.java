@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class BaseDataList implements Serializable{
-
 	private Collection<BaseData> baseDataList;
 
 	public Collection<BaseData> getBaseDataList() {
@@ -17,5 +16,4 @@ public class BaseDataList implements Serializable{
 	public void setBaseDataList(Collection<BaseData> baseDataList) {
 		this.baseDataList = baseDataList;
 	}
-	
 }

@@ -23,6 +23,14 @@ public class BaseCRUDService {
 		list.setBaseDataList(service.getAllBaseData());
 		return list;
 	}
+
+	//--- IMSI AUTO COMPLETE ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/auto/{imsi}")
+	public Collection<String> imsiAutoComplete(@PathParam("imsi") Long imsi){
+		return service.imsiAutoComplete(imsi);
+	}
 	
 	
 	//*******************//

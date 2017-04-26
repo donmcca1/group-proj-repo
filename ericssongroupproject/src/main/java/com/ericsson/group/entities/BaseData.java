@@ -1,10 +1,17 @@
 package com.ericsson.group.entities;
 
+import org.hibernate.annotations.Formula;
+
 import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.*;
-
+@NamedQueries({
+		@NamedQuery(
+				name = "imsiautocomplete",
+				query = "select distinct b.imsi from BaseData b where b.imsi like CONCAT(:imsi, '%')"
+		)
+})
 @Entity
 @Table(name="base_data")
 public class BaseData implements Serializable{
@@ -45,6 +52,9 @@ public class BaseData implements Serializable{
 			@JoinColumn(name = "operator", referencedColumnName = "mnc")
 	})
 	private MccMnc mcc_mnc;
+
+	@Transient
+	private Long countByDate;
 	
 	public BaseData() {}
 	
@@ -139,5 +149,13 @@ public class BaseData implements Serializable{
 
 	public void setMcc_mnc(MccMnc mcc_mnc) {
 		this.mcc_mnc = mcc_mnc;
+	}
+
+	public Long getCountByDate() {
+		return countByDate;
+	}
+
+	public void setCountByDate(Long countByDate) {
+		this.countByDate = countByDate;
 	}
 }

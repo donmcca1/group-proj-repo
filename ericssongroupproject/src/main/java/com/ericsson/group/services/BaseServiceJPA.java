@@ -5,6 +5,7 @@ import com.ericsson.group.entities.BaseData;
 
 import javax.ejb.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,6 +20,18 @@ public class BaseServiceJPA implements BaseService{
 	//--- SELECT ALL (NO FRONT END) ---//
 	public Collection<BaseData> getAllBaseData() {
 		return dao.getBaseData();
+	}
+
+	//--- IMSI AUTO COMPLETE ---//
+	public Collection<String> imsiAutoComplete(Long imsi) {
+		Collection<String> strings = new ArrayList<String>();
+		Collection<Long> longs = dao.imsiAutoComplete(imsi);
+		for (Long l :
+				longs) {
+			strings.add(l.toString());
+
+		}
+		return  strings;
 	}
 	
 	//*******************//
