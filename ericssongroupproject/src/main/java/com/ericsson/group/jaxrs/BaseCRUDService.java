@@ -131,8 +131,9 @@ public class BaseCRUDService {
 		@GET
 		@Produces(MediaType.APPLICATION_JSON)
 		@Path("/count")
-		public Long countAllFailures() {
-			return service.countAllFailures();
+		public Long countAllFailures(@QueryParam("start") Date startDate,
+									 @QueryParam("end") Date endDate) {
+			return service.countAllFailures(startDate, endDate);
 		}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//

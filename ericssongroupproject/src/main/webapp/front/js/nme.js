@@ -231,11 +231,12 @@ $(document).ready(function(){
 		$.ajax({ //Second Request(total failures)
                 type:"GET",
                 url:"rest/base/count",
+            	data: { start: startDate, end: endDate },
                 cache: false,
                 success: function(returnhtml){
 					
 					var numFailures = returnhtml;
-                    //alert(returnhtml);
+                    // alert(returnhtml);
                 }
             })
 

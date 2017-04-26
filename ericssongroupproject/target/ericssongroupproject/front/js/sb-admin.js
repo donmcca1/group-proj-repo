@@ -71,8 +71,6 @@ var myLineChart = new Chart(ctx, {
 });
 
 // -- Bar Chart Example
-
-// -- Area Chart Example
 var ctx = document.getElementById("myBarChart");
 var myLineChart = new Chart(ctx, {
     type: 'bar',

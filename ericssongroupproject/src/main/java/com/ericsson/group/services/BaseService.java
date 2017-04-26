@@ -53,7 +53,7 @@ public interface BaseService {
 	public Collection<?> top10MarketOperatorCell(Date startDate, Date endDate);
 	
 		//--- 9. For graph, count all failures. ---//
-		public Long countAllFailures();	
+		public Long countAllFailures(Date startDate, Date endDate);
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 	public Collection<?> top10imsi(Date startDate, Date endDate);

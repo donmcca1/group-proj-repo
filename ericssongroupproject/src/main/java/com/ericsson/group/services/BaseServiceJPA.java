@@ -81,8 +81,8 @@ public class BaseServiceJPA implements BaseService{
 	}
 	
 		//--- 9. For graph, count all failures. ---//
-		public Long countAllFailures() {
-			return dao.countAllFailures();
+		public Long countAllFailures(Date startDate, Date endDate) {
+			return dao.countAllFailures(startDate, endDate);
 		}	
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//

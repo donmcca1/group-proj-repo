@@ -113,7 +113,7 @@ public class JPABaseDAO implements BaseDAO {
     }
     
 	    //--- 9. For graph, count all failures. ---//
-	  	public Long countAllFailures() {
+	  	public Long countAllFailures(Date startDate, Date endDate) {
 	  		Query query = em.createQuery("select count(c) from BaseData c");
 	  		return (Long) query.getSingleResult();
 	  	}
