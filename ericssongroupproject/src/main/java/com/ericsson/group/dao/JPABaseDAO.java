@@ -101,7 +101,7 @@ public class JPABaseDAO implements BaseDAO {
 		return (List<?>)query.getResultList();
 	}
 
-	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY ---//
+	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY for pie chart ---//
 	public Collection<?> getDurationByDateGroupCountry(Date startDate, Date endDate) {
 		Query query = em.createQuery("select sum (duration), c.mcc_mnc.country from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by c.mcc_mnc.country");
 		query.setParameter("sDate",startDate);

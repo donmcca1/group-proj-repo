@@ -21,7 +21,18 @@ $(document).ready(function(){
 		$("#response").empty();
 		$("#response").append(waiting);
 		$(window).scrollTop(0);
+		
+		//-- clears the charts holder, displays waiting icon --//
+		$("#charts").empty();
+		$("#charts").append(waiting);
 
+		//two requests for chart and table
+			//global variables
+			var myData = [];
+			var myLabels = [];
+			var myColors = [];
+			var myHighlights = [];
+			
         $.when(
 		
 		$.ajax({
@@ -38,7 +49,6 @@ $(document).ready(function(){
                     + '<thead><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></thead>'
                     + '<tfoot><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></tfoot>'
                     + '<tbody>';
-
 
                 $.each(data, function (index, value) {
 
@@ -62,20 +72,66 @@ $(document).ready(function(){
             }
             }),
 
-                    $.ajax({ //Second Request(total failures)
+                    $.ajax({ //Second Request(total failures by country)
                         type:"GET",
                         url:"rest/base/numfailcountry",
                         data: { start: startDate, end: endDate },
                         cache: false,
                         success: function(returnhtml){
 
-                            newData = returnhtml;
-                            //alert(newData);
+                            $.each(returnhtml, function(index, value){
+					
+								//--Get results from value string, splitting on commas--//
+								var str = value.toString();
+								var strArray = str.split(",");
+								var duration = strArray[0];
+								var country = strArray[1];
+					
+								myData.push(duration);
+								myLabels.push(country);
+					
+								//generate random color
+								r = Math.floor(Math.random()*200);
+								g = Math.floor(Math.random()*200);
+								b = Math.floor(Math.random()*200);
+					
+								color = 'rgb('+r+', '+g+', '+b+')';
+								myColors.push(color);
+					
+								highlight = 'rgb('+(r+20)+', '+(g+20)+', '+(b+20)+')';
+								myHighlights.push(highlight);
+							});
 
                         }
                     })
 
                 ).then(function() {
+					$("#charts").empty();
+					$("#charts").append(myBarChart);
+		
+					//add the chart
+					var ctx = document.getElementById("myBarChart");
+					var myLineChart = new Chart(ctx, {
+						type: 'doughnut',
+						data: {
+							labels: myLabels,
+							datasets: [{
+								data: myData,
+								backgroundColor: myColors,
+								hoverBackgroundColor: myHighlights,
+							}]
+						},
+						options: {
+							title: {
+								display: true,
+								text: 'Number of Failures by Country'
+							},
+							legend: {
+								display: false
+							}
+							
+						}
+					});
 
             });
 
@@ -93,6 +149,10 @@ $(document).ready(function(){
 		$("#response").append(waiting);
 		$(window).scrollTop(0);
 		
+		//-- clears the charts holder, displays waiting icon --//
+		$("#charts").empty();
+		$("#charts").append(waiting);
+		
 		$.ajax({
 			
 			type:"GET",
@@ -107,6 +167,11 @@ $(document).ready(function(){
 					+'<thead><tr><th>Event ID</th><th>Cause Code</th><th>Description</th><th>Count</th></tr></thead>'
 					+'<tfoot><tr><th>Event ID</th><th>Cause Code</th><th>Description</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
+					
+				var myData = [];
+				var myLabels = [];
+				var myColors = [];
+				var myHighlights = [];
 				
 				$.each(data, function(index, value){
 					
@@ -120,6 +185,20 @@ $(document).ready(function(){
 					
 					var newLine = '<tr><td>'+event_id+'</td><td>'+cause_code+'</td><td>'+description+'</td><td>'+count+'</td></tr>';
 					responseTable+=newLine;
+					
+					myData.push(count);
+					myLabels.push(description);
+					
+					//generate random color
+					r = Math.floor(Math.random()*200);
+					g = Math.floor(Math.random()*200);
+					b = Math.floor(Math.random()*200);
+					
+					color = 'rgb('+r+', '+g+', '+b+')';
+					myColors.push(color);
+					
+					highlight = 'rgb('+(r+20)+', '+(g+20)+', '+(b+20)+')';
+					myHighlights.push(highlight);
 				});
 
 				responseTable+='</tbody></table></div>';
@@ -127,6 +206,33 @@ $(document).ready(function(){
 				$("#response").empty();
 				$("#response").append(responseTable);
 				$('#dataTable').dataTable();
+				
+				$("#charts").empty();
+				$("#charts").append(myBarChart);
+				
+				//add the chart
+				var ctx = document.getElementById("myBarChart");
+				var myLineChart = new Chart(ctx, {
+					type: 'doughnut',
+					data: {
+						labels: myLabels,
+						datasets: [{
+							data: myData,
+							backgroundColor: myColors,
+							hoverBackgroundColor: myHighlights,
+						}]
+					},
+					options: {
+						title: {
+							display: true,
+							text: 'Failure Description and Count'
+						},
+						legend: {
+							display: false
+						}
+						
+					}
+				});
 			}
 
 		});
