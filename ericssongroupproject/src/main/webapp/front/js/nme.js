@@ -133,6 +133,11 @@ $(document).ready(function(){
 		$("#charts").append(waiting);
 		
 		//two requests to calculate percents
+			//global variables for the two calls
+			var myData = [];
+			var myLabels = [];
+			var numFailures;
+		
 		$.when(
         
         $.ajax({
@@ -149,9 +154,6 @@ $(document).ready(function(){
 					+'<thead><tr><th>Country</th><th>MCC</th><th>Operator</th><th>MNC</th><th>Cell ID</th><th>Count</th></tr></thead>'
 					+'<tfoot><tr><th>Country</th><th>MCC</th><th>Operator</th><th>MNC</th><th>Cell ID</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
-					
-				var myData = [];
-				var myLabels = [];
                 
                 $.each(data, function(index, value){
 					
@@ -235,13 +237,33 @@ $(document).ready(function(){
                 cache: false,
                 success: function(returnhtml){
 					
-					var numFailures = returnhtml;
-                    // alert(returnhtml);
+					numFailures = returnhtml;
+
                 }
             })
 
         ).then(function() {
-            
+			var myPercentages = [];
+			var myPercentageDiv = '<br><div id="myPercentageDiv"><h6>Percent of Total Failures:</h6><br><table><tr><th>Nodes</th>';
+			
+			//add the node row
+			for(i=0;i<myData.length;i++){
+				myPercentageDiv+='<td>'+myLabels[i]+'</td>';
+			}
+			
+			myPercentageDiv+='</tr><tr><th>Percent</th>';
+			
+			//add the percentage row
+            for(i=0;i<myData.length;i++){
+				var percentage = (myData[i]/numFailures*100).toFixed(2);
+				myPercentages.push(percentage);
+				
+				myPercentageDiv+='<td>'+percentage+'%</td>';
+			}
+			
+			myPercentageDiv+='</tr></div>';
+			
+			$("#charts").append(myPercentageDiv);
         });
         
     });
