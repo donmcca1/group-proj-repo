@@ -80,6 +80,11 @@ public class BaseServiceJPA implements BaseService{
 		return dao.top10MarketOperatorCell(startDate, endDate);
 	}
 	
+		//--- 9. For graph, count all failures. ---//
+		public Long countAllFailures() {
+			return dao.countAllFailures();
+		}	
+	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 	public Collection<?> top10imsi(Date startDate, Date endDate) {
 		return dao.top10imsi(startDate, endDate);

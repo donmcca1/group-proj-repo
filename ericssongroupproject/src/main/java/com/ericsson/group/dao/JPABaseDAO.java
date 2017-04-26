@@ -111,6 +111,12 @@ public class JPABaseDAO implements BaseDAO {
         query.setMaxResults(10);
         return (List<?>)query.getResultList();
     }
+    
+	    //--- 9. For graph, count all failures. ---//
+	  	public Long countAllFailures() {
+	  		Query query = em.createQuery("select count(c) from BaseData c");
+	  		return (Long) query.getSingleResult();
+	  	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
     public Collection<?> top10imsi(Date startDate, Date endDate) {

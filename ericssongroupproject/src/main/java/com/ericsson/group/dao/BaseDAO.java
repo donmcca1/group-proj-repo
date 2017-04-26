@@ -53,6 +53,9 @@ public interface BaseDAO {
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
     public Collection<?> top10MarketOperatorCell(Date startDate, Date endDate);
+    
+	  	//--- 9. For graph, count all failures. ---//
+	  	public Long countAllFailures();
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
     public Collection<?> top10imsi(Date startDate, Date endDate);

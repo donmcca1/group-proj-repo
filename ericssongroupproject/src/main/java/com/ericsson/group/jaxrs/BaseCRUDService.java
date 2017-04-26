@@ -127,6 +127,14 @@ public class BaseCRUDService {
 		return c;
 	}
 	
+		//--- 9. For graph, count all failures. ---//
+		@GET
+		@Produces(MediaType.APPLICATION_JSON)
+		@Path("/count")
+		public Long countAllFailures() {
+			return service.countAllFailures();
+		}
+	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

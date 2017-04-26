@@ -128,9 +128,12 @@ $(document).ready(function(){
 		$("#response").append(waiting);
 		$(window).scrollTop(0);
 		
-		//-- add the chart to the charts div --//
+		//-- clears the charts holder, displays waiting icon --//
 		$("#charts").empty();
 		$("#charts").append(waiting);
+		
+		//two requests to calculate percents
+		$.when(
         
         $.ajax({
             
@@ -205,7 +208,6 @@ $(document).ready(function(){
 							yAxes: [{
 								ticks: {
 									min: 0,
-									max: 8000,
 									maxTicksLimit: 5
 								},
 								gridLines: {
@@ -220,6 +222,21 @@ $(document).ready(function(){
 				});
 			}
 
+        }),
+		
+		$.ajax({ //Second Request(total failures)
+                type:"GET",
+                url:"rest/base/count",
+                cache: false,
+                success: function(returnhtml){
+					
+					var numFailures = returnhtml;
+                    //alert(returnhtml);
+                }
+            })
+
+        ).then(function() {
+            
         });
         
     });
