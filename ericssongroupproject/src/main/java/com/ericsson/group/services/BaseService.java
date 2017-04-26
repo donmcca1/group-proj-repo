@@ -48,6 +48,9 @@ public interface BaseService {
 	
 	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
 	public Collection<?> getNumFailuresAndDurationByDate(Date startDate, Date endDate);
+
+	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY ---//
+	public Collection<?> getDurationByDateGroupCountry(Date startDate, Date endDate);
 	
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	public Collection<?> countByModelEventIdCauseCode(String ue_type);

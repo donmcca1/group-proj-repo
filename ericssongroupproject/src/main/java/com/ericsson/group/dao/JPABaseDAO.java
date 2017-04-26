@@ -101,6 +101,14 @@ public class JPABaseDAO implements BaseDAO {
 		return (List<?>)query.getResultList();
 	}
 
+	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY ---//
+	public Collection<?> getDurationByDateGroupCountry(Date startDate, Date endDate) {
+		Query query = em.createQuery("select sum (duration) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by c.mcc_mnc.country, c.mcc_mnc.operator");
+		query.setParameter("sDate",startDate);
+		query.setParameter("eDate", endDate);
+		return (List<?>)query.getResultList();
+	}
+
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	public Collection<?> countByModelEventIdCauseCode(String ue_type){
 		Query query = em.createQuery("select count (c), c.event_cause.event_id, c.event_cause.cause_code, c.event_cause.description from BaseData c where c.ue.model = :ue_type group by c.event_cause.event_id, c.event_cause.cause_code");

@@ -21,6 +21,8 @@ $(document).ready(function(){
 		$("#response").empty();
 		$("#response").append(waiting);
 		$(window).scrollTop(0);
+
+        $.when(
 		
 		$.ajax({
 			
@@ -31,38 +33,53 @@ $(document).ready(function(){
 			dataType:"json",
 			
 			success: function(data) {
-				
-				var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></thead>'
-					+'<tfoot><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></tfoot>'
-					+'<tbody>';
-					
-	
-				$.each(data, function(index, value){
-					
-					//--Get results from value string, splitting on commas--// 
-					var str = value.toString();
-					var strArray = str.split(",");
-					var imsi = strArray[0];
-					var country = strArray[1];
-					var operator = strArray[2];
-					var count = strArray[3];
-					var sum = strArray[4];
-						
-					var newLine = '<tr><td>'+imsi+'</td><td>'+country+'</td><td>'+operator+'</td><td>'+count+'</td><td>'+sum+'</td></tr>';
-					responseTable+=newLine;
-				});
-				
-				responseTable+='</tbody></table></div>';
-				
-				$("#response").empty();
-				$("#response").append(responseTable);
-				$('#dataTable').dataTable();
-			}
 
-		});
-		
-	});	
+                var responseTable = '<div class="table-responsive">' + '<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
+                    + '<thead><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></thead>'
+                    + '<tfoot><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th><th>Duration</th></tr></tfoot>'
+                    + '<tbody>';
+
+
+                $.each(data, function (index, value) {
+
+                    //--Get results from value string, splitting on commas--//
+                    var str = value.toString();
+                    var strArray = str.split(",");
+                    var imsi = strArray[0];
+                    var country = strArray[1];
+                    var operator = strArray[2];
+                    var count = strArray[3];
+                    var sum = strArray[4];
+
+                    var newLine = '<tr><td>' + imsi + '</td><td>' + country + '</td><td>' + operator + '</td><td>' + count + '</td><td>' + sum + '</td></tr>';
+                    responseTable += newLine;
+                });
+                responseTable+='</tbody></table></div>';
+
+                $("#response").empty();
+                $("#response").append(responseTable);
+                $('#dataTable').dataTable();
+            }
+            }),
+
+                    $.ajax({ //Second Request(total failures)
+                        type:"GET",
+                        url:"rest/base/numfailcountry",
+                        data: { start: startDate, end: endDate },
+                        cache: false,
+                        success: function(returnhtml){
+
+                            newData = returnhtml;
+                            //alert(newData);
+
+                        }
+                    })
+
+                ).then(function() {
+
+            });
+
+    });
 
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	

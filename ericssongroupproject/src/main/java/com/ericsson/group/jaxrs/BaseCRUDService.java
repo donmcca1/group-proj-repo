@@ -114,6 +114,15 @@ public class BaseCRUDService {
 		Collection<?> v = service.getNumFailuresAndDurationByDate(startDate, endDate);
 		return v;
 	}
+
+	//--- 7. SELECT BY IMSI & DATE, COUNT FAILURES, SUM DURATION ---//
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/numfailcountry")
+	public Collection<?> getBaseDataByDateGraph(@QueryParam("start") Date startDate, @QueryParam("end") Date endDate){
+		Collection<?> v = service.getDurationByDateGroupCountry(startDate, endDate);
+		return v;
+	}
 	
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
 	@GET
