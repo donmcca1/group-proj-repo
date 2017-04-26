@@ -23,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JPABaseDAO.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="JPABaseDAO.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/ericsson/group/dao/JPABaseDAO.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="275">
-              <caret line="105" column="139" lean-forward="false" selection-start-line="105" selection-start-column="139" selection-end-line="105" selection-end-column="139" />
+              <caret line="105" column="175" lean-forward="false" selection-start-line="105" selection-start-column="175" selection-end-line="105" selection-end-column="175" />
               <folding />
             </state>
           </provider>
@@ -95,7 +95,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nme.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nme.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/front/js/nme.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="222">
@@ -152,8 +152,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/ericsson/group/services/BaseService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ericsson/group/services/BaseServiceJPA.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/ericsson/group/jaxrs/BaseCRUDService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/ericsson/group/dao/JPABaseDAO.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/front/js/nme.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/ericsson/group/dao/JPABaseDAO.java" />
       </list>
     </option>
   </component>
@@ -950,12 +950,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1493210655721</updated>
-      <workItem from="1493210657042" duration="10332000" />
+      <workItem from="1493210657042" duration="10582000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10332000" />
+    <option name="totallyTimeSpent" value="10582000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -1112,14 +1112,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ericsson/group/jaxrs/BaseCRUDService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/front/js/nme.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="122" column="84" lean-forward="true" selection-start-line="122" selection-start-column="84" selection-end-line="122" selection-end-column="84" />
+        <state relative-caret-position="222">
+          <caret line="72" column="30" lean-forward="false" selection-start-line="72" selection-start-column="30" selection-end-line="72" selection-end-column="30" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#787#788#0" expanded="true" />
-            <element signature="e#831#832#0" expanded="true" />
+            <marker date="1493223829405" expanded="true" signature="194:214" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1134,21 +1132,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/ericsson/group/dao/JPABaseDAO.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ericsson/group/jaxrs/BaseCRUDService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="105" column="139" lean-forward="false" selection-start-line="105" selection-start-column="139" selection-end-line="105" selection-end-column="139" />
-          <folding />
+        <state relative-caret-position="372">
+          <caret line="122" column="84" lean-forward="true" selection-start-line="122" selection-start-column="84" selection-end-line="122" selection-end-column="84" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
+            <element signature="e#831#832#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/front/js/nme.js">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ericsson/group/dao/JPABaseDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="72" column="30" lean-forward="false" selection-start-line="72" selection-start-column="30" selection-end-line="72" selection-end-column="30" />
-          <folding>
-            <marker date="1493223829405" expanded="true" signature="194:214" ph="..." />
-          </folding>
+        <state relative-caret-position="275">
+          <caret line="105" column="175" lean-forward="false" selection-start-line="105" selection-start-column="175" selection-end-line="105" selection-end-column="175" />
+          <folding />
         </state>
       </provider>
     </entry>

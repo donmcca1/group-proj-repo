@@ -103,7 +103,7 @@ public class JPABaseDAO implements BaseDAO {
 
 	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY ---//
 	public Collection<?> getDurationByDateGroupCountry(Date startDate, Date endDate) {
-		Query query = em.createQuery("select sum (duration) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by c.mcc_mnc.country, c.mcc_mnc.operator");
+		Query query = em.createQuery("select sum (duration), c.mcc_mnc.country from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate group by c.mcc_mnc.country");
 		query.setParameter("sDate",startDate);
 		query.setParameter("eDate", endDate);
 		return (List<?>)query.getResultList();
