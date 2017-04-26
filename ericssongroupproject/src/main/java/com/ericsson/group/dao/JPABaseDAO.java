@@ -104,7 +104,7 @@ public class JPABaseDAO implements BaseDAO {
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
     public Collection<?> top10MarketOperatorCell(Date startDate, Date endDate) {
-        Query query = em.createQuery("select c.mcc_mnc.country, c.mcc_mnc.operator, cell_id, count (c) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
+        Query query = em.createQuery("select c.mcc_mnc.country, c.mcc_mnc.operator, cell_id, c.mcc_mnc.mcc, c.mcc_mnc.mnc, count (c) from BaseData c where c.date_time >= :sDate AND c.date_time <= :eDate "
                 + "group by c.mcc_mnc.country, c.mcc_mnc.operator, c.cell_id order by count(c) desc");
         query.setParameter("sDate",startDate);
         query.setParameter("eDate", endDate);

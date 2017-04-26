@@ -146,8 +146,8 @@ $(document).ready(function(){
             success: function(data) {
 
                 var responseTable = '<div class="table-responsive">'+'<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">'
-					+'<thead><tr><th>Country</th><th>Operator</th><th>Cell ID</th><th>Count</th></tr></thead>'
-					+'<tfoot><tr><th>Country</th><th>Operator</th><th>Cell ID</th><th>Count</th></tr></tfoot>'
+					+'<thead><tr><th>Country</th><th>MCC</th><th>Operator</th><th>MNC</th><th>Cell ID</th><th>Count</th></tr></thead>'
+					+'<tfoot><tr><th>Country</th><th>MCC</th><th>Operator</th><th>MNC</th><th>Cell ID</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
 					
 				var myData = [];
@@ -161,13 +161,16 @@ $(document).ready(function(){
 					var country = strArray[0];
 					var operator = strArray[1];
 					var cell_id = strArray[2];
-					var count = strArray[3];
+					var mcc = strArray[3];
+					var mnc = strArray[4];
+					var count = strArray[5];
                 	
-					var newLine = '<tr><td>'+country+'</td><td>'+operator+'</td><td>'+cell_id+'</td><td>'+count+'</td></tr>';
+					var newLine = '<tr><td>'+country+'</td><td>'+mcc+'</td><td>'+operator+'</td><td>'+mnc+'</td><td>'+cell_id+'</td><td>'+count+'</td></tr>';
 					responseTable+=newLine;
 					
 					myData.push(count);
-					myLabels.push(cell_id);
+					var label = mcc+"/"+mnc+"/"+cell_id;
+					myLabels.push(label);
                 }); 
 				
 				responseTable+='</tbody></table></div>';
@@ -195,8 +198,9 @@ $(document).ready(function(){
 					options: {
 						scales: {
 							xAxes: [{
-								time: {
-									unit: 'Cell ID'
+								scaleLabel:{
+									display: true,
+									labelString: 'MCC/MNC/Cell ID'
 								},
 								gridLines: {
 									display: false
