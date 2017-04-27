@@ -1,3 +1,7 @@
+var usernameFree = false;
+var passwordIsStrong = false;
+var passwordsMatch = false;
+
 function checkUsername(username) {
     $.ajax({
         type: "GET",
@@ -12,21 +16,24 @@ function checkUsername(username) {
 
                 $("#signup-name").addClass("error-input");
                 $(".signup-name").addClass("error-placeholder");
+				
+				usernameFree = false;
 
-
-            }else {
-                $("#username").val("");
+            }else{
+                $("#username").text("");
+				
                 $("#status-name").removeClass("icon-close");
                 $("#status-name").addClass("icon-check");
 
                 $(".signup-name").removeClass("error-placeholder");
                 $("#signup-name").removeClass("error-input");
-
+				
+				usernameFree = true;
             }
         }
-
     });
 }
+
 function checkStrength(password){
     //initial strength
     var strength = 0;
@@ -49,15 +56,19 @@ function checkStrength(password){
     if (strength < 2 ) {
         $('#result').removeClass();
         $('#result').addClass('weak');
-        return 'Weak' }
-    else if (strength == 2 ) {
+        return 'Weak' 
+		passwordIsStrong = false;
+	} else if (strength == 2 ) {
         $('#result').removeClass();
         $('#result').addClass('good') ;
-        return 'Good' }
-    else {
+		passwordIsStrong = true;
+        return 'Good' 
+	} else {
         $('#result').removeClass() ;
         $('#result').addClass('strong') ;
-        return 'Strong' }
+		passwordIsStrong = true;
+        return 'Strong' 
+	}
 }
 
 $(document).ready(function () {
@@ -72,8 +83,8 @@ $(document).ready(function () {
         var input = $(this);
         var is_uname = input.val();
         checkUsername(is_uname);
-
     });
+	
     $("#signup-password").on("keyup", function () {
         $("#result").html(checkStrength($("#signup-password").val()));
 
@@ -83,39 +94,29 @@ $(document).ready(function () {
         var rpwd = $("#signup-repassword").val();
         if (pwd != rpwd || rpwd == "")
         {
+			$("#checkPass").text("Passwords must match.");
+			
             $("#status-repassword").removeClass("icon-check");
             $("#status-repassword").addClass("icon-close");
             $(".signup-repassword").addClass("error-placeholder");
             $("#signup-repassword").addClass("error-input");
+			
+			passwordsMatch = false;
         }
 
         // If repassword is ok
         else if (pwd === rpwd && rpwd!== "")
         {
+			$("#checkPass").text("");
+			
             $("#status-repassword").addClass("icon-check");
             $("#status-repassword").removeClass("icon-close");
             $(".signup-repassword").removeClass("error-placeholder");
             $("#signup-repassword").removeClass("error-input");
+			passwordsMatch = true;
         }
 
     });
-
-  /*  $("#signup-role").on("input", function () {
-        var input = $(this);
-        var is_role = input.val();
-        if(is_role){
-            $("#status-role").addClass("icon-check");
-            $("#status-role").removeClass("icon-close");
-            $(".signup-role").removeClass("error-placeholder");
-            $("#signup-role").removeClass("error-input");
-        }else{
-            $("#status-role").removeClass("icon-check");
-            $("#status-role").addClass("icon-close");
-            $(".signup-role").addClass("error-placeholder");
-            $("#signup-role").addClass("error-input");
-        }
-
-    });*/
 
     var register = function(username, password, role) {
         this.username=username;
@@ -128,21 +129,31 @@ $(document).ready(function () {
         var password = $("#signup-password").val();
         var rpassword = $("#signup-repassword").val();
         var role = $("#signup-role").val();
-        if(username !== "" && password !== "" && rpassword !== "" && role !== ""){
+		
+		var successAlert = '<div class="alert alert-success alert-dismissable" id="success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>User successfully created.</div>';
+		var failureAlert = '<div class="alert alert-danger alert-dismissable" id="success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Error. Please try again.</div>';
+		
+        if(username !== "" && password !== "" && rpassword !== "" && role !== "" && usernameFree == true && passwordIsStrong == true && passwordsMatch == true){
             var user = new register(username,password,role);
             $.ajax({
                 url:"http://localhost:8080/ericssongroupproject/front/rest/users/register",
                 type:"POST",
                 contentType: "application/json",
                 success:function () {
-                    alert("user created");
+                    document.getElementById("alerts").innerHTML = successAlert;
+					$('#signup-name').val('');
+					$('#signup-password').val('');
+					$('#signup-repassword').val('');
+					$('#signup-role').val('');
+					$('#result').text('');
                 },
                 error:function () {
-                    alert("error")
+                    document.getElementById("alerts").innerHTML = failureAlert;
                 },
                 data:JSON.stringify(user)
             });
-        }// If login isn't ok
+			
+        }// If login is empty
         else if (username === "")
         {
             $("#status-name").removeClass("icon-check");
@@ -150,15 +161,7 @@ $(document).ready(function () {
             $(".signup-name").addClass("error-placeholder");
             $("#signup-name").addClass("error-input");
         }
-        /*
-         // If login is ok
-         else if (username !== "")
-         {
-         $("#status-name").addClass("icon-check");
-         $("#status-name").removeClass("icon-close");
-         $(".signup-name").removeClass("error-placeholder");
-         $("#signup-name").removeClass("error-input");
-         }//ifpassword isn't ok*/
+        
         if (password === "")
         {
             $("#status-password").removeClass("icon-check");
@@ -167,16 +170,6 @@ $(document).ready(function () {
             $("#signup-password").addClass("error-input");
         }
 
-        /*                         // If password is ok
-         else if (password !== "")
-         {
-         $("#status-password").addClass("icon-check");
-         $("#status-password").removeClass("icon-close");
-         $(".signup-password").removeClass("error-placeholder");
-         $("#signup-password").removeClass("error-input");
-         }
-         */
-        // If repassword isn't same
         if (password != rpassword || rpassword == "")
         {
             $("#status-repassword").removeClass("icon-check");
@@ -185,15 +178,6 @@ $(document).ready(function () {
             $("#signup-repassword").addClass("error-input");
         }
 
-        /*                         // If repassword is ok
-         else if (password == rpassword && rpassword != "")
-         {
-         $("#status-repassword").addClass("icon-check");
-         $("#status-repassword").removeClass("icon-close");
-         $(".signup-repassword").removeClass("error-placeholder");
-         $("#signup-repassword").removeClass("error-input");
-         }*/
-        // If role isn't ok
         if (role == "")
         {
             $("#status-role").removeClass("icon-check");
@@ -201,17 +185,6 @@ $(document).ready(function () {
             $(".signup-role").addClass("error-placeholder");
             $("#signup-role").addClass("error-input");
         }
-
-        /*                         // If login is ok
-         else if (role != "")
-         {
-         $("#status-role").addClass("icon-check");
-         $("#status-role").removeClass("icon-close");
-         $(".signup-role").removeClass("error-placeholder");
-         $("#signup-role").removeClass("error-input");
-         }
-         return false;
-         */
 
     });
 
