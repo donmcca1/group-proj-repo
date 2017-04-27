@@ -16,9 +16,10 @@ public class User {
     @Column(name = "role") private String role;
 
     public User() {
+
     }
 
-    public User(String username, String password, String role) {
+    public User(String username) {
         this.username = username;
         this.password = password;
         this.role = role;

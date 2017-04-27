@@ -39,7 +39,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     public User findUser(String username, String password) {
-        Query query = em.createQuery("select   c from User c where c.password = :password AND  c.username = :username ");
+        Query query = em.createQuery("select distinct c from User c where c.password = :password AND  c.username = :username ");
        /* return  (User)query.setParameter("username", username).setParameter("password", password).setMaxResults(1).getResultList().isEmpty();*/
         query.setParameter("username", username);
         query.setParameter("password", password);

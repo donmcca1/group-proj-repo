@@ -12,26 +12,26 @@ import java.util.List;
 @Stateless
 @Local
 @TransactionAttribute (TransactionAttributeType.REQUIRED)// Ensures Transactions are used for ACID purposes
-<span class="nc" id="L15">public class BaseServiceJPA implements BaseService{</span>
+<span class="fc" id="L15">public class BaseServiceJPA implements BaseService{</span>
 	
 	@EJB
 	private BaseDAO dao;
 	
 	//--- SELECT ALL (NO FRONT END) ---//
 	public Collection&lt;BaseData&gt; getAllBaseData() {
-<span class="nc" id="L22">		return dao.getBaseData();</span>
+<span class="fc" id="L22">		return dao.getBaseData();</span>
 	}
 
 	//--- IMSI AUTO COMPLETE ---//
 	public Collection&lt;String&gt; imsiAutoComplete(Long imsi) {
-<span class="nc" id="L27">		Collection&lt;String&gt; strings = new ArrayList&lt;String&gt;();</span>
-<span class="nc" id="L28">		Collection&lt;Long&gt; longs = dao.imsiAutoComplete(imsi);</span>
+<span class="fc" id="L27">		Collection&lt;String&gt; strings = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L28">		Collection&lt;Long&gt; longs = dao.imsiAutoComplete(imsi);</span>
 		for (Long l :
-<span class="nc bnc" id="L30" title="All 2 branches missed.">				longs) {</span>
-<span class="nc" id="L31">			strings.add(l.toString());</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">				longs) {</span>
+<span class="fc" id="L31">			strings.add(l.toString());</span>
 
-<span class="nc" id="L33">		}</span>
-<span class="nc" id="L34">		return  strings;</span>
+<span class="fc" id="L33">		}</span>
+<span class="fc" id="L34">		return  strings;</span>
 	}
 	
 	//*******************//
@@ -41,17 +41,17 @@ import java.util.List;
 	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
 	// currently returns all; selection made at front end
 	public Collection&lt;BaseData&gt; getBaseDataByImsi(Long imsi){
-<span class="nc" id="L44">		return dao.getBaseDataByImsi(imsi);</span>
+<span class="fc" id="L44">		return dao.getBaseDataByImsi(imsi);</span>
 	}
 
 	//--- 2. SELECT BY IMSI &amp; DATE, COUNT NUMBER OF FAILURES ---//
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
-<span class="nc" id="L49">		return dao.getFailuresByDate(imsi, startDate, endDate);</span>
+<span class="fc" id="L49">		return dao.getFailuresByDate(imsi, startDate, endDate);</span>
 	}
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
 	public Collection&lt;?&gt; getCauseCodeByImsi(Long imsi) {
-<span class="nc" id="L54">		return dao.getCauseCodeByImsi(imsi);</span>
+<span class="fc" id="L54">		return dao.getCauseCodeByImsi(imsi);</span>
 	}
 	
 	//******************//
@@ -61,17 +61,17 @@ import java.util.List;
 	//--- 4. SELECT BY DATE, RETURN IMSI ---//
 	// currently returns all; selection made at front end
 	public Collection&lt;BaseData&gt; getBaseDataByDate(Date startDate, Date endDate){		
-<span class="nc" id="L64">		return dao.getBaseDataByDate(startDate, endDate);</span>
+<span class="fc" id="L64">		return dao.getBaseDataByDate(startDate, endDate);</span>
 	}
 
 	//--- 5. SELECT BY MODEL &amp; DATE, COUNT NUMBER OF FAILURES ---//
 	public Long countByModelAndDate(String ue_type, Date startDate, Date endDate){	
-<span class="nc" id="L69">		return dao.countByModelAndDate(ue_type, startDate, endDate);</span>
+<span class="fc" id="L69">		return dao.countByModelAndDate(ue_type, startDate, endDate);</span>
 	}
 	
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
 	public Collection&lt;BaseData&gt; getImsiByCauseCode(Integer cause_code){
-<span class="nc" id="L74">		return dao.getImsiByCauseCode(cause_code);</span>
+<span class="fc" id="L74">		return dao.getImsiByCauseCode(cause_code);</span>
 	}
 	
 	//*******************//
@@ -80,32 +80,32 @@ import java.util.List;
 	
 	//--- 7. SELECT BY IMSI &amp; DATE, COUNT FAILURES, SUM DURATION ---//
 	public Collection&lt;?&gt; getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
-<span class="nc" id="L83">		return dao.getNumFailuresAndDurationByDate(startDate, endDate);</span>
+<span class="fc" id="L83">		return dao.getNumFailuresAndDurationByDate(startDate, endDate);</span>
 	}
 
 	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY ---//
 	public Collection&lt;?&gt; getDurationByDateGroupCountry(Date startDate, Date endDate) {
-<span class="nc" id="L88">		return dao.getDurationByDateGroupCountry(startDate,endDate);</span>
+<span class="fc" id="L88">		return dao.getDurationByDateGroupCountry(startDate,endDate);</span>
 	}
 	
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS &amp; COUNT ---//
 	public Collection&lt;?&gt; countByModelEventIdCauseCode(String ue_type){
-<span class="nc" id="L93">		return dao.countByModelEventIdCauseCode(ue_type);</span>
+<span class="fc" id="L93">		return dao.countByModelEventIdCauseCode(ue_type);</span>
 	}
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
 	public Collection&lt;?&gt; top10MarketOperatorCell(Date startDate, Date endDate) {
-<span class="nc" id="L98">		return dao.top10MarketOperatorCell(startDate, endDate);</span>
+<span class="fc" id="L98">		return dao.top10MarketOperatorCell(startDate, endDate);</span>
 	}
 	
 		//--- 9. For graph, count all failures. ---//
 		public Long countAllFailures(Date startDate, Date endDate) {
-<span class="nc" id="L103">			return dao.countAllFailures(startDate, endDate);</span>
+<span class="fc" id="L103">			return dao.countAllFailures(startDate, endDate);</span>
 		}	
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
 	public Collection&lt;?&gt; top10imsi(Date startDate, Date endDate) {
-<span class="nc" id="L108">		return dao.top10imsi(startDate, endDate);</span>
+<span class="fc" id="L108">		return dao.top10imsi(startDate, endDate);</span>
 	}
 
 	//***********************//
@@ -117,11 +117,11 @@ import java.util.List;
   	//****************************//
     
     public Collection&lt;?&gt; allIMSI(Long imsi){
-<span class="nc" id="L120">    	return dao.allIMSI(imsi);</span>
+<span class="fc" id="L120">    	return dao.allIMSI(imsi);</span>
     };
     
     public Collection&lt;?&gt; allModels(String model){
-<span class="nc" id="L124">    	return dao.allModels(model);</span>
+<span class="fc" id="L124">    	return dao.allModels(model);</span>
     };
 	
 }

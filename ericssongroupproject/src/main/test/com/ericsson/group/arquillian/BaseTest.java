@@ -1,14 +1,10 @@
 package com.ericsson.group.arquillian;
 
 import com.ericsson.group.dao.BaseDAO;
-import com.ericsson.group.dao.EventDAO;
-import com.ericsson.group.dao.EventDAOImpl;
 import com.ericsson.group.dao.JPABaseDAO;
 import com.ericsson.group.entities.*;
 import com.ericsson.group.services.BaseService;
 import com.ericsson.group.services.BaseServiceJPA;
-import com.ericsson.group.services.EventService;
-import com.ericsson.group.services.EventServiceImpl;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -42,26 +38,18 @@ public class BaseTest {
     @Inject
     BaseService baseService;
 
-    @Inject
-    BaseService baseDAO;
-
     String startDate="2013-01-11";
     SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
 
 
     @Test
     public final void test_baseService_All_Base() throws Exception {
-        Assert.assertNotNull(baseService);
-        Assert.assertNotNull(baseDAO);
-
         List<BaseData> testBase = (List<BaseData>) baseService.getAllBaseData();
         Assert.assertEquals(344930000000011L, testBase.get(0).getImsi());
     }
 
     @Test
     public final void test_baseService_IMSI_By_Cause_Code() throws Exception {
-        Assert.assertNotNull(baseService);
-
         List<BaseData> testBase = (List<BaseData>) baseService.getImsiByCauseCode(1);
         Assert.assertEquals(344930000000011L, testBase.get(0).getImsi());
     }
@@ -81,7 +69,6 @@ public class BaseTest {
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
 
         Long testBase =  baseService.getFailuresByDate(344930000000011L, sqlStartDate, sqlStartDate);
-        //Assert.assertNotNull(testBase);
         Assert.assertEquals(Long.valueOf(1L), testBase);
     }
 
@@ -89,15 +76,14 @@ public class BaseTest {
     public final void test_baseService_Cause_Code_By_IMSI() throws Exception {
         List<BaseData> testBase = (List<BaseData>) baseService.getCauseCodeByImsi(344930000000011L);
         Assert.assertNotNull(testBase);
-        //Assert.assertEquals(Long.valueOf(1L), testBase);
     }
 
     @Test
     public final void test_baseService_Count_Model_Date() throws Exception{
         java.util.Date date = sdf1.parse(startDate);
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
         Long testBase =  baseService.countByModelAndDate("1",sqlStartDate,sqlStartDate);
-        //Assert.assertNotNull(testBase);
         Assert.assertEquals(Long.valueOf(0L), testBase);
     }
 
@@ -105,7 +91,6 @@ public class BaseTest {
     public final void test_baseService_Base_Count_Model_Event_Cause() throws Exception {
         List<BaseData> testBase = (List<BaseData>) baseService.countByModelEventIdCauseCode("test ue ue_type");
         Assert.assertNotNull(testBase);
-        //Assert.assertEquals(Long.valueOf(1L), testBase);
     }
 
     @Test
@@ -118,6 +103,7 @@ public class BaseTest {
     public final void test_Num_Failures_Duration_By_Date() throws Exception {
         java.util.Date date = sdf1.parse(startDate);
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
         Collection<?>  testBase = baseService.getNumFailuresAndDurationByDate(sqlStartDate,sqlStartDate);
         Assert.assertNotNull(testBase);
     }
@@ -126,14 +112,8 @@ public class BaseTest {
     public final void test_Top_10_IMSI() throws Exception {
         java.util.Date date = sdf1.parse(startDate);
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
         Collection<?>  testBase = baseService.top10imsi(sqlStartDate,sqlStartDate);
-        /*String line = testBase.toString();
-        String[] a =line.split(",");
-        String imsi1 = a[0];
-        Long ims = Long.parseLong(imsi1);
-        Long temp = 344930000000011L;
-        //Assert.assertEquals(temp, ims);
-        //System.out.println(testBase);*/
         Assert.assertNotNull(testBase);
     }
 
@@ -141,6 +121,7 @@ public class BaseTest {
     public final void test_Top_10_Market_Operator_Cell() throws Exception {
         java.util.Date date = sdf1.parse(startDate);
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+
         Collection<?>  testBase = baseService.top10MarketOperatorCell(sqlStartDate,sqlStartDate);
         Assert.assertNotNull(testBase);
     }
@@ -157,9 +138,25 @@ public class BaseTest {
         Assert.assertNotNull(testBase);
     }
 
-    /*@Test
+    @Test
     public final void test_Count_All_Failures() throws Exception {
-        Long  testBase = baseService.countAllFailures();
+        java.util.Date date = sdf1.parse(startDate);
+        java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+        Long  testBase = baseService.countAllFailures(sqlStartDate, sqlStartDate);
         Assert.assertEquals(Long.valueOf(1L), testBase);
-    }*/
+    }
+
+    @Test
+    public final void test_Duration_Group_Country() throws Exception {
+        java.util.Date date = sdf1.parse(startDate);
+        java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+        Collection<?> testBase = baseService.getDurationByDateGroupCountry(sqlStartDate, sqlStartDate);
+        Assert.assertNotNull(testBase);
+    }
+
+    @Test
+    public final void test_Imsi_Auto() throws Exception {
+        Collection<?>  testBase = baseService.imsiAutoComplete(3449L);
+        Assert.assertNotNull(testBase);
+    }
 }

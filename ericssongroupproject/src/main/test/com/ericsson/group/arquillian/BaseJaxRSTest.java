@@ -1,6 +1,7 @@
 package com.ericsson.group.arquillian;
 
 import com.ericsson.group.dao.BaseDAO;
+import com.ericsson.group.dao.JPABaseDAO;
 import com.ericsson.group.entities.BaseData;
 import com.ericsson.group.jaxrs.BaseCRUDService;
 import com.ericsson.group.services.BaseService;
@@ -43,12 +44,11 @@ public class BaseJaxRSTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addPackage(BaseDAO.class.getPackage())
+                .addPackage(JPABaseDAO.class.getPackage())
                 .addPackage(BaseData.class.getPackage())
                 .addPackage(BaseService.class.getPackage())
                 .addPackage(BaseCRUDService.class.getPackage())
-                .addPackage(EditExcel.class.getPackage())
-                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+                .addAsResource("resources-wildfly/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .setWebXML("resources-wildfly/test-web.xml")
                 ;
@@ -65,14 +65,12 @@ public class BaseJaxRSTest {
         request.header("Accept", MediaType.APPLICATION_JSON);
         request.queryParameter( "imsi",344930000000011L);
 
-        // we're expecting a String back
         ClientResponse<String> responseObj = request.get(String.class);
 
         Assert.assertEquals(200, responseObj.getStatus());
 
 
         Assert.assertEquals(responseObj.getEntity(), "[[1,\"test event description\"]]");
-        System.out.println(responseObj.getEntity());
     }
 
     /*@Test
@@ -81,22 +79,22 @@ public class BaseJaxRSTest {
         WebConversation webConversation = new WebConversation();
         GetMethodWebRequest request = new GetMethodWebRequest(base + "front/rest/base");
         WebResponse response = webConversation.getResponse(request);
-
         System.out.println(response.getText());
     }*/
 
-   @Test public void query1()  throws Exception{
+    @Test
+    public void query1()  throws Exception{
        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/{imsi}").toExternalForm());
        request.header("Accept", MediaType.APPLICATION_JSON);
        request.pathParameter( "imsi",344930000000011L);
 
        ClientResponse<String> responseObj = request.get(String.class);
 
-       System.out.println(responseObj.getEntity());
        Assert.assertEquals(true, responseObj.getEntity().contains("\"id\":1"));
     }
 
-    @Test public void query2() throws Exception{
+    @Test
+    public void query2() throws Exception{
         ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/date/imsi").toExternalForm());
         request.header("Accept", MediaType.APPLICATION_JSON);
         request.queryParameter( "imsi",344930000000011L);
@@ -105,77 +103,155 @@ public class BaseJaxRSTest {
 
         ClientResponse<String> responseObj = request.get(String.class);
 
-        System.out.println(responseObj.getEntity());
         Assert.assertEquals("1", responseObj.getEntity());
     }
 
-    @Test public void query3() throws Exception{
+    @Test
+    public void query3() throws Exception{
         ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/cause").toExternalForm());
         request.header("Accept", MediaType.APPLICATION_JSON);
         request.queryParameter( "imsi",344930000000011L);
 
         ClientResponse<String> responseObj = request.get(String.class);
 
-        System.out.println(responseObj.getEntity());
         Assert.assertEquals("[[1,\"test event description\"]]", responseObj.getEntity());
     }
 
-    /*@Test public void
-    query4(){
-        given().
-                param("start","2013-01-11").
-                param("end","2013-01-11").
-                when().
-                get(base + "front/rest/base/date/").
-                then().
-                body("baseDataList.imsi", hasItems(344930000000011L));
-    }
-*/
-    /*@Test public void
-    query5(){
-        given().
-            param("ue_type",21060800).
-            param("start","2013-01-11").
-            param("end","2013-01-11").
-        when().
-            get("/rest/base/date/ue_type").
-        then().
-            body(equalTo("318"));
-    }*/
+    @Test
+    public void query4()throws Exception {
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/date/").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
 
-    //Returning Empty
-/*    @Test public void
-    query6() {
-        given().
-                param("cause_code",1).
-                when().
-                get(base + "front/rest/base/imsi").
-                then().
-                body("baseDataList.imsi", hasItems(344930000000011L));
-    }*/
+        request.queryParameter( "start","2013-01-11");
+        request.queryParameter( "end","2013-01-11");
 
-    //query7 BROKEN
+        ClientResponse<String> responseObj = request.get(String.class);
 
-   /* @Test public void
-    query8(){
-        given().
-            param("ue_type",33001735).
-        when().
-            get("/rest/base/ue_type/count").
-        then().
-            body("[0]", hasItems(112,4097,1),
-            		"[1]", hasItems(100,4097,2));
+        Assert.assertEquals(true, responseObj.getEntity().contains("\"imsi\":344930000000011"));
     }
 
-    @Test public void
-    query9(){
-        given().
-            param("ue_type",33001735).
-        when().
-            get("/rest/base/top10").
-        then().
-            body("[0]", hasItems(112,4097,1),
-            		"[1]", hasItems(100,4097,2));
-    }*/
+    @Test
+    public void query5()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/date/ue_type").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "ue_type","test ue ue_type");
+        request.queryParameter( "start","2013-01-11");
+        request.queryParameter( "end","2013-01-11");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("0", responseObj.getEntity());
+    }
+
+
+    @Test
+    public void query6() throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/cause/imsi").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "cause_code",1);
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals(true, responseObj.getEntity().contains("\"imsi\":344930000000011"));
+    }
+
+    @Test
+    public void query7() throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/numfail").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "start","2013-01-11");
+        request.queryParameter( "end","2013-01-11");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("[[344930000000011,\"test mcc country\",\"test mnc operator\",1,1]]", responseObj.getEntity());
+    }
+
+    @Test
+    public void query7_For_Graph()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/numfailcountry").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "start","2013-01-11");
+        request.queryParameter( "end","2013-01-11");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("[[1,\"test mcc country\"]]",responseObj.getEntity());
+    }
+
+    @Test
+    public void query8()throws Exception{
+
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/ue_type/count").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "ue_type","1");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals(200, responseObj.getStatus());
+    }
+
+    @Test
+    public void query9()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/top10MOC").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "start","2013-01-11");
+        request.queryParameter( "end","2013-01-11");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("[[\"test mcc country\",\"test mnc operator\",1,1,1,1]]", responseObj.getEntity());
+    }
+
+    @Test
+    public void query9_For_Graph()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/count").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals(1,1);
+    }
+
+    @Test
+    public void query10()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/top10imsi").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "start","2013-01-11");
+        request.queryParameter( "end","2013-01-11");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("[[344930000000011,\"test mcc country\",\"test mnc operator\",1]]", responseObj.getEntity());
+    }
+
+    @Test
+    public void autocomplete_query1()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/auto/344").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("[\"344930000000011\"]",responseObj.getEntity());
+    }
+
+    @Test
+    public void autocomplete_query2()throws Exception{
+        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/models").toExternalForm());
+        request.header("Accept", MediaType.APPLICATION_JSON);
+
+        request.queryParameter( "term","test ue model");
+
+        ClientResponse<String> responseObj = request.get(String.class);
+
+        Assert.assertEquals("[\"test ue model\"]",responseObj.getEntity());
+    }
 
 }

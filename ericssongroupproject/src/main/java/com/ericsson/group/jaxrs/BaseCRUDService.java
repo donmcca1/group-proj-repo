@@ -24,15 +24,6 @@ public class BaseCRUDService {
 		return list;
 	}
 
-	//--- IMSI AUTO COMPLETE ---//
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/auto/{imsi}")
-	public Collection<String> imsiAutoComplete(@PathParam("imsi") Long imsi){
-		return service.imsiAutoComplete(imsi);
-	}
-	
-	
 	//*******************//
 	//*** CSR QUERIES ***//
 	//*******************//
@@ -170,13 +161,6 @@ public class BaseCRUDService {
     //****************************//
   	//*** AUTOCOMPLETE QUERIES ***//
   	//****************************//
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/imsi")
-    public Collection<?> allIMSI(@QueryParam("term") Long imsi){
-		Collection<?> c = service.allIMSI(imsi);
-		return c;
-	};
     
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -185,5 +169,13 @@ public class BaseCRUDService {
 		Collection<?> c = service.allModels(model);
 		return c;
 	};
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/auto/{imsi}")
+	public Collection<String> imsiAutoComplete(@PathParam("imsi") Long imsi){
+		return service.imsiAutoComplete(imsi);
+	}
+
 
 }

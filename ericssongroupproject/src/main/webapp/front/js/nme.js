@@ -84,10 +84,10 @@ $(document).ready(function(){
 								//--Get results from value string, splitting on commas--//
 								var str = value.toString();
 								var strArray = str.split(",");
-								var duration = strArray[0];
+								var count = strArray[0];
 								var country = strArray[1];
 					
-								myData.push(duration);
+								myData.push(count);
 								myLabels.push(country);
 					
 								//generate random color
@@ -259,6 +259,9 @@ $(document).ready(function(){
 			//global variables for the two calls
 			var myData = [];
 			var myLabels = [];
+			var myMCCs = [];
+			var myMNCs = [];
+			var myCellIDs = [];
 			var numFailures;
 		
 		$.when(
@@ -294,8 +297,12 @@ $(document).ready(function(){
 					responseTable+=newLine;
 					
 					myData.push(count);
-					var label = mcc+"/"+mnc+"/"+cell_id;
+					var label = country+"/"+operator+": Cell "+cell_id;
 					myLabels.push(label);
+					
+					myMCCs.push(mcc);
+					myMNCs.push(mnc);
+					myCellIDs.push(cell_id);
                 }); 
 				
 				responseTable+='</tbody></table></div>';
@@ -321,8 +328,13 @@ $(document).ready(function(){
 						}],
 					},
 					options: {
+						title: {
+							display: true,
+							text: 'Count by MCC/MNC/Cell ID'
+						},
 						scales: {
 							xAxes: [{
+								display: false,
 								scaleLabel:{
 									display: true,
 									labelString: 'MCC/MNC/Cell ID'
@@ -367,16 +379,28 @@ $(document).ready(function(){
 
         ).then(function() {
 			var myPercentages = [];
-			var myPercentageDiv = '<br><div id="myPercentageDiv"><h6>Percent of Total Failures:</h6><br><table><tr><th>Nodes</th>';
+			var myPercentageDiv = '<br><div id="myPercentageDiv"><h6>Percent of Total Failures:</h6><br><table><tr><th>MCC</th>';
 			
-			//add the node row
+			//add the mcc row
 			for(i=0;i<myData.length;i++){
-				myPercentageDiv+='<td>'+myLabels[i]+'</td>';
+				myPercentageDiv+='<td>'+myMCCs[i]+'</td>';
 			}
 			
-			myPercentageDiv+='</tr><tr><th>Percent</th>';
+			//add the mnc row
+			myPercentageDiv+='</tr><tr><th>MNC</th>';
+			for(i=0;i<myData.length;i++){
+				myPercentageDiv+='<td>'+myMNCs[i]+'</td>';
+			}
+			
+			//add the cell id row
+			myPercentageDiv+='</tr><tr><th>Cell ID</th>';
+			for(i=0;i<myData.length;i++){
+				myPercentageDiv+='<td>'+myCellIDs[i]+'</td>';
+			}
 			
 			//add the percentage row
+			myPercentageDiv+='</tr><tr><th>Percent</th>';
+			
             for(i=0;i<myData.length;i++){
 				var percentage = (myData[i]/numFailures*100).toFixed(2);
 				myPercentages.push(percentage);
@@ -402,6 +426,10 @@ $(document).ready(function(){
 		$("#response").empty();
 		$("#response").append(waiting);
 		$(window).scrollTop(0);
+		
+		//-- clears the charts holder, displays waiting icon --//
+		$("#charts").empty();
+		$("#charts").append(waiting);
         
         $.ajax({
             
@@ -417,6 +445,9 @@ $(document).ready(function(){
 					+'<thead><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th></tr></thead>'
 					+'<tfoot><tr><th>IMSI</th><th>Country</th><th>Operator</th><th>Count</th></tr></tfoot>'
 					+'<tbody>';
+					
+				var myData = [];
+				var myLabels = [];
                 
                 $.each(data, function(index, value){
 					
@@ -430,6 +461,10 @@ $(document).ready(function(){
 					
 					var newLine = '<tr><td>'+imsi+'</td><td>'+country+'</td><td>'+operator+'</td><td>'+count+'</td></tr>';
 					responseTable+=newLine;
+					
+					myData.push(count);
+					var label = imsi+": "+country+"/"+operator;
+					myLabels.push(label);
                 });
 
 				responseTable+='</tbody></table></div>';
@@ -437,6 +472,57 @@ $(document).ready(function(){
 				$("#response").empty();
 				$("#response").append(responseTable);
 				$('#dataTable').dataTable();
+				
+				$("#charts").empty();
+				$("#charts").append(myBarChart);
+				
+				//add the chart
+				var ctx = document.getElementById("myBarChart");
+				var myLineChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: myLabels,
+						datasets: [{
+							label: "Count",
+							backgroundColor: "rgba(2,117,216,1)",
+							borderColor: "rgba(2,117,216,1)",
+							data: myData,
+						}],
+					},
+					options: {
+						title: {
+							display: true,
+							text: 'Count by IMSI'
+						},
+						scales: {
+							xAxes: [{
+								display: false,
+								scaleLabel:{
+									display: true,
+									labelString: 'Country/Operator'
+								},
+								gridLines: {
+									display: false
+								},
+								ticks: {
+									maxTicksLimit: 10
+								}
+							}],
+							yAxes: [{
+								ticks: {
+									min: 0,
+									maxTicksLimit: 5
+								},
+								gridLines: {
+									display: true
+								}
+							}],
+						},
+						legend: {
+							display: false
+						}
+					}
+				});
             }
 
         });

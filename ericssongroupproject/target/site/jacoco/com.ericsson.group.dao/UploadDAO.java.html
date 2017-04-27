@@ -11,61 +11,61 @@ import javax.persistence.Query;
 @LocalBean
 public class UploadDAO implements UploadDAOService {
 
-	@PersistenceContext
-	private EntityManager em;
-	
-	private String path;
-	
-<span class="nc" id="L19">	public UploadDAO() {</span>
-<span class="nc" id="L20">		this.path = UploadDAO.class.getProtectionDomain().getCodeSource().getLocation().getPath();</span>
-<span class="nc" id="L21">		path = path.substring(0, path.indexOf(&quot;classes&quot;)) + &quot;upload/&quot;;</span>
-<span class="nc" id="L22">	}</span>
-	
-	/* (non-Javadoc)
-	 * @see com.ericsson.group.dao.UploadDAOService#uploadBase()
-	 */
-	public void uploadBase() {
-<span class="nc" id="L28">		String loadBaseData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE base_data FIELDS TERMINATED BY ';' &quot;</span>
-				+ &quot;IGNORE 1 LINES (@date_time, event_id, @failure_class, ue_type, market,  operator, cell_id, duration, @cause_code, ne_version, imsi) &quot;
-				+ &quot;SET failure_class=REPLACE(@failure_class,'(null)',-1), failure_class=NULLIF(failure_class,-1), &quot;
-				+ &quot;cause_code=REPLACE(@cause_code,'(null)',-1), cause_code=NULLIF(cause_code,-1), `date_time`=STR_TO_DATE(@`date_time`,'%m/%d/%Y %H:%i')  ;&quot;;
-		
-<span class="nc" id="L33">		Query bd = em.createNativeQuery(loadBaseData);</span>
-<span class="nc" id="L34">		bd.setParameter(1, path + &quot;base_data_validated.txt&quot;);</span>
-<span class="nc" id="L35">		bd.executeUpdate();</span>
-<span class="nc" id="L36">	}</span>
-	
-	public void uploadEC() {
-<span class="nc" id="L39">		String loadEventCauseData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE event_cause FIELDS TERMINATED BY ';' IGNORE 1 LINES (`cause_code`,`event_id`,@`description`) SET `description`=REPLACE(@`description`,'(null)',-1), `description`=NULLIF(`description`,-1);&quot;;</span>
-		
-<span class="nc" id="L41">		Query ec = em.createNativeQuery(loadEventCauseData);</span>
-<span class="nc" id="L42">		ec.setParameter(1, path + &quot;event_cause.txt&quot;);</span>
-<span class="nc" id="L43">		ec.executeUpdate();</span>
-<span class="nc" id="L44">	}</span>
-	
-	public void uploadFC() {
-<span class="nc" id="L47">		String loadfailureClassData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE failure_class FIELDS TERMINATED BY ';' IGNORE 1 LINES (failure_class, description);&quot;;</span>
-		
-<span class="nc" id="L49">		Query fc = em.createNativeQuery(loadfailureClassData);</span>
-<span class="nc" id="L50">		fc.setParameter(1, path + &quot;failure_class.txt&quot;);</span>
-<span class="nc" id="L51">		fc.executeUpdate();</span>
-<span class="nc" id="L52">	}</span>
-	
-	public void uploadMCC() {
-<span class="nc" id="L55">		String loadMCCData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE `mcc_mnc` FIELDS TERMINATED BY ';' IGNORE 1 LINES (mcc,mnc,country,operator);&quot;;</span>
-		
-<span class="nc" id="L57">		Query mc = em.createNativeQuery(loadMCCData);</span>
-<span class="nc" id="L58">		mc.setParameter(1, path + &quot;mcc_mnc.txt&quot;);</span>
-<span class="nc" id="L59">		mc.executeUpdate();</span>
-<span class="nc" id="L60">	}</span>
-	
-	public void uploadUE() {
-<span class="nc" id="L63">		String loadUeData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE ue FIELDS TERMINATED BY ';' IGNORE 1 LINES (tac,marketing_name,manufacturer,@access_capability, model,vendor_name,@ue_type,@OS,@input_mode) SET ue_type=REPLACE(@ue_type,'(null)',-1), ue_type=NULLIF(ue_type,-1), os=REPLACE(@os,'(null)',-1), os=NULLIF(os,-1), input_mode=REPLACE(@input_mode,'(null)',-1), input_mode=NULLIF(input_mode,-1);&quot;;</span>
-		
-<span class="nc" id="L65">		Query bd = em.createNativeQuery(loadUeData);</span>
-<span class="nc" id="L66">		bd.setParameter(1, path + &quot;ue.txt&quot;);</span>
-<span class="nc" id="L67">		bd.executeUpdate();</span>
-<span class="nc" id="L68">	}</span>
-	
+    @PersistenceContext
+    private EntityManager em;
+
+    private String path;
+
+<span class="nc" id="L19">    public UploadDAO() {</span>
+<span class="nc" id="L20">        this.path = UploadDAO.class.getProtectionDomain().getCodeSource().getLocation().getPath();</span>
+<span class="nc" id="L21">        path = path.substring(0, path.indexOf(&quot;classes&quot;)) + &quot;upload/&quot;;</span>
+<span class="nc" id="L22">    }</span>
+
+    /* (non-Javadoc)
+     * @see com.ericsson.group.dao.UploadDAOService#uploadBase()
+     */
+    public void uploadBase() {
+<span class="nc" id="L28">        String loadBaseData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE base_data FIELDS TERMINATED BY ';' &quot;</span>
+                + &quot;IGNORE 1 LINES (@date_time, event_id, @failure_class, ue_type, market,  operator, cell_id, duration, @cause_code, ne_version, imsi) &quot;
+                + &quot;SET failure_class=REPLACE(@failure_class,'(null)',-1), failure_class=NULLIF(failure_class,-1), &quot;
+                + &quot;cause_code=REPLACE(@cause_code,'(null)',-1), cause_code=NULLIF(cause_code,-1), `date_time`=STR_TO_DATE(@`date_time`,'%m/%d/%Y %H:%i')  ;&quot;;
+
+<span class="nc" id="L33">        Query bd = em.createNativeQuery(loadBaseData);</span>
+<span class="nc" id="L34">        bd.setParameter(1, path + &quot;base_data_validated.txt&quot;);</span>
+<span class="nc" id="L35">        bd.executeUpdate();</span>
+<span class="nc" id="L36">    }</span>
+
+    public void uploadEC() {
+<span class="nc" id="L39">        String loadEventCauseData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE event_cause FIELDS TERMINATED BY ';' IGNORE 1 LINES (`cause_code`,`event_id`,@`description`) SET `description`=REPLACE(@`description`,'(null)',-1), `description`=NULLIF(`description`,-1);&quot;;</span>
+
+<span class="nc" id="L41">        Query ec = em.createNativeQuery(loadEventCauseData);</span>
+<span class="nc" id="L42">        ec.setParameter(1, path + &quot;event_cause.txt&quot;);</span>
+<span class="nc" id="L43">        ec.executeUpdate();</span>
+<span class="nc" id="L44">    }</span>
+
+    public void uploadFC() {
+<span class="nc" id="L47">        String loadfailureClassData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE failure_class FIELDS TERMINATED BY ';' IGNORE 1 LINES (failure_class, description);&quot;;</span>
+
+<span class="nc" id="L49">        Query fc = em.createNativeQuery(loadfailureClassData);</span>
+<span class="nc" id="L50">        fc.setParameter(1, path + &quot;failure_class.txt&quot;);</span>
+<span class="nc" id="L51">        fc.executeUpdate();</span>
+<span class="nc" id="L52">    }</span>
+
+    public void uploadMCC() {
+<span class="nc" id="L55">        String loadMCCData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE `mcc_mnc` FIELDS TERMINATED BY ';' IGNORE 1 LINES (mcc,mnc,country,operator);&quot;;</span>
+
+<span class="nc" id="L57">        Query mc = em.createNativeQuery(loadMCCData);</span>
+<span class="nc" id="L58">        mc.setParameter(1, path + &quot;mcc_mnc.txt&quot;);</span>
+<span class="nc" id="L59">        mc.executeUpdate();</span>
+<span class="nc" id="L60">    }</span>
+
+    public void uploadUE() {
+<span class="nc" id="L63">        String loadUeData = &quot;LOAD DATA LOCAL INFILE ? INTO TABLE ue FIELDS TERMINATED BY ';' IGNORE 1 LINES (tac,marketing_name,manufacturer,@access_capability, model,vendor_name,@ue_type,@OS,@input_mode) SET ue_type=REPLACE(@ue_type,'(null)',-1), ue_type=NULLIF(ue_type,-1), os=REPLACE(@os,'(null)',-1), os=NULLIF(os,-1), input_mode=REPLACE(@input_mode,'(null)',-1), input_mode=NULLIF(input_mode,-1);&quot;;</span>
+
+<span class="nc" id="L65">        Query bd = em.createNativeQuery(loadUeData);</span>
+<span class="nc" id="L66">        bd.setParameter(1, path + &quot;ue.txt&quot;);</span>
+<span class="nc" id="L67">        bd.executeUpdate();</span>
+<span class="nc" id="L68">    }</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
