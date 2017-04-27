@@ -12,9 +12,9 @@ function checkUser(username, password) {
                     break;
                 case "Network Management Engineer": window.location ="nme.html";
                     break;
-                case "Customer Service Representative": window.location="nme_csr.html";
+                case "Customer Service Representative": window.location="csr.html";
                     break;
-                case "System Engineer": window.location="nme_se.html";
+                case "System Engineer": window.location="se.html";
             }
         },
         error:function () {
