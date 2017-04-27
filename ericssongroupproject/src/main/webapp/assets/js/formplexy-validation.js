@@ -1,115 +1,129 @@
-jQuery(document).ready(function($){
 
-    $(".forgotten-password-trigger").click(function() {
-        $(".forgotten-password").slideToggle("slow");
+function checkUser(username, password) {
+    $.ajax({
+        url:"http://localhost:8080/ericssongroupproject/front/rest/users/" + username+"/"+ password,
+        type:"GET",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            var role = data.role;
+            console.log(role);
+            switch(role){
+                case "System Admin": window.location = "front/sa_upload.html";
+                    break;
+            }
+        },
+        error:function () {
+            console.log("error");
+            //return userExists;
+        }
     });
 
-    // Validation Login
-    $("#login-form").submit(function() {
+}
+/*function callback(data){
 
+    data = data.role;
+    return data;
+    //console.log(role);
+}*/
+
+/*var role =null;
+function getUser(username) {
+
+    $.ajax({
+        url:"http://localhost:8080/ericssongroupproject/front/rest/users/user/" + username,
+        type:"GET",
+        contentType: "application/json",
+        dataType: "json",
+
+        success:function (data) {
+            var userData = JSON.stringify(data);
+            var user = JSON.parse(userData);
+            role = user.role;
+            console.log(role);
+        },
+        error:function () {
+            console.log("error");
+
+        }
+    });
+    console.log(role);
+    //return role;
+
+}*/
+jQuery(document).ready(function($){
+
+    // Validation Login
+    $("#loginButton").click(function() {
+       // console.log("Here");
         var value_login = $("#login-username").val();
         var value_password = $("#login-password").val();
 
-        // If login is email
-		/*
-		 var email_values = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-
-		 // Email format validation
-		 if (!email_values.test(value_login))
-		 {
-		 $("#status-username").removeClass("icon-check");
-		 $("#status-username").addClass("icon-close");
-		 $(".login-username").addClass("error-placeholder");
-		 $("#login-username").addClass("error-input");
-
-		 return false;
-		 }
-		 */
-
         // Everything is all right
-        if (value_login != "" && value_password != "")
-        {
-            $("#status-username").addClass("icon-check");
-            $("#status-username").switchClass("icon-close", "icon-check");
+        if (value_login !== "" && value_login !== null && value_password !== "" && value_password !== null) {
 
-            $("#status-password").addClass("icon-check");
-            $("#status-password").switchClass("icon-close", "icon-check");
+            checkUser(value_login, value_password);
+            //console.log(checkUser(value_login, value_password));
+            /*if (checkUser(value_login, value_password) !== null) {
+                console.log(role);
+                //get role and open pages
 
-            return true;
+            } else {
+                /!*!//open home page for each user type
+                getUser(value_login);
+                console.log(role);
+                //console.log(getUser(value_login));*!/
+            }*/
+        }
+    });
+/*
+
         }
 
-        // If its not ok
-        else {
-            // If login isn't ok
-            if (value_login == "")
-            {
-                $("#status-username").removeClass("icon-check");
-                $("#status-username").addClass("icon-close");
-                $(".login-username").addClass("error-placeholder");
-                $("#login-username").addClass("error-input");
-            }
-
-            // If login is ok but password not
-            else if (value_login != "")
-            {
-                $("#status-username").removeClass("icon-close");
-                $("#status-username").addClass("icon-check");
-                $(".login-username").removeClass("error-placeholder");
-                $("#login-username").removeClass("error-input");
-            }
-
-            // If password isn't ok
-            if (value_password == "")
-            {
-                $("#status-password").removeClass("icon-check");
-                $("#status-password").addClass("icon-close");
-                $(".login-password").addClass("error-placeholder");
-                $("#login-password").addClass("error-input");
-            }
-
-            // If password is ok but login not
-            else if (value_password != "")
-            {
-                $("#status-password").removeClass("icon-close");
-                $("#status-password").addClass("icon-check");
-                $(".login-password").removeClass("error-placeholder");
-                $("#login-password").removeClass("error-input");
-            }
-
-            return false;
-        }
+        // // If its not ok
+        // else {
+        //     // If login isn't ok
+        //     if (value_login == "")
+        //     {
+        //         $("#status-username").removeClass("icon-check");
+        //         $("#status-username").addClass("icon-close");
+        //         $(".login-username").addClass("error-placeholder");
+        //         $("#login-username").addClass("error-input");
+        //     }
+        //
+        //     // If login is ok but password not
+        //     else if (value_login != "")
+        //     {
+        //         $("#status-username").removeClass("icon-close");
+        //         $("#status-username").addClass("icon-check");
+        //         $(".login-username").removeClass("error-placeholder");
+        //         $("#login-username").removeClass("error-input");
+        //     }
+        //
+        //     // If password isn't ok
+        //     if (value_password == "")
+        //     {
+        //         $("#status-password").removeClass("icon-check");
+        //         $("#status-password").addClass("icon-close");
+        //         $(".login-password").addClass("error-placeholder");
+        //         $("#login-password").addClass("error-input");
+        //     }
+        //
+        //     // If password is ok but login not
+        //     else if (value_password != "")
+        //     {
+        //         $("#status-password").removeClass("icon-close");
+        //         $("#status-password").addClass("icon-check");
+        //         $(".login-password").removeClass("error-placeholder");
+        //         $("#login-password").removeClass("error-input");
+        //     }
+        //
+        //     return false;
+        // }
 
     });
 
-    // Validation Email in Forgotten password
-    $("#forgotten-password-form").submit(function() {
 
-        var value_forgotten_password_email = $("#login-forgotten-password").val();
-		/*  var email_values = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;*/
-
-        // Email format validation
-        if (!email_values.test(value_forgotten_password_email) || value_forgotten_password_email == "") {
-            $("#status-forgotten-password").removeClass("icon-check");
-            $("#status-forgotten-password").addClass("icon-close");
-            $(".login-forgotten-password").addClass("error-placeholder");
-            $("#login-forgotten-password").addClass("error-input");
-
-            return false;
-        } else {
-            $("#status-forgotten-password").removeClass("icon-close");
-            $("#status-forgotten-password").addClass("icon-check");
-            $(".login-forgotten-password").removeClass("error-placeholder");
-            $("#login-forgotten-password").removeClass("error-input");
-
-            // Send password reset
-            $.get("assets/php/login.php");
-            $("#forgotten-password-form").slideUp("slow");
-            $(".forgotten-password").addClass("forgotten-password-sent");
-            $(".forgotten-password p").text("Password reset succesfully sent");
-
-            return false;
-        }
-    });
 
     // Validation Sign up
     $("#submit-button").click(function() {
@@ -130,7 +144,7 @@ jQuery(document).ready(function($){
 		 return false;
 		 }*/
 
-        // Everything is all right
+      /*  // Everything is all right
         if (value_name != "" && value_role != "" && value_password != "" && value_repassword == value_password)
         {
             var register = function(username, password, role) {
@@ -177,7 +191,7 @@ jQuery(document).ready(function($){
                 $("#signup-name").removeClass("error-input");
             }
 
-			/*// If email isn't ok
+			/!*!// If email isn't ok
 			 if (value_email == "")
 			 {
 			 $("#status-email").removeClass("icon-check");
@@ -193,7 +207,7 @@ jQuery(document).ready(function($){
 			 $("#status-email").removeClass("icon-close");
 			 $(".signup-email").removeClass("error-placeholder");
 			 $("#signup-email").removeClass("error-input");
-			 }*/
+			 }*!/
 
             // If password isn't ok
             if (value_password == "")
@@ -248,7 +262,7 @@ jQuery(document).ready(function($){
                 $("#signup-role").removeClass("error-input");
             }
 
-			/*if ($('#signup-agree:checked').val() == undefined)
+			/!*if ($('#signup-agree:checked').val() == undefined)
 			 {
 			 $("#status-agree").addClass("icon-close");
 			 $("#status-agree").removeClass("icon-check");
@@ -260,9 +274,9 @@ jQuery(document).ready(function($){
 			 $("#status-agree").removeClass("icon-close");
 			 $("#status-agree").addClass("icon-check");
 			 $('#status-agree').prop('title', '');
-			 }*/
+			 }*!/
 
             return false;
         }
-    });
+    });*/
 });

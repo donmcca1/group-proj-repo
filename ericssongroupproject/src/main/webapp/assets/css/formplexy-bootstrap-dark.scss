@@ -136,6 +136,168 @@ body {
 				margin-bottom: 0px;
 			}
 		}
+		section {
+			padding: 30px;
+
+			.signin-form {
+
+				input[type="text"], input[type="password"], input[type="email"] {
+					width: 100%;
+					border: 0px;
+					background-color: #383838;
+				}
+				.select {
+					width: 100%;
+					border: 0px;
+					background-color: #383838;
+				}
+
+				input[type="checkbox"] {
+					margin-top: 19px;
+				}
+
+				.checkbox-custom {
+					float: left;
+
+					.toggle {
+						position: absolute;
+						margin-left: -9999px;
+						visibility: hidden;
+					}
+					.toggle + label {
+						display: block;
+						position: relative;
+						cursor: pointer;
+						outline: none;
+						user-select: none;
+					}
+
+					input.toggle-round + label {
+						padding: 2px;
+						width: 40px;
+						height: 22px;
+						-webkit-border-radius: 60px;
+						-moz-border-radius: 60px;
+						border-radius: 60px;
+						margin-left: 0px;
+					}
+					input.toggle-round + label:before,
+					input.toggle-round + label:after {
+						display: block;
+						position: absolute;
+						top: 1px;
+						left: 1px;
+						bottom: 1px;
+						content: "";
+					}
+					input.toggle-round + label:before {
+						right: 1px;
+						background-color: #383838;
+						-webkit-border-radius: 60px;
+						-moz-border-radius: 60px;
+						border-radius: 60px;
+						transition: background 0.4s;
+					}
+					input.toggle-round + label:after {
+						width: 20px;
+						background-color: #eee;
+						-webkit-border-radius: 100%;
+						-moz-border-radius: 100%;
+						border-radius: 100%;
+						box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05);
+						transition: margin 0.4s;
+					}
+					input.toggle-round:checked + label:before {
+						background-color: #e87d3c;
+					}
+					input.toggle-round:checked + label:after {
+						margin-left: 18px;
+					}
+				}
+
+				label {
+					font-weight: 300;
+					margin-top: 18px;
+					margin-left: 10px;
+					font-size: 12px;
+				}
+
+				input {
+					-webkit-border-radius: 4px;
+					-moz-border-radius: 4px;
+					border-radius: 4px;
+					padding: 13px 20px 13px 20px;
+				}
+
+				.input-group {
+					position: relative;
+					margin-bottom: 10px;
+
+					.input-group-addon {
+						display: none;
+						display: table-cell\9; // IE 9 and lower hack
+						width: 110px;
+						background: #444;
+						color: #eee;
+						border: 0px;
+					}
+
+					.status-icon {
+						position: absolute;
+						top: 15px;
+						right: 14px;
+						font-size: 18px;
+					}
+
+					.icon-close {
+						color: #965549;
+					}
+					.icon-check {
+						color: #8ce196;
+					}
+
+					.error-input {
+						background-color: #443430;
+					}
+				}
+
+				.error-placeholder {
+
+					::-webkit-input-placeholder {
+						color: #965549;
+					}
+
+					:-moz-placeholder { /* Firefox 18- */
+						color: #965549;
+					}
+
+					::-moz-placeholder {  /* Firefox 19+ */
+						color: #965549;
+					}
+
+					:-ms-input-placeholder {
+						color: #965549;
+					}
+
+				}
+
+				.section-action {
+					margin-top: 20px;
+
+					.forgotten-password-trigger {
+						margin-top: 15px;
+						float: left;
+						cursor: pointer;
+						font-size: 12px;
+					}
+				}
+			}
+
+			// Input fix
+			#login-form .input-group{
+				width: 100%;
+			}
+		}
 
 		section {
 			padding: 30px;

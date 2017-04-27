@@ -13,5 +13,7 @@ public interface UserServiceLocal {
     public Collection<User> getAllUsers();
     public void addUser(User user);
     public void removeUser(Integer id);
-    public boolean findUser(String username, String password);
+    public User findUser(String username, String password);
+    public boolean checkUser(String username);
+    //public User getUser(String username);
 }
