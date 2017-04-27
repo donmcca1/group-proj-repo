@@ -28,9 +28,16 @@
 	<!-- CSS -->
 	<link rel="stylesheet" href="assets/css/formplexy-bootstrap-dark.css">
 	
+	<script>
+	function initialSetup(){
+		alert("got here");
+		document.getElementById("signup-role").readOnly = true;
+	}
+	</script>
+	
 </head>
 
-<body>
+<body onload="initialSetup()">
 
 <!-- Navigation -->
 <!-- Top bar -->
