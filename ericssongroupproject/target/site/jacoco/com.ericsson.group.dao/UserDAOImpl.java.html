@@ -15,42 +15,42 @@ import java.util.List;
  */
 @Stateless
 @Local
-<span class="fc" id="L18">public class UserDAOImpl implements UserDAO {</span>
+<span class="nc" id="L18">public class UserDAOImpl implements UserDAO {</span>
     @PersistenceContext
     private EntityManager em;
 
 
     public Collection&lt;User&gt; getAllUsers() {
 
-<span class="fc" id="L25">        Query query = em.createQuery(&quot;from User&quot;);</span>
-<span class="fc" id="L26">        return (List&lt;User&gt;) query.getResultList();</span>
+<span class="nc" id="L25">        Query query = em.createQuery(&quot;from User&quot;);</span>
+<span class="nc" id="L26">        return (List&lt;User&gt;) query.getResultList();</span>
     }
 
 
     public void addUser(User user) {
-<span class="fc" id="L31">        em.persist(user);</span>
-<span class="fc" id="L32">    }</span>
+<span class="nc" id="L31">        em.persist(user);</span>
+<span class="nc" id="L32">    }</span>
 
 
     public void deleteUser(Integer id) {
-<span class="fc" id="L36">        User user = em.find(User.class, id);</span>
-<span class="fc" id="L37">        em.remove(user);</span>
-<span class="fc" id="L38">    }</span>
+<span class="nc" id="L36">        User user = em.find(User.class, id);</span>
+<span class="nc" id="L37">        em.remove(user);</span>
+<span class="nc" id="L38">    }</span>
 
 
     public User findUser(String username, String password) {
-<span class="fc" id="L42">        Query query = em.createQuery(&quot;select distinct c from User c where c.password = :password AND  c.username = :username &quot;);</span>
+<span class="nc" id="L42">        Query query = em.createQuery(&quot;select distinct c from User c where c.password = :password AND  c.username = :username &quot;);</span>
        /* return  (User)query.setParameter(&quot;username&quot;, username).setParameter(&quot;password&quot;, password).setMaxResults(1).getResultList().isEmpty();*/
-<span class="fc" id="L44">        query.setParameter(&quot;username&quot;, username);</span>
-<span class="fc" id="L45">        query.setParameter(&quot;password&quot;, password);</span>
-<span class="fc" id="L46">        return (User)query.getSingleResult();</span>
+<span class="nc" id="L44">        query.setParameter(&quot;username&quot;, username);</span>
+<span class="nc" id="L45">        query.setParameter(&quot;password&quot;, password);</span>
+<span class="nc" id="L46">        return (User)query.getSingleResult();</span>
     }
 
     //to check is user exists
     public boolean checkUser(String username) {
-<span class="fc" id="L51">        Query query = em.createQuery(&quot;from User c where c.username = :username&quot;);</span>
-<span class="fc" id="L52">        boolean status = query.setParameter(&quot;username&quot;, username).setMaxResults(1).getResultList().isEmpty();</span>
-<span class="fc" id="L53">        return status;</span>
+<span class="nc" id="L51">        Query query = em.createQuery(&quot;from User c where c.username = :username&quot;);</span>
+<span class="nc" id="L52">        boolean status = query.setParameter(&quot;username&quot;, username).setMaxResults(1).getResultList().isEmpty();</span>
+<span class="nc" id="L53">        return status;</span>
     }
 
    /* public User getUser(String username) {
