@@ -27,6 +27,7 @@
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="assets/css/formplexy-bootstrap-dark.css">
+	
 </head>
 
 <body>
@@ -58,7 +59,8 @@
 <div class="content-wrapper py-3">
 	<div class="container-fluid">
 
-		<div class="container formplexy">
+		<div class="container formplexy" onload="initialSetup()">
+			<div id="alerts"></div>
 
 			<!-- Form Base -->
 			<div class="row">
@@ -66,11 +68,11 @@
 					<header>
 						<h1>Register</h1>
 					</header>
-
 					<!-- Form -->
 					<section>
 						<form method="post" id="signup-form">
 							<select id="roleType">
+							
 								<option>--Select role here--</option>
 								<option>System Administrator</option>
 								<option>Network Management Engineer</option>
@@ -83,6 +85,7 @@
 							<div class="input-group signup-password"><div class="input-group-addon">Password</div><input type="password" placeholder="Password" name="signup-password" style="color:white;" id="signup-password"><span aria-hidden="true" id="status-password" class="status-icon"></span></div>
 							<span id="result"></span>
 							<div class="input-group signup-repassword"><div class="input-group-addon">Repassword</div><input type="password" placeholder="Retype Password" name="signup-repassword" style="color:white;" id="signup-repassword"><span aria-hidden="true" id="status-repassword" class="status-icon"></span></div>
+							<span id="checkPass"></span>
 							<div class="input-group signup-role"><div class="input-group-addon">Role</div><input type="text" placeholder="Role" name="signup-role" style="color:white;" id="signup-role"><span aria-hidden="true" style="color:white;" id="status-role" class="status-icon"></span></div>
 							<div class="clearfix"></div>
 
