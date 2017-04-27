@@ -1,4 +1,5 @@
 package com.ericsson.group.utilities;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,8 +17,9 @@ import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.ericsson.group.dao.UploadDAO;
 import org.apache.commons.lang3.math.NumberUtils;
+
+
 
 public class Validation {
 	String path;
@@ -39,7 +41,7 @@ public class Validation {
     Hashtable failureClassTable = new Hashtable();
 	
 	public Validation() {
-		path = UploadDAO.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		path = Validation.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		path = path.substring(0, path.indexOf("classes")) + "upload/";
 		
 		baseDataFile = path + "/base_data.txt";
@@ -88,7 +90,8 @@ public class Validation {
 			Boolean lineValid = true;
 
 			String[] currentLine = line.split(splitBy);
-	    	
+
+			lineValid = validateLine(currentLine);
 			//fields to be validated
 			
 			String date = currentLine[0];
@@ -139,7 +142,7 @@ public class Validation {
 	       //checks it's a number
 	   
 	       if(NumberUtils.isDigits(duration)){
-
+	    	   
 	       } else {
 	    	   lineValid = false;
 	       };
@@ -339,7 +342,7 @@ public class Validation {
 	        if(m.matches()){
 	        	
 	        	try {
-		            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm");
+		            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy H:mm");
 		            date = sdf.parse(value);
 		            if (!value.equals(sdf.format(date))) {
 		                date = null;
@@ -352,7 +355,7 @@ public class Validation {
 	        } else {
 	        
 		        try {
-		            SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yy HH:mm");
+		            SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yy H:mm");
 		            date = sdf.parse(value);
 		            if (!value.equals(sdf.format(date))) {
 		                date = null;
@@ -364,8 +367,154 @@ public class Validation {
 		        
 	        }
 	    }
-		
-		//source: http://stackoverflow.com/questions/20231539/java-check-the-date-format-of-current-string-is-according-to-required-format-or
+
+	public boolean validateDateTime(String dateTime) {
+		Date date = null;
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm");
+			sdf.setLenient(false);
+			date = sdf.parse(dateTime);
+		} catch (ParseException ex) {
+			return false;
+		}
+		return date != null;
+	}
+
+
+	public boolean validateEventId(String eventId) {
+		try {
+			Integer i = Integer.parseInt(eventId);
+			return (i > 0);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateFailureClass(String failureClass) {
+		try {
+			Integer i = Integer.parseInt(failureClass);
+			return (i >= 0) && (i <= 4);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateUEType(String ueType){
+		try {
+			String regex = "[0-9]{4,8}";
+			Matcher m = Pattern.compile(regex).matcher(ueType);
+			return m.matches();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateMarket(String market) {
+		try {
+			String regex = "[0-9]{1,3}";
+			Matcher m = Pattern.compile(regex).matcher(market);
+			return m.matches();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateOperator(String operator) {
+		try {
+			String regex = "[0-9]{1,3}";
+			Matcher m = Pattern.compile(regex).matcher(operator);
+			return m.matches();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateCellId(String cellId){
+		try {
+			Integer i = Integer.parseInt(cellId);
+			return (i >= 1) && (i <= 4);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateDuration(String duration) {
+		try {
+			Integer i = Integer.parseInt(duration);
+			return (i >= 0);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateCauseCode(String causeCode){
+		try {
+			Integer i = Integer.parseInt(causeCode);
+			return (i >= 0) && (i <= 33);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateNEVersion(String NEVersion){
+		try {
+			String regex = "[0-9]{2}[a-zA-Z]{1}";
+			Matcher m = Pattern.compile(regex).matcher(NEVersion);
+			return m.matches();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean validateIMSI(String imsi) {
+		try {
+			String regex = "[0-9]{13,15}";
+			Matcher m = Pattern.compile(regex).matcher(imsi);
+			return m.matches();
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+
+	public boolean validateLine(String[] values){
+		if(!validateDateTime(values[0])) {
+			return false;
+		}
+		if(!validateEventId(values[1])) {
+			return false;
+		}
+		if(!validateFailureClass(values[2])) {
+			return false;
+		}
+		if(!validateUEType(values[3])) {
+			return false;
+		}
+		if(!validateMarket(values[4])) {
+			return false;
+		}
+		if(!validateOperator(values[5])) {
+			return false;
+		}
+		if(!validateCellId(values[6])) {
+			return false;
+		}
+		if(!validateDuration(values[7])){
+			return false;
+		}
+		if(!validateCauseCode(values[8])){
+			return false;
+		}
+		if(!validateNEVersion(values[9])){
+			return false;
+		}
+		if(!validateIMSI(values[10])){
+			return false;
+		}
+		return true;
+	}
+
+	//source: http://stackoverflow.com/questions/20231539/java-check-the-date-format-of-current-string-is-according-to-required-format-or
 	
 	public static void main(String[] args) {
 		new Validation();

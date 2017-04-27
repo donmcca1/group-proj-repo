@@ -159,7 +159,7 @@ public class JPABaseDAO implements BaseDAO {
     }
     
     public Collection<?> allModels(String model){
-    	Query query = em.createQuery("select model from UE c where model like CONCAT('%', :model, '%')");
+    	Query query = em.createQuery("select distinct model from UE c where model like CONCAT('%', :model, '%')");
     	query.setParameter("model", model);
     	return (List<?>)query.getResultList();
     }

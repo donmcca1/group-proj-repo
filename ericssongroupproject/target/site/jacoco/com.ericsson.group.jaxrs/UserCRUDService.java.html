@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserCRUDService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ericssongroupproject Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">com.ericsson.group.jaxrs</a> &gt; <span class="el_source">UserCRUDService.java</span></div><h1>UserCRUDService.java</h1><pre class="source lang-java linenums">package com.ericsson.group.jaxrs;
+
+import com.ericsson.group.entities.User;
+import com.ericsson.group.services.UserServiceLocal;
+
+import javax.ejb.EJB;
+import javax.mail.event.MailEvent;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.Collection;
+
+/**
+ * Created by d16125338 on 06/04/2017.
+ */
+@Path(&quot;/users&quot;)
+<span class="nc" id="L16">public class UserCRUDService {</span>
+
+
+    @EJB
+    private UserServiceLocal service;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection&lt;User&gt; getAllUsers(){
+<span class="nc" id="L25">        return service.getAllUsers();</span>
+    }
+
+    @POST
+    @Path(&quot;/register&quot;)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addUser(User user){
+<span class="nc" id="L32">        System.out.println(user.getUsername());</span>
+<span class="nc" id="L33">        service.addUser(user);</span>
+<span class="nc" id="L34">    }</span>
+
+    @DELETE
+    @Path(&quot;/{id}&quot;)
+    public void deleteUser(@PathParam(&quot;id&quot;) Integer id) {
+<span class="nc" id="L39">        service.removeUser(id);</span>
+<span class="nc" id="L40">    }</span>
+
+    @GET
+    @Path(&quot;/{username}/{password}&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User findUser(@PathParam(&quot;username&quot;) String username, @PathParam(&quot;password&quot;) String password){
+<span class="nc" id="L46">        return service.findUser(username, password);</span>
+    }
+    @GET
+    @Path(&quot;/{username}&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public boolean checkUser(@PathParam(&quot;username&quot;) String username){
+<span class="nc" id="L52">        return service.checkUser(username);</span>
+    }
+    /*@GET
+    @Path(&quot;/user/{username}&quot;)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam(&quot;username&quot;) String username){
+        return service.getUser(username);
+    }*/
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

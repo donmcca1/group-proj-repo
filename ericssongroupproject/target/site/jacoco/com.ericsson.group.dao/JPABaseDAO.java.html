@@ -23,6 +23,12 @@ import java.util.List;
 <span class="nc" id="L23">		Query query = em.createQuery(&quot;from BaseData&quot;);</span>
 <span class="nc" id="L24">		return (List&lt;BaseData&gt;)query.getResultList();</span>
 	}
+
+	//--- IMSI AUTO COMPLETE ---//
+	public Collection&lt;Long&gt; imsiAutoComplete(Long imsi){
+<span class="nc" id="L29">		Query query = em.createNamedQuery(&quot;imsiautocomplete&quot;).setParameter(&quot;imsi&quot;,imsi);</span>
+<span class="nc" id="L30">		return (List&lt;Long&gt;)query.getResultList();</span>
+	}
 	
 	//*******************//
 	//*** CSR QUERIES ***//
@@ -31,26 +37,26 @@ import java.util.List;
 	//--- 1. SELECT BY IMSI, RETURN EVENT_ID, CAUSE_CODE ---//
 	// currently returns all; selection made at front end
 	public Collection&lt;BaseData&gt; getBaseDataByImsi(Long imsi){
-<span class="nc" id="L34">		Query query = em.createQuery(&quot;from BaseData c where c.imsi = :imsi&quot;);</span>
-<span class="nc" id="L35">		query.setParameter(&quot;imsi&quot;,imsi);</span>
-<span class="nc" id="L36">		return (List&lt;BaseData&gt;)query.getResultList();</span>
+<span class="nc" id="L40">		Query query = em.createQuery(&quot;from BaseData c where c.imsi = :imsi&quot;);</span>
+<span class="nc" id="L41">		query.setParameter(&quot;imsi&quot;,imsi);</span>
+<span class="nc" id="L42">		return (List&lt;BaseData&gt;)query.getResultList();</span>
 	}
 
 	//--- 2. SELECT BY IMSI &amp; DATE, COUNT NUMBER OF FAILURES ---//
 	public Long getFailuresByDate(Long imsi, Date startDate, Date endDate) {
-<span class="nc" id="L41">		Query query = em.createQuery(&quot;select count (c) from BaseData c where c.imsi = :imsi AND c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate&quot;);</span>
-<span class="nc" id="L42">		query.setParameter(&quot;imsi&quot;, imsi);</span>
-<span class="nc" id="L43">		query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L44">		query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L45">		System.out.println(&quot;DAO&quot;);</span>
-<span class="nc" id="L46">		return (Long)query.getSingleResult();</span>
+<span class="nc" id="L47">		Query query = em.createQuery(&quot;select count (c) from BaseData c where c.imsi = :imsi AND c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate&quot;);</span>
+<span class="nc" id="L48">		query.setParameter(&quot;imsi&quot;, imsi);</span>
+<span class="nc" id="L49">		query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L50">		query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L51">		System.out.println(&quot;DAO&quot;);</span>
+<span class="nc" id="L52">		return (Long)query.getSingleResult();</span>
 	}
 
 	//--- 3. SELECT BY IMSI, RETURN UNIQUE CAUSE CODES ---//
 	public Collection&lt;?&gt; getCauseCodeByImsi(Long imsi) {
-<span class="nc" id="L51">		Query query = em.createQuery(&quot;select distinct event_cause.cause_code, event_cause.description from BaseData c where c.imsi = :imsi&quot;);</span>
-<span class="nc" id="L52">		query.setParameter(&quot;imsi&quot;, imsi);</span>
-<span class="nc" id="L53">		return (List&lt;?&gt;)query.getResultList();</span>
+<span class="nc" id="L57">		Query query = em.createQuery(&quot;select distinct event_cause.cause_code, event_cause.description from BaseData c where c.imsi = :imsi&quot;);</span>
+<span class="nc" id="L58">		query.setParameter(&quot;imsi&quot;, imsi);</span>
+<span class="nc" id="L59">		return (List&lt;?&gt;)query.getResultList();</span>
 	}
 
 
@@ -61,26 +67,26 @@ import java.util.List;
 	//--- 4. SELECT BY DATE, RETURN IMSI ---//
 	// currently returns all; selection made at front end
 	public Collection&lt;BaseData&gt; getBaseDataByDate(Date startDate, Date endDate){
-<span class="nc" id="L64">		Query query = em.createQuery(&quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate&quot;);</span>
-<span class="nc" id="L65">		query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L66">		query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L67">		return (List&lt;BaseData&gt;)query.getResultList();</span>
+<span class="nc" id="L70">		Query query = em.createQuery(&quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate&quot;);</span>
+<span class="nc" id="L71">		query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L72">		query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L73">		return (List&lt;BaseData&gt;)query.getResultList();</span>
 	}
 
 	//--- 5. SELECT BY MODEL &amp; DATE, COUNT NUMBER OF FAILURES ---//
 	public Long countByModelAndDate(String ue_type, Date startDate, Date endDate){
-<span class="nc" id="L72">		Query query = em.createQuery(&quot;select count (c) from BaseData c where c.ue.model = :ue_type AND c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate&quot;);</span>
-<span class="nc" id="L73">		query.setParameter(&quot;ue_type&quot;, ue_type);</span>
-<span class="nc" id="L74">		query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L75">		query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L76">		return (Long)query.getSingleResult();</span>
+<span class="nc" id="L78">		Query query = em.createQuery(&quot;select count (c) from BaseData c where c.ue.model = :ue_type AND c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate&quot;);</span>
+<span class="nc" id="L79">		query.setParameter(&quot;ue_type&quot;, ue_type);</span>
+<span class="nc" id="L80">		query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L81">		query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L82">		return (Long)query.getSingleResult();</span>
 	}
 
 	//--- 6. SELECT BY CAUSE_CODE, RETURN IMSIs ---//
 	public Collection&lt;BaseData&gt; getImsiByCauseCode(Integer cause_code){
-<span class="nc" id="L81">		Query query = em.createQuery(&quot;from BaseData c where c.event_cause.cause_code = :cause_code&quot;);</span>
-<span class="nc" id="L82">		query.setParameter(&quot;cause_code&quot;, cause_code);</span>
-<span class="nc" id="L83">		return (List&lt;BaseData&gt;)query.getResultList();</span>
+<span class="nc" id="L87">		Query query = em.createQuery(&quot;from BaseData c where c.event_cause.cause_code = :cause_code&quot;);</span>
+<span class="nc" id="L88">		query.setParameter(&quot;cause_code&quot;, cause_code);</span>
+<span class="nc" id="L89">		return (List&lt;BaseData&gt;)query.getResultList();</span>
 	}
 	
 	//*******************//
@@ -89,46 +95,74 @@ import java.util.List;
 	
 	//--- 7. SELECT BY DATE, COUNT FAILURES, SUM DURATION BY IMSI ---//
 	public Collection&lt;?&gt; getNumFailuresAndDurationByDate(Date startDate, Date endDate) {
-<span class="nc" id="L92">		Query query = em.createQuery(&quot;select imsi, count (c), sum (duration) from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate group by imsi&quot;);</span>
-<span class="nc" id="L93">		query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L94">		query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L95">		return (List&lt;?&gt;)query.getResultList();</span>
+<span class="nc" id="L98">		Query query = em.createQuery(&quot;select imsi, c.mcc_mnc.country, c.mcc_mnc.operator, count (c), sum (duration) from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate group by imsi, c.mcc_mnc.country, c.mcc_mnc.operator&quot;);</span>
+<span class="nc" id="L99">		query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L100">		query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L101">		return (List&lt;?&gt;)query.getResultList();</span>
+	}
+
+	//--- 7. SELECT BY DATE, SUM DURATION BY COUNTRY for pie chart ---//
+	public Collection&lt;?&gt; getDurationByDateGroupCountry(Date startDate, Date endDate) {
+<span class="nc" id="L106">		Query query = em.createQuery(&quot;select sum (duration), c.mcc_mnc.country from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate group by c.mcc_mnc.country&quot;);</span>
+<span class="nc" id="L107">		query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L108">		query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L109">		return (List&lt;?&gt;)query.getResultList();</span>
 	}
 
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS &amp; COUNT ---//
 	public Collection&lt;?&gt; countByModelEventIdCauseCode(String ue_type){
-<span class="nc" id="L100">		Query query = em.createQuery(&quot;select count (c), c.event_cause.event_id, c.event_cause.cause_code, c.event_cause.description from BaseData c where c.ue.model = :ue_type group by c.event_cause.event_id, c.event_cause.cause_code&quot;);</span>
-<span class="nc" id="L101">		query.setParameter(&quot;ue_type&quot;, ue_type);</span>
-<span class="nc" id="L102">		return (List&lt;?&gt;)query.getResultList();</span>
+<span class="nc" id="L114">		Query query = em.createQuery(&quot;select count (c), c.event_cause.event_id, c.event_cause.cause_code, c.event_cause.description from BaseData c where c.ue.model = :ue_type group by c.event_cause.event_id, c.event_cause.cause_code&quot;);</span>
+<span class="nc" id="L115">		query.setParameter(&quot;ue_type&quot;, ue_type);</span>
+<span class="nc" id="L116">		return (List&lt;?&gt;)query.getResultList();</span>
 	}
 
     //--- 9. SELECT BY DATE, RETURN TOP 10 MARKET/OPERATOR/CELL_ID COMBINATIONS ---//
-    public Collection&lt;BaseData&gt; top10MarketOperatorCell(Date startDate, Date endDate) {
-<span class="nc" id="L107">        Query query = em.createQuery(&quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;</span>
+    public Collection&lt;?&gt; top10MarketOperatorCell(Date startDate, Date endDate) {
+<span class="nc" id="L121">        Query query = em.createQuery(&quot;select c.mcc_mnc.country, c.mcc_mnc.operator, cell_id, c.mcc_mnc.mcc, c.mcc_mnc.mnc, count (c) from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;</span>
                 + &quot;group by c.mcc_mnc.country, c.mcc_mnc.operator, c.cell_id order by count(c) desc&quot;);
-<span class="nc" id="L109">        query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L110">        query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L111">        query.setMaxResults(10);</span>
-<span class="nc" id="L112">        return (List&lt;BaseData&gt;)query.getResultList();</span>
+<span class="nc" id="L123">        query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L124">        query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L125">        query.setMaxResults(10);</span>
+<span class="nc" id="L126">        return (List&lt;?&gt;)query.getResultList();</span>
     }
+    
+	    //--- 9. For graph, count all failures. ---//
+	  	public Long countAllFailures(Date startDate, Date endDate) {
+<span class="nc" id="L131">	  		Query query = em.createQuery(&quot;select count(c) from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;);</span>
+<span class="nc" id="L132">			query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L133">			query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L134">	  		return (Long) query.getSingleResult();</span>
+	  	}
 	
 	//--- 10. SELECT BY DATE, RETURN TOP 10 IMSIs ---//
-    public Collection&lt;BaseData&gt; top10imsi(Date startDate, Date endDate) {
-<span class="nc" id="L117">        Query query = em.createQuery(&quot;from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;</span>
-                + &quot;group by c.imsi order by count(c) desc&quot;);
-<span class="nc" id="L119">        query.setParameter(&quot;sDate&quot;,startDate);</span>
-<span class="nc" id="L120">        query.setParameter(&quot;eDate&quot;, endDate);</span>
-<span class="nc" id="L121">        query.setMaxResults(10);</span>
-<span class="nc" id="L122">        return (List&lt;BaseData&gt;)query.getResultList();</span>
+    public Collection&lt;?&gt; top10imsi(Date startDate, Date endDate) {
+<span class="nc" id="L139">        Query query = em.createQuery(&quot;select imsi, c.mcc_mnc.country, c.mcc_mnc.operator, count (c) from BaseData c where c.date_time &gt;= :sDate AND c.date_time &lt;= :eDate &quot;</span>
+                + &quot;group by imsi, c.mcc_mnc.country, c.mcc_mnc.operator order by count(c) desc&quot;);
+<span class="nc" id="L141">        query.setParameter(&quot;sDate&quot;,startDate);</span>
+<span class="nc" id="L142">        query.setParameter(&quot;eDate&quot;, endDate);</span>
+<span class="nc" id="L143">        query.setMaxResults(10);</span>
+<span class="nc" id="L144">        return (List&lt;?&gt;)query.getResultList();</span>
     }
 
 	//***********************//
 	//*** SA ONLY QUERIES ***//
 	//***********************//
-	
-	//assign users
-	
-	//--- DATA IMPORT ---//
+
+    //****************************//
+  	//*** AUTOCOMPLETE QUERIES ***//
+  	//****************************//
+    
+    public Collection&lt;?&gt; allIMSI(Long imsi){
+<span class="nc" id="L156">    	Query query = em.createQuery(&quot;select distinct imsi from BaseData c where c.imsi like CONCAT(:imsi,'%')&quot;);</span>
+<span class="nc" id="L157">    	query.setParameter(&quot;imsi&quot;, imsi);</span>
+<span class="nc" id="L158">    	return (List&lt;?&gt;)query.getResultList();</span>
+    }
+    
+    public Collection&lt;?&gt; allModels(String model){
+<span class="nc" id="L162">    	Query query = em.createQuery(&quot;select distinct model from UE c where model like CONCAT('%', :model, '%')&quot;);</span>
+<span class="nc" id="L163">    	query.setParameter(&quot;model&quot;, model);</span>
+<span class="nc" id="L164">    	return (List&lt;?&gt;)query.getResultList();</span>
+    }
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>

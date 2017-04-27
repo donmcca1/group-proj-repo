@@ -5,12 +5,6 @@ import com.ericsson.group.entities.BaseData;
 import com.ericsson.group.jaxrs.BaseCRUDService;
 import com.ericsson.group.services.BaseService;
 import com.ericsson.group.utilities.EditExcel;
-/*import com.meterware.httpunit.GetMethodWebRequest;
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebResponse;*/
-import com.meterware.httpunit.GetMethodWebRequest;
-import com.meterware.httpunit.WebConversation;
-import com.meterware.httpunit.WebResponse;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -81,7 +75,7 @@ public class BaseJaxRSTest {
         System.out.println(responseObj.getEntity());
     }
 
-    @Test
+    /*@Test
     public void testBaseHTTPUnit(@ArquillianResource URL base) throws Exception
     {
         WebConversation webConversation = new WebConversation();
@@ -89,7 +83,7 @@ public class BaseJaxRSTest {
         WebResponse response = webConversation.getResponse(request);
 
         System.out.println(response.getText());
-    }
+    }*/
 
    @Test public void query1()  throws Exception{
        ClientRequest request = new ClientRequest(new URL(base, REST_PATH + "/base/{imsi}").toExternalForm());

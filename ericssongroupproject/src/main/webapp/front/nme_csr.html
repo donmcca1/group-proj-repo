@@ -18,7 +18,10 @@
 		type="text/javascript"></script>
 	<!-- javascript file -->
 	<script lang="JavaScript" src="js/csr.js" type="text/javascript"></script>
-	
+
+	<!-- css for autofill -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet">
+
 	<!-- BOOTSTRAP -->
 	<!-- CSS -->
 	<!-- Bootstrap core CSS -->
@@ -204,5 +207,66 @@
 	<a class="scroll-to-top rounded" href="#">
 		<i class="fa fa-chevron-up"></i>
 	</a>
-	
+
+<!-- jquery for autofill -->
+<script
+		src="https://code.jquery.com/jquery-1.12.4.js"
+		integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+		crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
+<script type='text/javascript'>
+    var $j = jQuery.noConflict();
+
+    $j("#imsi1").keyup(function(){
+        imsi = $j("#imsi1").val();
+
+        $j( "#imsi1" ).autocomplete({
+            source: function( request, response ) {
+                $j.ajax( {
+                    url: "rest/base/auto/" + imsi,
+                    success: function( data ) {
+
+                        response( data );
+                    }
+                } );
+            },
+            minLength: 2
+        } );
+    });
+
+    $j("#imsi2").keyup(function(){
+        imsi = $j("#imsi2").val();
+
+        $j( "#imsi2" ).autocomplete({
+            source: function( request, response ) {
+                $j.ajax( {
+                    url: "rest/base/auto/" + imsi,
+                    success: function( data ) {
+
+                        response( data );
+                    }
+                } );
+            },
+            minLength: 2
+        } );
+    });
+
+    $j("#imsi3").keyup(function(){
+        imsi = $j("#imsi3").val();
+
+        $j( "#imsi3" ).autocomplete({
+            source: function( request, response ) {
+                $j.ajax( {
+                    url: "rest/base/auto/" + imsi,
+                    success: function( data ) {
+
+                        response( data );
+                    }
+                } );
+            },
+            minLength: 2
+        } );
+    });
+</script>
+</body>
 </html>

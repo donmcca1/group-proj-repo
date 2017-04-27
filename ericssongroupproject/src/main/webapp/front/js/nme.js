@@ -138,7 +138,7 @@ $(document).ready(function(){
     });
 
 	//--- 8. SELECT BY UE_TYPE, RETURN UNIQUE EVENT_ID, CAUSE_CODE COMBINATIONS & COUNT ---//
-	
+
 	$("#button8").click(function(){
 		
 		//-- retrieve data from forms --//
