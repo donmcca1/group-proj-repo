@@ -31,6 +31,7 @@ $(document).ready(function($){
     $("#login-form").submit(function(event){
         event.preventDefault();
     });
+
     //when user starts entering username
     $("#login-username").on("input", function () {
         var input = $(this);

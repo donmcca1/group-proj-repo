@@ -1,4 +1,4 @@
-/* Made by HipstaCowboys.com */
+
 /* CUSTOM COLOR */
 
 .custom-color {
@@ -72,38 +72,6 @@ body {
 				color: #fff;
 			}
 		}
-		.social {
-			padding: 11px 22px 11px 22px;
-			font-size: 14px;
-			margin-bottom: 10px;
-			transition: background 0.5s ease;
-			color: #fff;
-			
-			.social-icon {
-				margin-right: 10px;
-				font-size: 18px;
-				margin-top: 1px;
-				float: left;
-			}
-		}
-			.social-facebook {
-				background: #4695df;
-				width: 100%;
-				
-				&:hover {
-					background: darken(#4695df, 10%);
-					color: #fff;
-				}
-			}
-			.social-twitter {
-				background: #28c4ff;
-				width: 100%;
-
-				&:hover {
-					background: darken(#28c4ff, 10%);
-					color: #fff;
-				}
-			}
 
 	/* Form base */
 	.form-base {
@@ -126,10 +94,11 @@ body {
 
 			form {
 
-				input[type="text"], input[type="password"], input[type="email"] {
+				input[type="text"], input[type="password"] {
 					width: 100%;
 					border: 0px;
 					background-color: #383838;
+					color: white;
 				}
 
 				input[type="checkbox"] {
@@ -212,6 +181,7 @@ body {
 				.input-group {
 					position: relative;
 					margin-bottom: 10px;
+					color:white;
 
 					.input-group-addon {
 						display: none;
@@ -279,36 +249,9 @@ body {
 			}
 		}
 
-		.forgotten-password {
-			display: none;
-			background: #eee;
-
-			input {
-				margin-bottom: 30px;
-			}
-
-			p {
-				margin-top: 10px;
-				float: left;
-			}
-			.input-group {
-				float: left;
-			}
-		}
-
-		.forgotten-password-sent {
-			background: #e87d3c;
-			color: #fff;
-		}
 	}
 
-	.account-switch {
-		margin: 40px 0px 40px 0px;
-	}
 
-	.modal {
-		color: #666;
-	}
 }
 
 /* Media queries */
